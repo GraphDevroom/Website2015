@@ -1,0 +1,122 @@
+body {
+    background: 				url('images/bg.jpg');
+    color: 						#333;
+	font-family:				'Open Sans', sans-serif;
+}
+
+.lila {
+	color:						#ad3092;
+}
+
+.high {
+	vertical-align:				5px;
+	font-size:					68%;
+}
+
+#site {
+    position:                   absolute;
+	top: 						calc(50% - 50px);
+	left: 						calc(50% - 250px);
+	width: 						500px;
+	height: 					100px;
+}
+
+#vertex {
+	position:					absolute;
+	top:						0px;
+	left:						0px;
+}
+
+#logo {
+	position: 					absolute;
+	top: 						19px;
+	left:						110px;
+    font-weight:				bold;
+    display:                    inline-block;
+	color:                      #555555;
+	font-style:					italic;
+	font-size: 					140%;
+}
+
+#navigation {
+	position:					absolute;
+	top:						49px;
+	left:						110px;
+    display:                    inline-block;
+	color:						#7A7A7A;
+	font-size:					75%;
+	text-transform:				uppercase;
+}
+
+#datetime {
+	position:					absolute;
+	top:						65px;
+	left:						110px;
+    display:                    inline-block;
+	color:						#7A7A7A;
+	font-family:				'Open Sans', sans-serif;
+	font-size:					75%;
+}
+
+
+#links {
+    position:					absolute;
+    bottom:						15px;
+    right:						15px;
+    display:                    inline-block;
+}
+
+#links a:link {
+    text-decoration:            none;
+    color:                      #C8C8C8;
+    padding:                  	0px 6px 0px 6px;
+}
+
+#links a:visited {
+    text-decoration:            none;
+    color:                      #C8C8C8;
+}
+
+#links a:hover {
+    text-decoration:            none;
+    color:                      #ad3092;
+}
+
+#links a:active {
+    text-decoration:            none;
+    color:                      #ad3092;
+}
+
+
+#navigation a:link {
+    text-decoration:            none;
+    color:                      #7A7A7A;
+    padding:                    0px 24px 0px 24px;
+}
+
+#navigation a:visited {
+    text-decoration:            none;
+    color:                      #7A7A7A;
+}
+
+#navigation a:hover {
+    text-decoration:            none;
+    color:                      #7A7A7A;
+}
+
+#navigation a:active {
+    text-decoration:            none;
+    color:                      #7A7A7A;
+}
+
+
+#graphframe {
+	position: 					absolute;
+	top:                		10px;
+	left:						10px;
+	bottom:						10px;
+	right:						10px;
+/*	border-style:				solid;
+	border-color:				#A0A0A0;
+	border-width:				1px 1px 1px 1px;*/
+}

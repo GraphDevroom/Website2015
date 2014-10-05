@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html>
+
+  <head>
+  
+    <title>FOSDEM GraphDevroom 2015</title>
+	
+    <meta name="keywords" content="GraphDevroom" />
+    <meta name="description" content="FOSDEM GraphDevroom 2015" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+	
+	<script src="js/jquery.min.js"></script>
+	<script src="js/springy.js"></script>
+	<script src="js/springyui.js"></script>
+	
+	<script>
+	
+		var CurrentGraph 	= 'none';
+		var graph 			= null;
+		var springy			= null;
+
+		function ShowTextarea(name) {
+		
+			var elems = document.getElementsByClassName("textarea"); 
+			
+			for(var timeIndex = 0; timeIndex < elems.length; ++timeIndex)
+			{
+				elems[timeIndex].style.display = "none";
+			}
+			
+			var ShowDiv = document.getElementById(name);
+			
+			if (ShowDiv != null)
+				ShowDiv.style.display = "block";
+			else
+				document.getElementById('home').style.display = "block";
+		
+		}
+		
+		
+		//jQuery(function(){
+		$(document).ready(function(){
+	  
+			graph 	= new Springy.Graph();
+	  
+			springy	= window.springy = jQuery('#graphcanvas').springy({
+				graph: 			graph,
+				nodeSelected: 	function(node) {
+				
+									if (node.VertexLabel == 'tag') {
+										var elems = document.getElementsByClassName("schedule"); 
+										for(var timeIndex = 0; timeIndex < elems.length; ++timeIndex)
+										{
+											elems[timeIndex].style.display = "none";
+										}
+										elems = document.getElementsByClassName(node.data.label); 
+										for(var timeIndex = 0; timeIndex < elems.length; ++timeIndex)
+										{
+											elems[timeIndex].style.display = "";
+										}
+										FixCanvas();
+									}
+									
+									else if (node.VertexLabel == 'text')
+										if (node.data.textarea !== undefined)
+											ShowTextarea(node.data.textarea);											
+									
+									console.log('Node selected: ' + JSON.stringify(node.data));
+									
+								}
+
+			});
+			
+			ShowHomeGraph();
+			
+		});
+	
+		function FixCanvas() {
+		
+			var gf = document.getElementById('graphframe');
+			var gc = document.getElementById('graphcanvas');
+			
+			if (gc != null)
+			{			
+				gc.height = gf.clientHeight;
+				gc.width  = gf.clientWidth;
+			}
+			
+		}
+		
+		function ShowHomeGraph() {
+		
+			if (CurrentGraph == 'HomeGraph')
+				return;
+		
+			FixCanvas();
+			
+			CurrentGraph = 'HomeGraph';
+			
+			springy.clear();
+
+			var FOSDEM					= graph.newNode('text', { label: 'FOSDEM\'15'});
+			var GraphDevroom			= graph.newNode('text', { label: 'GraphDevroom'});
+			var CfP						= graph.newNode('text', { label: 'Call for Participation'});
+
+			graph.newEdge(FOSDEM,		'next',		GraphDevroom,	{color: 'rgba(110, 41, 127, 0.87)', directional: true});
+			graph.newEdge(GraphDevroom,	'next',		CfP,			{color: 'rgba(110, 41, 127, 0.87)', directional: true});
+
+		}
+
+	</script>
+	
+  </head>
+
+  <body onResize="FixCanvas()">
+
+    <div id="site">
+
+			<div id="vertex">
+				<img src="images/FOSDEM-vertex-transparent.png">
+			</div>
+
+			<div id="logo">
+				FOSDEM<span class="lila high">'15</span> GraphDevroom
+			</div>
+
+			<div id="navigation">
+				 Université libre de Bruxelles, Brussels, Belgium.
+			</div>
+
+			<div id="datetime">
+				 31 January 2015
+			</div>
+
+	</div>
+
+    <div id="graphframe"><canvas id="graphcanvas" /></div>
+	
+	<div id="links">
+		<a href="http://twitter.com/graphdevroom"        target="_blank" style="font-size:80%"><i class="fa fa-twitter    fa-2x"></i></a>
+		<a href="https://github.com/graphdevroom"        target="_blank" style="font-size:80%"><i class="fa fa-github     fa-2x"></i></a>
+		<a href="mailto:mail@graphdevroom.org"           target="_blank" style="font-size:72%"><i class="fa fa-envelope-o fa-2x"></i></a>
+		<a href="OpenPGP-Keys/mail@graphdevroom.org.key" target="_blank" style="font-size:72%"><i class="fa fa-lock       fa-2x"></i></a>
+	</div>
+
+
+  </body>
+  
+</html>
+
