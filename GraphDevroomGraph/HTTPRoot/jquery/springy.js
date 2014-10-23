@@ -281,6 +281,7 @@
 
         if (EdgeLabel == "next")
         {
+            this.data.label         = (this.data.label          !== undefined) ? this.data.label        : 'next';
             this.data.color         = (this.data.color          !== undefined) ? this.data.color        : 'rgba(110, 41, 127, 0.87)';
             this.data.directional   = (this.data.directional    !== undefined) ? this.data.directional  : true;
             this.data.weight        = (this.data.weight         !== undefined) ? this.data.weight       : 1;
@@ -288,14 +289,14 @@
 
         else if (EdgeLabel == "goto")
         {
-            this.data.label         = 'goto';
+            this.data.label         = (this.data.label          !== undefined) ? this.data.label        : 'goto';
             this.data.color         = (this.data.color          !== undefined) ? this.data.color        : 'rgba(110, 41, 127, 0.37)';
             this.data.directional   = (this.data.directional    !== undefined) ? this.data.directional  : true;
             this.data.weight        = (this.data.weight         !== undefined) ? this.data.weight       : 1;
         }
 
-        else if (EdgeLabel == "history") {
-            this.data.label         = 'history';
+        else if (EdgeLabel == "lookback") {
+            this.data.label         = (this.data.label          !== undefined) ? this.data.label        : 'look back';
             this.data.color         = (this.data.color          !== undefined) ? this.data.color        : 'rgba(100, 100, 0, 0.8)';
             this.data.directional   = (this.data.directional    !== undefined) ? this.data.directional  : true;
             this.data.weight        = (this.data.weight         !== undefined) ? this.data.weight       : 1;

@@ -64,12 +64,12 @@
 
             var MapDiv = document.getElementById('map');
             MapDiv.style.borderColor  = 'rgba(110, 41, 127, 0.37)';
-            MapDiv.style.zIndex = 10;
-            MapDiv.style.width = '55%';
-            MapDiv.style.left  = '41%';
-            MapDiv.style.height = 'calc(50% - 1px)';
-            MapDiv.style.transform = 'rotate(-1.5deg)';
-            MapDiv.style.boxShadow = '4px 4px 4px rgba(100, 100, 100, 0.7)';
+            MapDiv.style.zIndex       = 10;
+            MapDiv.style.width        = '55%';
+            MapDiv.style.left         = '41%';
+            MapDiv.style.height       = 'calc(50% - 1px)';
+            MapDiv.style.transform    = 'rotate(-1.5deg)';
+            MapDiv.style.boxShadow    = '4px 4px 4px rgba(100, 100, 100, 0.7)';
 
             var UnderTheMapDiv = document.getElementById('underTheMap');
             UnderTheMapDiv.style.display = "block";
@@ -79,13 +79,13 @@
         function disableMap() {
 
             var MapDiv = document.getElementById('map');
-            MapDiv.style.borderColor = '#FFFFFF';
-            MapDiv.style.zIndex = 1;
-            MapDiv.style.width = '35%';
-            MapDiv.style.left = '61%';
-            MapDiv.style.height = 'calc(30% - 1px)';
-            MapDiv.style.transform = 'rotate(-3deg)';
-            MapDiv.style.boxShadow = '2px 2px 2px rgba(100, 100, 100, 0.7)';
+            MapDiv.style.borderColor  = '#FFFFFF';
+            MapDiv.style.zIndex       = 1;
+            MapDiv.style.width        = '35%';
+            MapDiv.style.left         = '61%';
+            MapDiv.style.height       = 'calc(30% - 1px)';
+            MapDiv.style.transform    = 'rotate(-3deg)';
+            MapDiv.style.boxShadow    = '2px 2px 2px rgba(100, 100, 100, 0.7)';
 
             var UnderTheMapDiv = document.getElementById('underTheMap');
             UnderTheMapDiv.style.display = "none";
@@ -167,38 +167,38 @@
 
             springy.clear();
 
-            var FOSDEM          = graph.newVertex('text', { label: 'FOSDEM\'15' });
-            var FOSDEMWebsite   = graph.newVertex('tag',  { label: 'website',  gotoURI: 'http://www.fosdem.org' });
-            var FOSDEMDevrooms  = graph.newVertex('tag',  { label: 'devrooms', gotoURI: 'https://fosdem.org/2015/news/2014-09-30-accepted-devrooms/' });
-            var FOSDEMSchedule  = graph.newVertex('tag',  { label: 'schedule', gotoURI: 'https://fosdem.org/2015/schedule/' });
+            var FOSDEM              = graph.newVertex('text', { label: 'FOSDEM\'15' });
+            var FOSDEMWebsite       = graph.newVertex('tag',  { label: 'website',  gotoURI: 'http://www.fosdem.org' });
+            var FOSDEMDevrooms      = graph.newVertex('tag',  { label: 'devrooms', gotoURI: 'https://fosdem.org/2015/news/2014-09-30-accepted-devrooms/' });
+            var FOSDEMSchedule      = graph.newVertex('tag',  { label: 'schedule', gotoURI: 'https://fosdem.org/2015/schedule/' });
 
             graph.newEdge(FOSDEM, 'goto', FOSDEMWebsite);
             graph.newEdge(FOSDEM, 'goto', FOSDEMDevrooms);
             graph.newEdge(FOSDEM, 'goto', FOSDEMSchedule);
 
 
-            var GraphDevroom    = graph.newVertex('text', { label: 'GraphDevroom' });
-            var CfP             = graph.newVertex('text', { label: 'Call for Participation',  textarea:   'CfP'         });
-            var Submissions     = graph.newVertex('text', { label: 'Submit your idea',        textarea:   'Submissions' });
-            var Dates           = graph.newVertex('text', { label: 'Important Dates',         textarea:   'Dates'       });
-            var Team            = graph.newVertex('text', { label: 'Team',                    textarea:   'Team'        });
-            var Contact         = graph.newVertex('text', { label: 'Contact',                 textarea:   'Contact'     });
-            var Location        = graph.newVertex('tag',  { label: 'Location',                javascript: 'enableMap'   });
+            var GraphDevroom        = graph.newVertex('text', { label: 'GraphDevroom' });
+            var CfP                 = graph.newVertex('text', { label: 'Call for Participation',  textarea:   'CfP'         });
+            var Submissions         = graph.newVertex('text', { label: 'Submit your idea',        textarea:   'Submissions' });
+            var Dates               = graph.newVertex('text', { label: 'Important Dates',         textarea:   'Dates'       });
+            var Team                = graph.newVertex('text', { label: 'Team',                    textarea:   'Team'        });
+            var Contact             = graph.newVertex('text', { label: 'Contact',                 textarea:   'Contact'     });
+            var OpenGeoData         = graph.newVertex('tag',  { label: 'Open GeoData',            javascript: 'enableMap'   });
 
-            graph.newEdge(GraphDevroom, 'next', FOSDEM,  { label: "is part of" });
-            graph.newEdge(GraphDevroom, 'next', CfP,     { label: "CfP",              weight: 2.5 });
-            graph.newEdge(GraphDevroom, 'next', Team,    { label: "who we are",       weight: 2.5 });
-            graph.newEdge(GraphDevroom, 'next', Contact, { label: "how to contact us" });
-            graph.newEdge(GraphDevroom, 'goto', Location);
+            graph.newEdge(GraphDevroom, 'next', FOSDEM,      { label: "is part of" });
+            graph.newEdge(GraphDevroom, 'next', CfP,         { label: "CfP",              weight: 2.5 });
+            graph.newEdge(GraphDevroom, 'next', Team,        { label: "who we are",       weight: 2.5 });
+            graph.newEdge(GraphDevroom, 'next', Contact,     { label: "how to contact us" });
+            graph.newEdge(GraphDevroom, 'goto', OpenGeoData, { label: "explore",          color: "rgba(110, 41, 127, 0.87)" });
 
 
-            var Twitter         = graph.newVertex('tag', { label: 'twitter',    gotoURI: 'https://twitter.com/graphdevroom' });
-            var GitHub          = graph.newVertex('tag', { label: 'GitHub',     gotoURI: 'https://github.com/graphdevroom' });
-            var EMail           = graph.newVertex('tag', { label: 'E-Mail',     gotoURI: 'mailto:crew@graphdevroom.org' });
-            var Google          = graph.newVertex('tag', { label: 'Google',     gotoURI: 'https://groups.google.com/d/forum/graphdevroom' });
-            var GooglePlus      = graph.newVertex('tag', { label: 'Google+',    gotoURI: 'https://plus.google.com/u/0/communities/114424455964265722048' });
-            var YouTube         = graph.newVertex('tag', { label: 'YouTube',    gotoURI: 'http://www.youtube.com/graphprocessing' });
-            var SlideShare      = graph.newVertex('tag', { label: 'SlideShare', gotoURI: 'http://www.slideshare.net/graphdevroom' });
+            var Twitter             = graph.newVertex('tag', { label: 'twitter',    gotoURI: 'https://twitter.com/graphdevroom' });
+            var GitHub              = graph.newVertex('tag', { label: 'GitHub',     gotoURI: 'https://github.com/graphdevroom' });
+            var EMail               = graph.newVertex('tag', { label: 'E-Mail',     gotoURI: 'mailto:crew@graphdevroom.org' });
+            var Google              = graph.newVertex('tag', { label: 'Google',     gotoURI: 'https://groups.google.com/d/forum/graphdevroom' });
+            var GooglePlus          = graph.newVertex('tag', { label: 'Google+',    gotoURI: 'https://plus.google.com/u/0/communities/114424455964265722048' });
+            var YouTube             = graph.newVertex('tag', { label: 'YouTube',    gotoURI: 'http://www.youtube.com/graphprocessing' });
+            var SlideShare          = graph.newVertex('tag', { label: 'SlideShare', gotoURI: 'http://www.slideshare.net/graphdevroom' });
 
             graph.newEdge(Contact, 'goto', Twitter);
             graph.newEdge(Contact, 'goto', GitHub);
@@ -218,10 +218,10 @@
             var year2012 = graph.newVertex('history', { label: '2012' });
             var year2011 = graph.newVertex('history', { label: '2011' });
 
-            graph.newEdge(GraphDevroom, 'history', year2014);
-            graph.newEdge(GraphDevroom, 'history', year2013);
-            graph.newEdge(GraphDevroom, 'history', year2012);
-            graph.newEdge(GraphDevroom, 'history', year2011);
+            graph.newEdge(GraphDevroom, 'lookback', year2014);
+            graph.newEdge(GraphDevroom, 'lookback', year2013);
+            graph.newEdge(GraphDevroom, 'lookback', year2012);
+            graph.newEdge(GraphDevroom, 'lookback', year2011);
 
         }
 
@@ -314,7 +314,7 @@
        L.marker([50.8485198, 4.3538106]).addTo(map)
            .bindPopup("Delirium Café");//.openPopup();
 
-  </script>
+    </script>
 
     <div id="CfP" style="top: 100px; left: 100px; width: 40%; display: none" class="textarea">
 
@@ -408,11 +408,11 @@
         <h1>Important dates</h1>
 
         <table>
-        <tr><td>Submission deadline:              </td><td>10. Dec 2014</td></tr>
-        <tr><td>Notification of accepted speakers:</td><td>13. Dec 2014</td></tr>
-        <tr><td>Preliminary Schedule:             </td><td>15. Dec 2014</td></tr>
-        <tr><td>Publication of the final schedule:</td><td>10. Dec 2014</td></tr>
-        <tr><td>Devroom day:                      </td><td>31. Jan 2015</td></tr>
+        <tr><td>Submission deadline              </td><td>10. Dec 2014</td></tr>
+        <tr><td>Notification of accepted speakers</td><td>13. Dec 2014</td></tr>
+        <tr><td>Preliminary Schedule             </td><td>15. Dec 2014</td></tr>
+        <tr><td>Publication of the final schedule</td><td>10. Jan 2015</td></tr>
+        <tr><td>Devroom day                      </td><td>31. Jan 2015</td></tr>
         </table>
         
         <div class="textareaclose">
