@@ -52,6 +52,14 @@
 
         }
 
+        function MapClick() {
+            var MapDiv = document.getElementById('map');
+            if (MapDiv.style.zIndex = 1)
+                enableMap();
+            else
+                disableMap();
+        }
+
         function enableMap() {
 
             var MapDiv = document.getElementById('map');
@@ -221,6 +229,8 @@
 
   <body onResize="FixCanvas()">
 
+    <div id="bg" style="width: 100%; height: 100%; position: fixed;">
+
     <div id="site" style="position: fixed">
 
       <div id="vertex">
@@ -243,7 +253,7 @@
 
     <div id="underTheMap" onclick="javascript:disableMap()"></div>
 
-    <div id="map"></div>
+    <div id="map" onclick="javacript:MapClick()"></div>
 
     <script>
 
@@ -457,6 +467,7 @@
         <a href="OpenPGP-Keys/mail@graphdevroom.org.key" target="_blank" style="font-size:72%"><i class="fa fa-lock       fa-2x"></i></a>
     </div>
 
+    </div>
 
   </body>
   

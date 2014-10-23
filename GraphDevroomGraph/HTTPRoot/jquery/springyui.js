@@ -93,7 +93,22 @@ jQuery.fn.springy = function(params) {
         var p    = fromScreen({x: e.pageX - pos.left, y: e.pageY - pos.top});
         nearest  = dragged = layout.nearest(p);
 
-        //if (nearest !== null && nearest.distance <= nearest.node.width)
+
+        //canvas.parentNode.hidden = true;
+        //var starter = document.elementFromPoint(e.clientX, e.clientY);
+        //if (starter !== null && starter.id != "bg")
+        //{
+        //    dragged = null;
+        //    nearest = null;
+        //    console.log('Click on layer: ' + starter.id);
+        //    starter.click();
+        //}
+        //canvas.parentNode.hidden = false;
+
+        ////if (nearest !== null && nearest.distance <= nearest.node.width)
+        ////{
+
+        //if (starter.id == "bg")
         //{
 
             selected = nearest;
@@ -111,6 +126,8 @@ jQuery.fn.springy = function(params) {
             }
 
         //}
+
+        ////}
 
         renderer.start();
 

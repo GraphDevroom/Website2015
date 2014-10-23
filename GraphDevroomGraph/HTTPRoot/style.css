@@ -150,7 +150,8 @@ body {
     width:                      35%;
     left:                       61%;
     border:                     14px solid #FFFFFF;
-    transform:                rotate(-3deg);
+    border-radius:            5px;
+    transform:                  rotate(-3deg);
 }
 
 #underTheMap {
