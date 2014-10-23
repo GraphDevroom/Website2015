@@ -38,6 +38,15 @@
 
         }
 
+        function HideTextarea(name) {
+
+            var ShowDiv = document.getElementById(name);
+
+            if (ShowDiv != null)
+                ShowDiv.style.display = "none";
+
+        }
+
 
         //jQuery(function(){
         $(document).ready(function(){
@@ -232,6 +241,10 @@
 
         <p>This list is not closed, other related topics are always welcome.</p>
 
+        <div class="textareaclose">
+            <a href="javascript:HideTextarea('CfP')">X</a>
+        </div>
+
     </div>
 
     <div id="Submissions" style="top: 100px; left: 100px; width: 40%; display: none" class="textarea">
@@ -268,6 +281,10 @@
           <li>Links to your previous talks, code snippets or repositories</li>
         </ul>
 
+        <div class="textareaclose">
+            <a href="javascript:HideTextarea('Submissions')">X</a>
+        </div>
+
     </div>
 
     <div id="Dates" style="top: 100px; left: 100px; width: 20%; display: none" class="textarea">
@@ -281,6 +298,10 @@
         <tr><td>Publication of the final schedule:</td><td>10. Dec 2014</td></tr>
         <tr><td>Devroom day:                      </td><td>31. Jan 2015</td></tr>
         </table>
+        
+        <div class="textareaclose">
+            <a href="javascript:HideTextarea('Dates')">X</a>
+        </div>
 
     </div>
 
@@ -298,6 +319,10 @@
 
         <p>The crew can be reached via: fosdem2015 at graphdevroom.org</p>
 
+        <div class="textareaclose">
+            <a href="javascript:HideTextarea('Team')">X</a>
+        </div>
+
     </div>
 
     <div id="Contact" style="top: 100px; left: 100px; width: 40%; display: none" class="textarea">
@@ -312,6 +337,10 @@
         <p>Impressions, recorded talks and slides from the last years are available 
         at our website[2], at YouTube[6] within our Google+ community or at 
         SlideShare[7].</p>
+
+        <div class="textareaclose">
+            <a href="javascript:HideTextarea('Contact')">X</a>
+        </div>
 
     </div>
 
