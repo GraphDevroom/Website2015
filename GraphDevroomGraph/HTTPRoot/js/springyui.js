@@ -262,34 +262,18 @@ jQuery.fn.springy = function(params) {
             var boxHeight = edge.target.getHeight();
 
             var intersection = intersect_line_box(s1, s2, { x: x2-boxWidth/2.0, y: y2-boxHeight/2.0 }, boxWidth, boxHeight);
-
-            if (!intersection) {
+            if (!intersection)
                 intersection = s2;
-            }
 
-            var stroke = (edge.data.color !== undefined) ? edge.data.color : '#000000';
-
-            var arrowWidth;
-            var arrowLength;
-
-            var weight = (edge.data.weight !== undefined) ? edge.data.weight : 1.0;
-
-            ctx.lineWidth = Math.max(weight *  2, 0.1);
-            arrowWidth  = 1 + ctx.lineWidth;
-            arrowLength = 8;
-
-            var directional = (edge.data.directional !== undefined) ? edge.data.directional : true;
-
-            // line
-            var lineEnd;
-            if (directional) {
-                lineEnd = intersection.subtract(direction.normalise().multiply(arrowLength * 0.5));
-            } else {
-                lineEnd = s2;
-            }
+            var stroke       = (edge.data.color       !== undefined) ? edge.data.color       : '#000000';
+            var weight       = (edge.data.weight      !== undefined) ? edge.data.weight      : 1.0;
+            ctx.lineWidth    = Math.max(weight *  2, 0.1);
+            var arrowWidth   = 1 + ctx.lineWidth;
+            var arrowLength  = 8;
+            var directional  = (edge.data.directional !== undefined) ? edge.data.directional : true;
+            var lineEnd      = (!directional)                        ? s2                    : intersection.subtract(direction.normalise().multiply(arrowLength * 0.5));
 
             ctx.strokeStyle = stroke;
-            //ctx.lineWidth   = 3.0;
             ctx.beginPath();
             ctx.moveTo(s1.x, s1.y);
             ctx.lineTo(lineEnd.x, lineEnd.y);
@@ -318,7 +302,7 @@ jQuery.fn.springy = function(params) {
                 ctx.textAlign    = "center";
                 ctx.textBaseline = "middle";
                 ctx.font         = edge.data.font;
-                ctx.fillStyle    = stroke;
+                ctx.fillStyle    = (edge.data.labelcolor !== undefined) ? edge.data.labelcolor : stroke;
                 var textPos      = (s2.x < s1.x) ? s1.add(s2).divide(2).add(normal.multiply(-8))
                                                  : s1.add(s2).divide(2).add(normal.multiply(8));
                 ctx.translate(textPos.x, textPos.y);
@@ -365,7 +349,6 @@ jQuery.fn.springy = function(params) {
 
             if (node.VertexLabel == "text") {
                 additionalWidth     = 8;
-                //fillStyle           = "rgba(237, 230, 238, 0.91)";
                 fillStyle           = "rgba(243, 243, 243, 0.93)";
                 cornerRadius        = 12;
                 strokeThickness     = 1;
