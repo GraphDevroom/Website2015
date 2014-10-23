@@ -78,6 +78,8 @@
                 return "7pt Verdana, sans-serif";
             else if (VL == "info")
                 return "7pt Verdana, sans-serif";
+            else if (VL == "history")
+                return "7pt Verdana, sans-serif";
             else
                 return "10pt Verdana, sans-serif";
 
@@ -108,9 +110,15 @@
 
         if (EdgeLabel == "goto")
         {
-            this.data.label        = 'goto';
-            this.data.color        = 'rgba(110, 41, 127, 0.37)';
-            this.data.directional  = true;
+            this.data.label         = 'goto';
+            this.data.color         = 'rgba(110, 41, 127, 0.37)';
+            this.data.directional   = true;
+        }
+
+        else if (EdgeLabel == "history") {
+            this.data.label         = 'history';
+            this.data.color         = 'rgba(100, 100, 0, 0.8)';
+            this.data.directional   = true;
         }
 
     };

@@ -114,6 +114,11 @@
             var FOSDEMDevrooms  = graph.newNode('tag', { label: 'devrooms', gotoURI: 'https://fosdem.org/2015/news/2014-09-30-accepted-devrooms/' });
             var FOSDEMSchedule  = graph.newNode('tag', { label: 'schedule', gotoURI: 'https://fosdem.org/2015/schedule/' });
 
+            graph.newEdge(FOSDEM, 'goto', FOSDEMWebsite);
+            graph.newEdge(FOSDEM, 'goto', FOSDEMDevrooms);
+            graph.newEdge(FOSDEM, 'goto', FOSDEMSchedule);
+
+
             var GraphDevroom    = graph.newNode('text', { label: 'GraphDevroom' });
             var CfP             = graph.newNode('text', { label: 'Call for Participation',  textarea: 'CfP'         });
             var Submissions     = graph.newNode('text', { label: 'Submit your idea',        textarea: 'Submissions' });
@@ -121,22 +126,19 @@
             var Team            = graph.newNode('text', { label: 'Team',                    textarea: 'Team'        });
             var Contact         = graph.newNode('text', { label: 'Contact',                 textarea: 'Contact'     });
 
-            var Twitter         = graph.newNode('tag', { label: 'twitter',                  gotoURI: 'https://twitter.com/graphdevroom' });
-            var GitHub          = graph.newNode('tag', { label: 'GitHub',                   gotoURI: 'https://twitter.com/graphdevroom' });
-            var EMail           = graph.newNode('tag', { label: 'E-Mail',                   gotoURI: 'https://twitter.com/graphdevroom' });
-            var Google          = graph.newNode('tag', { label: 'Google',                   gotoURI: 'https://groups.google.com/d/forum/graphdevroom' });
-            var GooglePlus      = graph.newNode('tag', { label: 'Google+',                  gotoURI: 'https://plus.google.com/u/0/communities/114424455964265722048' });
-            var YouTube         = graph.newNode('tag', { label: 'YouTube',                  gotoURI: 'http://www.youtube.com/graphprocessing' });
-            var SlideShare      = graph.newNode('tag', { label: 'SlideShare',               gotoURI: 'http://www.slideshare.net/graphdevroom' });
+            graph.newEdge(GraphDevroom, 'next', FOSDEM,     { color: 'rgba(110, 41, 127, 0.87)', label: "is part of",        directional: true });
+            graph.newEdge(GraphDevroom, 'next', CfP,        { color: 'rgba(110, 41, 127, 0.87)',                             directional: true });
+            graph.newEdge(GraphDevroom, 'next', Team,       { color: 'rgba(110, 41, 127, 0.87)', label: "who we are",        directional: true });
+            graph.newEdge(GraphDevroom, 'next', Contact,    { color: 'rgba(110, 41, 127, 0.87)', label: "how to contact us", directional: true });
 
-            graph.newEdge(FOSDEM, 'goto', FOSDEMWebsite);
-            graph.newEdge(FOSDEM, 'goto', FOSDEMDevrooms);
-            graph.newEdge(FOSDEM, 'goto', FOSDEMSchedule);
 
-            graph.newEdge(GraphDevroom, 'next', FOSDEM,         { color: 'rgba(110, 41, 127, 0.87)', label: "is part of",           directional: true });
-            graph.newEdge(GraphDevroom, 'next', CfP,            { color: 'rgba(110, 41, 127, 0.87)',                                directional: true });
-            graph.newEdge(GraphDevroom, 'next', Team,           { color: 'rgba(110, 41, 127, 0.87)', label: "who we are",           directional: true });
-            graph.newEdge(GraphDevroom, 'next', Contact,        { color: 'rgba(110, 41, 127, 0.87)', label: "how to contact us",    directional: true });
+            var Twitter         = graph.newNode('tag', { label: 'twitter',    gotoURI: 'https://twitter.com/graphdevroom' });
+            var GitHub          = graph.newNode('tag', { label: 'GitHub',     gotoURI: 'https://twitter.com/graphdevroom' });
+            var EMail           = graph.newNode('tag', { label: 'E-Mail',     gotoURI: 'https://twitter.com/graphdevroom' });
+            var Google          = graph.newNode('tag', { label: 'Google',     gotoURI: 'https://groups.google.com/d/forum/graphdevroom' });
+            var GooglePlus      = graph.newNode('tag', { label: 'Google+',    gotoURI: 'https://plus.google.com/u/0/communities/114424455964265722048' });
+            var YouTube         = graph.newNode('tag', { label: 'YouTube',    gotoURI: 'http://www.youtube.com/graphprocessing' });
+            var SlideShare      = graph.newNode('tag', { label: 'SlideShare', gotoURI: 'http://www.slideshare.net/graphdevroom' });
 
             graph.newEdge(Contact, 'goto', Twitter);
             graph.newEdge(Contact, 'goto', GitHub);
@@ -147,9 +149,19 @@
             graph.newEdge(Contact, 'goto', SlideShare);
 
             graph.newEdge(CfP,          'next', Submissions,    { color: 'rgba(110, 41, 127, 0.87)', label: "convinced?",           directional: true });
-            graph.newEdge(Submissions,  'next', Dates,          { color: 'rgba(110, 41, 127, 0.87)', label: "until when?",          directional: true });
-            graph.newEdge(Dates,        'next', Team,           { color: 'rgba(110, 41, 127, 0.87)', label: "who we are",           directional: true });
+            graph.newEdge(CfP,          'next', Dates,          { color: 'rgba(110, 41, 127, 0.87)', label: "until when?",          directional: true });
+            graph.newEdge(CfP,          'next', Team,           { color: 'rgba(110, 41, 127, 0.87)', label: "who we are",           directional: true });
             graph.newEdge(Team,         'next', Contact,        { color: 'rgba(110, 41, 127, 0.87)', label: "how to contact us",    directional: true });
+
+            var year2014 = graph.newNode('history', { label: '2014' });
+            var year2013 = graph.newNode('history', { label: '2013' });
+            var year2012 = graph.newNode('history', { label: '2012' });
+            var year2011 = graph.newNode('history', { label: '2011' });
+
+            graph.newEdge(GraphDevroom, 'history', year2014);
+            graph.newEdge(GraphDevroom, 'history', year2013);
+            graph.newEdge(GraphDevroom, 'history', year2012);
+            graph.newEdge(GraphDevroom, 'history', year2011);
 
         }
 

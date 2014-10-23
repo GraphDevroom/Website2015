@@ -382,6 +382,12 @@ jQuery.fn.springy = function(params) {
                 cornerRadius        = 6;
                 yOffset             = 2;
             }
+            else if (node.VertexLabel == "history") {
+                fillStyle           = fillStyle = "rgba(200, 200, 0, 0.6)";
+                strokeThickness     = 0;
+                cornerRadius        = 6;
+                yOffset             = 2;
+            }
 
             roundRect(ctx,
                       s.x - boxWidth  / 2 - additionalWidth / 2,
@@ -394,7 +400,7 @@ jQuery.fn.springy = function(params) {
                       strokeColor);
 
             ctx.textAlign    = "left";
-            ctx.textBaseline = "top";
+            ctx.textBaseline = "middle";
 
             // Text color
             if (node.VertexLabel == "text")
@@ -403,6 +409,8 @@ jQuery.fn.springy = function(params) {
                 ctx.fillStyle = "#F0F0F0";
             else if (node.VertexLabel == "info")
                 ctx.fillStyle = "#000000";
+            else if (node.VertexLabel == "history")
+                ctx.fillStyle = "rgba(100, 100, 0, 0.8)";
             else
                 ctx.fillStyle = "#000000";
 
@@ -412,7 +420,7 @@ jQuery.fn.springy = function(params) {
 
             ctx.fillText(text,
                          s.x - boxWidth / 2 + 5,
-                         s.y - 8);
+                         s.y - 1);
 
             ctx.restore();
 
