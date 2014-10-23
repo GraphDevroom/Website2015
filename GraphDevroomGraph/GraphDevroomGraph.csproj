@@ -117,9 +117,21 @@
     <EmbeddedResource Include="HTTPRoot\images\FOSDEM-vertex-transparent.png" />
     <EmbeddedResource Include="HTTPRoot\images\sprite-c9f2503633e6e034f3c500aea7f3283920c2de1690b3ba60893666d6bf927a79.png" />
     <EmbeddedResource Include="HTTPRoot\index.html" />
-    <EmbeddedResource Include="HTTPRoot\js\jquery.min.js" />
-    <EmbeddedResource Include="HTTPRoot\js\springy.js" />
-    <EmbeddedResource Include="HTTPRoot\js\springyui.js" />
+    <EmbeddedResource Include="HTTPRoot\jquery\jquery.min.js" />
+    <EmbeddedResource Include="HTTPRoot\jquery\springy.js" />
+    <EmbeddedResource Include="HTTPRoot\jquery\springyui.js" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\images\layers.png" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\images\locate.png" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\images\marker-icon.png" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\images\marker-shadow.png" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\L.Control.Locate.css" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\L.Control.Locate.js" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\leaflet-legend.css" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\leaflet.css" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\leaflet.js" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\leaflet.markercluster-src.js" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\MarkerCluster.css" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\MarkerCluster.Default.css" />
     <Content Include="HTTPRoot\link.txt" />
     <EmbeddedResource Include="HTTPRoot\style.css" />
   </ItemGroup>

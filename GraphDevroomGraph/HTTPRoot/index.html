@@ -9,17 +9,22 @@
     <meta name="description" content="FOSDEM GraphDevroom 2015" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/springy.js"></script>
-    <script src="js/springyui.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="/leaflet/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="/leaflet/L.Control.Locate.css">
+    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    <script type="text/javascript" src="jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery/springy.js"></script>
+    <script type="text/javascript" src="jquery/springyui.js"></script>
+    <script type="text/javascript" src="/leaflet/leaflet.js"></script>
+    <script type="text/javascript" src="/leaflet/L.Control.Locate.js" ></script>
 
     <script>
-    
-        var CurrentGraph     = 'none';
-        var graph             = null;
+
+        var CurrentGraph       = 'none';
+        var graph              = null;
         var springy            = null;
 
         function ShowTextarea(name) {
@@ -47,6 +52,36 @@
 
         }
 
+        function enableMap() {
+
+            var MapDiv = document.getElementById('map');
+            MapDiv.style.borderColor  = 'rgba(110, 41, 127, 0.37)';
+            MapDiv.style.zIndex = 10;
+            MapDiv.style.width = '55%';
+            MapDiv.style.left  = '41%';
+            MapDiv.style.height = 'calc(50% - 1px)';
+            MapDiv.style.transform = 'rotate(-1.5deg)';
+
+            var UnderTheMapDiv = document.getElementById('underTheMap');
+            UnderTheMapDiv.style.display = "block";
+
+        }
+
+        function disableMap() {
+
+            var MapDiv = document.getElementById('map');
+            MapDiv.style.borderColor = '#FFFFFF';
+            MapDiv.style.zIndex = 1;
+            MapDiv.style.width = '35%';
+            MapDiv.style.left = '61%';
+            MapDiv.style.height = 'calc(30% - 1px)';
+            MapDiv.style.transform = 'rotate(-3deg)';
+
+            var UnderTheMapDiv = document.getElementById('underTheMap');
+            UnderTheMapDiv.style.display = "none";
+
+        }
+
 
         //jQuery(function(){
         $(document).ready(function(){
@@ -61,6 +96,10 @@
 
                                         if (node.data.gotoURI !== undefined)
                                             window.open(node.data.gotoURI, '_blank');
+
+                                        if (node.data.javascript !== undefined) {
+                                            window[node.data.javascript]();
+                                        }
 
                                         var elems = document.getElementsByClassName("schedule");
 
@@ -119,9 +158,9 @@
             springy.clear();
 
             var FOSDEM          = graph.newVertex('text', { label: 'FOSDEM\'15' });
-            var FOSDEMWebsite   = graph.newVertex('tag', { label: 'website',  gotoURI: 'http://www.fosdem.org' });
-            var FOSDEMDevrooms  = graph.newVertex('tag', { label: 'devrooms', gotoURI: 'https://fosdem.org/2015/news/2014-09-30-accepted-devrooms/' });
-            var FOSDEMSchedule  = graph.newVertex('tag', { label: 'schedule', gotoURI: 'https://fosdem.org/2015/schedule/' });
+            var FOSDEMWebsite   = graph.newVertex('tag',  { label: 'website',  gotoURI: 'http://www.fosdem.org' });
+            var FOSDEMDevrooms  = graph.newVertex('tag',  { label: 'devrooms', gotoURI: 'https://fosdem.org/2015/news/2014-09-30-accepted-devrooms/' });
+            var FOSDEMSchedule  = graph.newVertex('tag',  { label: 'schedule', gotoURI: 'https://fosdem.org/2015/schedule/' });
 
             graph.newEdge(FOSDEM, 'goto', FOSDEMWebsite);
             graph.newEdge(FOSDEM, 'goto', FOSDEMDevrooms);
@@ -129,16 +168,18 @@
 
 
             var GraphDevroom    = graph.newVertex('text', { label: 'GraphDevroom' });
-            var CfP             = graph.newVertex('text', { label: 'Call for Participation',  textarea: 'CfP'         });
-            var Submissions     = graph.newVertex('text', { label: 'Submit your idea',        textarea: 'Submissions' });
-            var Dates           = graph.newVertex('text', { label: 'Important Dates',         textarea: 'Dates'       });
-            var Team            = graph.newVertex('text', { label: 'Team',                    textarea: 'Team'        });
-            var Contact         = graph.newVertex('text', { label: 'Contact',                 textarea: 'Contact'     });
+            var CfP             = graph.newVertex('text', { label: 'Call for Participation',  textarea:   'CfP'         });
+            var Submissions     = graph.newVertex('text', { label: 'Submit your idea',        textarea:   'Submissions' });
+            var Dates           = graph.newVertex('text', { label: 'Important Dates',         textarea:   'Dates'       });
+            var Team            = graph.newVertex('text', { label: 'Team',                    textarea:   'Team'        });
+            var Contact         = graph.newVertex('text', { label: 'Contact',                 textarea:   'Contact'     });
+            var Location        = graph.newVertex('tag',  { label: 'Location',                javascript: 'enableMap'   });
 
             graph.newEdge(GraphDevroom, 'next', FOSDEM,  { label: "is part of" });
             graph.newEdge(GraphDevroom, 'next', CfP,     { label: "CfP",              weight: 2.5 });
             graph.newEdge(GraphDevroom, 'next', Team,    { label: "who we are",       weight: 2.5 });
             graph.newEdge(GraphDevroom, 'next', Contact, { label: "how to contact us" });
+            graph.newEdge(GraphDevroom, 'goto', Location);
 
 
             var Twitter         = graph.newVertex('tag', { label: 'twitter',    gotoURI: 'https://twitter.com/graphdevroom' });
@@ -174,7 +215,7 @@
 
         }
 
-    </script>
+     </script>
 
   </head>
 
@@ -182,23 +223,110 @@
 
     <div id="site" style="position: fixed">
 
-            <div id="vertex">
-                <img src="images/FOSDEM-vertex-transparent.png">
-            </div>
+      <div id="vertex">
+          <img src="images/FOSDEM-vertex-transparent.png">
+      </div>
 
-            <div id="logo">
-                FOSDEM<span class="lila high">'15</span> GraphDevroom
-            </div>
+      <div id="logo">
+          FOSDEM<span class="lila high">'15</span> GraphDevroom
+      </div>
 
-            <div id="navigation">
-                 Université libre de Bruxelles, Brussels, Belgium.
-            </div>
+      <div id="navigation">
+           Université libre de Bruxelles, Brussels, Belgium.
+      </div>
 
-            <div id="datetime">
-                 31 January 2015
-            </div>
+      <div id="datetime">
+           31 January 2015
+      </div>
 
     </div>
+
+    <div id="underTheMap" onclick="javascript:disableMap()"></div>
+
+    <div id="map"></div>
+
+    <script>
+
+       var map = L.map('map').setView([50.8136544, 4.3820177], 15);
+
+       var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+                                    id:          'examples.map-20v6611k',
+                                    maxZoom:     18,
+                                    attribution: '<a href="http://openstreetmap.org">OpenStreetMap</a> ' +
+                                                 '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                                                 '<a href="http://mapbox.com">Mapbox</a> Imagery'
+                                }).addTo(map);
+
+       // ---------------------------------------------------------------------------------------------------------------
+
+       L.control.locate({
+
+           position:              'topleft',     // Set the location of the control
+           setView:               true,          // Automatically sets the map view to the user's location
+           metric:                true,          // Use metric or imperial units
+           locateOptions:         {},            // Define location options e.g enableHighAccuracy: true
+
+           drawCircle:           true,           // Controls whether a circle is drawn that shows the uncertainty about the location
+           circleStyle: {                        // Change the style of the circle around the user's location
+               color:            "#ff7800",
+           },
+           markerStyle:          {},
+
+           follow:               true,           // Follow the location if `watch` and `setView` are set to true in locateOptions
+           stopFollowingOnDrag:  true,           // Stop following when the map is dragged if `follow` is set to true
+           followCircleStyle:    {},             // Set difference for the style of the circle around the user's location while following
+           followMarkerStyle:    {},
+
+           onLocationError:                      // Define an error callback function
+               function (err) {
+                   alert(err.message)
+               },
+
+           onLocationOutsideMapBounds:           // Called when outside map boundaries
+               function (context) {
+                   alert(context.options.strings.outsideMapBoundsMsg);
+               },
+
+           strings: {
+               title: "Show me where I am",                                  // Title of the locat control
+               popup: "You are within {distance} {unit} from this point",    // Text to appear if user clicks on circle
+               outsideMapBoundsMsg: "You seem located outside the boundaries of the map"   // Default message for onLocationOutsideMapBounds
+           }
+
+       }).addTo(map);
+
+
+       L.marker([50.8136544, 4.3820177]).addTo(map)
+           .bindPopup("FOSDEM'15").openPopup();
+
+       L.marker([50.8485198, 4.3538106]).addTo(map)
+           .bindPopup("Delirium Café").openPopup();
+
+       //L.circle([51.508, -0.11], 500, {
+       //    color: 'red',
+       //    fillColor: '#f03',
+       //    fillOpacity: 0.5
+       //}).addTo(map).bindPopup("I am a circle.");
+
+       //L.polygon([
+       //    [51.509, -0.08],
+       //    [51.503, -0.06],
+       //    [51.51, -0.047]
+       //]).addTo(map).bindPopup("I am a polygon.");
+
+
+       //var popup = L.popup();
+
+       //function onMapClick(e) {
+       //    popup
+       //        .setLatLng(e.latlng)
+       //        .setContent("You clicked the map at " + e.latlng.toString())
+       //        .openOn(map);
+       //}
+
+       //map.on('click', onMapClick);
+
+  </script>
 
     <div id="CfP" style="top: 100px; left: 100px; width: 40%; display: none" class="textarea">
 
@@ -344,7 +472,7 @@
 
     </div>
 
-    <div id="graphframe" style="position: fixed"><canvas id="graphcanvas" style="position: fixed" /></div>
+    <div id="graphframe"><canvas id="graphcanvas" style="position: fixed" /></div>
 
     <div id="links" style="position: fixed">
         <a href="http://twitter.com/graphdevroom"        target="_blank" style="font-size:80%"><i class="fa fa-twitter    fa-2x"></i></a>
