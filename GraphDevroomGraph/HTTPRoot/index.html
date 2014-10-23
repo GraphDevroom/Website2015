@@ -110,7 +110,7 @@
             springy.clear();
 
             var FOSDEM          = graph.newNode('text', { label: 'FOSDEM\'15' });
-            var FOSDEMWebsite   = graph.newNode('tag', { label: 'website', gotoURI: 'http://www.fosdem.org' });
+            var FOSDEMWebsite   = graph.newNode('tag', { label: 'website',  gotoURI: 'http://www.fosdem.org' });
             var FOSDEMDevrooms  = graph.newNode('tag', { label: 'devrooms', gotoURI: 'https://fosdem.org/2015/news/2014-09-30-accepted-devrooms/' });
             var FOSDEMSchedule  = graph.newNode('tag', { label: 'schedule', gotoURI: 'https://fosdem.org/2015/schedule/' });
 
@@ -126,10 +126,10 @@
             var Team            = graph.newNode('text', { label: 'Team',                    textarea: 'Team'        });
             var Contact         = graph.newNode('text', { label: 'Contact',                 textarea: 'Contact'     });
 
-            graph.newEdge(GraphDevroom, 'next', FOSDEM,     { color: 'rgba(110, 41, 127, 0.87)', label: "is part of",        directional: true });
-            graph.newEdge(GraphDevroom, 'next', CfP,        { color: 'rgba(110, 41, 127, 0.87)',                             directional: true });
-            graph.newEdge(GraphDevroom, 'next', Team,       { color: 'rgba(110, 41, 127, 0.87)', label: "who we are",        directional: true });
-            graph.newEdge(GraphDevroom, 'next', Contact,    { color: 'rgba(110, 41, 127, 0.87)', label: "how to contact us", directional: true });
+            graph.newEdge(GraphDevroom, 'next', FOSDEM,  { label: "is part of" });
+            graph.newEdge(GraphDevroom, 'next', CfP,     { label: "CfP",              weight: 2.5 });
+            graph.newEdge(GraphDevroom, 'next', Team,    { label: "who we are",       weight: 2.5 });
+            graph.newEdge(GraphDevroom, 'next', Contact, { label: "how to contact us" });
 
 
             var Twitter         = graph.newNode('tag', { label: 'twitter',    gotoURI: 'https://twitter.com/graphdevroom' });

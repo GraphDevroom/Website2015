@@ -261,7 +261,7 @@ jQuery.fn.springy = function(params) {
             var boxWidth  = edge.target.getWidth ();
             var boxHeight = edge.target.getHeight();
 
-            var intersection = intersect_line_box(s1, s2, {x: x2-boxWidth/2.0, y: y2-boxHeight/2.0}, boxWidth, boxHeight);
+            var intersection = intersect_line_box(s1, s2, { x: x2-boxWidth/2.0, y: y2-boxHeight/2.0 }, boxWidth, boxHeight);
 
             if (!intersection) {
                 intersection = s2;
@@ -275,7 +275,7 @@ jQuery.fn.springy = function(params) {
             var weight = (edge.data.weight !== undefined) ? edge.data.weight : 1.0;
 
             ctx.lineWidth = Math.max(weight *  2, 0.1);
-            arrowWidth = 1 + ctx.lineWidth;
+            arrowWidth  = 1 + ctx.lineWidth;
             arrowLength = 8;
 
             var directional = (edge.data.directional !== undefined) ? edge.data.directional : true;
@@ -289,6 +289,7 @@ jQuery.fn.springy = function(params) {
             }
 
             ctx.strokeStyle = stroke;
+            //ctx.lineWidth   = 3.0;
             ctx.beginPath();
             ctx.moveTo(s1.x, s1.y);
             ctx.lineTo(lineEnd.x, lineEnd.y);
