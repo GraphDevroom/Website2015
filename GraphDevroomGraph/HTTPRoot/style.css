@@ -1,75 +1,75 @@
 body {
-    background: 				url('images/bg.jpg');
-    color: 						#333;
-	font-family:				'Open Sans', sans-serif;
+    background:                 url('images/bg.jpg');
+    color:                      #333;
+    font-family:                'Open Sans', sans-serif;
 }
 
 .lila {
-	color:						#ad3092;
+    color:                      #ad3092;
 }
 
 .high {
-	vertical-align:				5px;
-	font-size:					68%;
+    vertical-align:             5px;
+    font-size:                  68%;
 }
 
 #site {
     position:                   absolute;
-	top: 						calc(50% - 50px);
-	left: 						calc(50% - 250px);
-	width: 						500px;
-	height: 					100px;
+    top:                        calc(50% - 50px);
+    left:                       calc(50% - 250px);
+    width:                      500px;
+    height:                     100px;
 }
 
 #vertex {
-	position:					absolute;
-	top:						0px;
-	left:						0px;
+    position:                   absolute;
+    top:                        0px;
+    left:                       0px;
 }
 
 #logo {
-	position: 					absolute;
-	top: 						19px;
-	left:						110px;
-    font-weight:				bold;
+    position:                   absolute;
+    top:                        19px;
+    left:                       110px;
+    font-weight:                bold;
     display:                    inline-block;
-	color:                      #555555;
-	font-style:					italic;
-	font-size: 					140%;
+    color:                      #555555;
+    font-style:                 italic;
+    font-size:                  140%;
 }
 
 #navigation {
-	position:					absolute;
-	top:						49px;
-	left:						110px;
+    position:                   absolute;
+    top:                        49px;
+    left:                       110px;
     display:                    inline-block;
-	color:						#7A7A7A;
-	font-size:					75%;
-	text-transform:				uppercase;
+    color:                      #7A7A7A;
+    font-size:                  75%;
+    text-transform:             uppercase;
 }
 
 #datetime {
-	position:					absolute;
-	top:						65px;
-	left:						110px;
+    position:                   absolute;
+    top:                        65px;
+    left:                       110px;
     display:                    inline-block;
-	color:						#7A7A7A;
-	font-family:				'Open Sans', sans-serif;
-	font-size:					75%;
+    color:                      #7A7A7A;
+    font-family:                'Open Sans', sans-serif;
+    font-size:                  75%;
 }
 
 
 #links {
-    position:					absolute;
-    bottom:						15px;
-    right:						15px;
+    position:                   absolute;
+    bottom:                     15px;
+    right:                      15px;
     display:                    inline-block;
 }
 
 #links a:link {
     text-decoration:            none;
     color:                      #C8C8C8;
-    padding:                  	0px 6px 0px 6px;
+    padding:                    0px 6px 0px 6px;
 }
 
 #links a:visited {
@@ -111,12 +111,22 @@ body {
 
 
 #graphframe {
-	position: 					absolute;
-	top:                		10px;
-	left:						10px;
-	bottom:						10px;
-	right:						10px;
-/*	border-style:				solid;
-	border-color:				#A0A0A0;
-	border-width:				1px 1px 1px 1px;*/
+    position:                   absolute;
+    top:                        10px;
+    left:                       10px;
+    bottom:                     10px;
+    right:                      10px;
+/*    border-style:                solid;
+    border-color:                #A0A0A0;
+    border-width:                1px 1px 1px 1px;*/
 }
+
+.textarea {
+    border:                     1px solid rgba(77,77,77, 0.6);
+    background-color:           rgba(255, 255, 255, 0.85);
+    position:                   relative;
+    padding:                    20px 20px 20px 30px;
+    border-radius:              4px 4px 4px 4px;
+    box-shadow:                 4px 4px 4px rgba(100, 100, 100, 0.7);
+}
+

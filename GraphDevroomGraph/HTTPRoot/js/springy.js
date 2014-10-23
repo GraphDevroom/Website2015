@@ -76,7 +76,7 @@
                 return "10pt Verdana, sans-serif";
             else if (VL == "tag")
                 return "7pt Verdana, sans-serif";
-			else if (VL == "info")
+            else if (VL == "info")
                 return "7pt Verdana, sans-serif";
             else
                 return "10pt Verdana, sans-serif";
@@ -533,12 +533,16 @@
 
 
     // start simulation
-    Layout.ForceDirected.prototype.start = function(render, done) {
-        var t = this;
+    Layout.ForceDirected.prototype.start = function (render, onRenderStop, onRenderStart) {
+
+        var t          = this;
 
         if (this._started) return;
-        this._started = true;
-        this._stop = false;
+
+        this._started  = true;
+        this._stop     = false;
+
+        if (onRenderStart !== undefined) { onRenderStart(); }
 
         Springy.requestAnimationFrame(function step() {
             t.applyCoulombsLaw();
@@ -554,7 +558,7 @@
             // stop simulation when energy of the system goes below a threshold
             if (t._stop || t.totalEnergy() < 0.01) {
                 t._started = false;
-                if (done !== undefined) { done(); }
+                if (onRenderStop !== undefined) { onRenderStop(); }
             } else {
                 Springy.requestAnimationFrame(step);
             }
@@ -566,19 +570,22 @@
     }
 
     // Find the nearest point to a particular position
-    Layout.ForceDirected.prototype.nearest = function(pos) {
-        var min = {node: null, point: null, distance: null};
-        var t = this;
-        this.graph.nodes.forEach(function(n){
-            var point = t.point(n);
+    Layout.ForceDirected.prototype.nearest = function (pos) {
+
+        var min = { node: null, point: null, distance: null };
+        var t   = this;
+
+        this.graph.nodes.forEach(function(n) {
+            var point    = t.point(n);
             var distance = point.p.subtract(pos).magnitude();
 
             if (min.distance === null || distance < min.distance) {
-                min = {node: n, point: point, distance: distance};
+                min = { node: n, point: point, distance: distance };
             }
         });
 
         return min;
+
     };
 
     // returns [bottomleft, topright]
@@ -681,13 +688,19 @@
     //     return Math.abs(ac.x * n.x + ac.y * n.y);
     // };
 
-    // Renderer handles the layout rendering loop
-    var Renderer = Springy.Renderer = function (layout, clear, drawEdge, drawNode) {
+    /*
+     * Renderer handles the layout rendering loop
+     * @param onRenderStop optional callback function that gets executed whenever rendering stops.
+     * @param onRenderStart optional callback function that gets executed whenever rendering starts.
+     */
+    var Renderer = Springy.Renderer = function(layout, clear, drawEdge, drawNode, onRenderStop, onRenderStart) {
 
-        this.layout   = layout;
-        this.clear    = clear;
-        this.drawEdge = drawEdge;
-        this.drawNode = drawNode;
+        this.layout         = layout;
+        this.clear          = clear;
+        this.drawEdge       = drawEdge;
+        this.drawNode       = drawNode;
+        this.onRenderStop   = onRenderStop;
+        this.onRenderStart  = onRenderStart;
 
         this.layout.graph.addGraphListener(this);
 
@@ -697,7 +710,11 @@
         this.start();
     };
 
-    Renderer.prototype.start = function() {
+    /*
+     * @param done An optional callback function that gets executed when the springy algorithm stops, 
+     *             either because it ended or because stop() was called.
+     */
+    Renderer.prototype.start = function(done) {
         var t = this;
         this.layout.start(function render() {
             t.clear();
@@ -709,7 +726,7 @@
             t.layout.eachNode(function(node, point) {
                 t.drawNode(node, point.p);
             });
-        });
+        }, this.onRenderStop, this.onRenderStart);
     };
 
     Renderer.prototype.stop = function() {
@@ -752,4 +769,5 @@
         }
         return true;
     };
+
 }).call(this);

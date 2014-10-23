@@ -2,149 +2,302 @@
 <html>
 
   <head>
-  
+
     <title>FOSDEM GraphDevroom 2015</title>
-	
+
     <meta name="keywords" content="GraphDevroom" />
     <meta name="description" content="FOSDEM GraphDevroom 2015" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
-	
-	<script src="js/jquery.min.js"></script>
-	<script src="js/springy.js"></script>
-	<script src="js/springyui.js"></script>
-	
-	<script>
-	
-		var CurrentGraph 	= 'none';
-		var graph 			= null;
-		var springy			= null;
 
-		function ShowTextarea(name) {
-		
-			var elems = document.getElementsByClassName("textarea"); 
-			
-			for(var timeIndex = 0; timeIndex < elems.length; ++timeIndex)
-			{
-				elems[timeIndex].style.display = "none";
-			}
-			
-			var ShowDiv = document.getElementById(name);
-			
-			if (ShowDiv != null)
-				ShowDiv.style.display = "block";
-			else
-				document.getElementById('home').style.display = "block";
-		
-		}
-		
-		
-		//jQuery(function(){
-		$(document).ready(function(){
-	  
-			graph 	= new Springy.Graph();
-	  
-			springy	= window.springy = jQuery('#graphcanvas').springy({
-				graph: 			graph,
-				nodeSelected: 	function(node) {
-				
-									if (node.VertexLabel == 'tag') {
-										var elems = document.getElementsByClassName("schedule"); 
-										for(var timeIndex = 0; timeIndex < elems.length; ++timeIndex)
-										{
-											elems[timeIndex].style.display = "none";
-										}
-										elems = document.getElementsByClassName(node.data.label); 
-										for(var timeIndex = 0; timeIndex < elems.length; ++timeIndex)
-										{
-											elems[timeIndex].style.display = "";
-										}
-										FixCanvas();
-									}
-									
-									else if (node.VertexLabel == 'text')
-										if (node.data.textarea !== undefined)
-											ShowTextarea(node.data.textarea);											
-									
-									console.log('Node selected: ' + JSON.stringify(node.data));
-									
-								}
+    <script src="js/jquery.min.js"></script>
+    <script src="js/springy.js"></script>
+    <script src="js/springyui.js"></script>
 
-			});
-			
-			ShowHomeGraph();
-			
-		});
-	
-		function FixCanvas() {
-		
-			var gf = document.getElementById('graphframe');
-			var gc = document.getElementById('graphcanvas');
-			
-			if (gc != null)
-			{			
-				gc.height = gf.clientHeight;
-				gc.width  = gf.clientWidth;
-			}
-			
-		}
-		
-		function ShowHomeGraph() {
-		
-			if (CurrentGraph == 'HomeGraph')
-				return;
-		
-			FixCanvas();
-			
-			CurrentGraph = 'HomeGraph';
-			
-			springy.clear();
+    <script>
+    
+        var CurrentGraph     = 'none';
+        var graph             = null;
+        var springy            = null;
 
-			var FOSDEM					= graph.newNode('text', { label: 'FOSDEM\'15'});
-			var GraphDevroom			= graph.newNode('text', { label: 'GraphDevroom'});
-			var CfP						= graph.newNode('text', { label: 'Call for Participation'});
+        function ShowTextarea(name) {
 
-			graph.newEdge(FOSDEM,		'next',		GraphDevroom,	{color: 'rgba(110, 41, 127, 0.87)', directional: true});
-			graph.newEdge(GraphDevroom,	'next',		CfP,			{color: 'rgba(110, 41, 127, 0.87)', directional: true});
+            var elems = document.getElementsByClassName("textarea"); 
 
-		}
+            for(var timeIndex = 0; timeIndex < elems.length; ++timeIndex)
+                elems[timeIndex].style.display = "none";
 
-	</script>
-	
+            var ShowDiv = document.getElementById(name);
+
+            if (ShowDiv != null)
+                ShowDiv.style.display = "block";
+//            else
+//                document.getElementById('home').style.display = "block";
+
+        }
+
+
+        //jQuery(function(){
+        $(document).ready(function(){
+
+            graph      = new Springy.Graph();
+
+            springy    = window.springy = jQuery('#graphcanvas').springy({
+                graph:            graph,
+                nodeSelected:     function(node) {
+
+                                    if (node.VertexLabel == 'tag') {
+
+                                        var elems = document.getElementsByClassName("schedule");
+
+                                        for(var timeIndex = 0; timeIndex < elems.length; ++timeIndex) {
+                                            elems[timeIndex].style.display = "none";
+                                        }
+
+                                        elems = document.getElementsByClassName(node.data.label);
+
+                                        for(var timeIndex = 0; timeIndex < elems.length; ++timeIndex) {
+                                            elems[timeIndex].style.display = "";
+                                        }
+
+                                        FixCanvas();
+
+                                    }
+
+                                    else if (node.VertexLabel == 'text')
+                                    {
+                                        if (node.data.textarea !== undefined)
+                                            ShowTextarea(node.data.textarea);
+
+                                        if (node.data.gotoURI !== undefined)
+                                            window.open(node.data.gotoURI, '_blank');
+
+                                    }
+
+                                    console.log('Node selected: ' + JSON.stringify(node.data));
+
+                                }
+
+            });
+
+            ShowHomeGraph();
+
+        });
+
+        function FixCanvas() {
+
+            var gf = document.getElementById('graphframe');
+            var gc = document.getElementById('graphcanvas');
+
+            if (gc != null)
+            {
+                gc.height = gf.clientHeight;
+                gc.width  = gf.clientWidth;
+            }
+
+        }
+
+        function ShowHomeGraph() {
+
+            if (CurrentGraph == 'HomeGraph')
+                return;
+
+            FixCanvas();
+            CurrentGraph = 'HomeGraph';
+
+            springy.clear();
+
+            var FOSDEM        = graph.newNode('text', { label: 'FOSDEM\'15', gotoURI: 'http://www.fosdem.org' });
+            var GraphDevroom  = graph.newNode('text', { label: 'GraphDevroom' });
+            var CfP           = graph.newNode('text', { label: 'Call for Participation',  textarea: 'CfP'         });
+            var Submissions   = graph.newNode('text', { label: 'Submit your idea',        textarea: 'Submissions' });
+            var Dates         = graph.newNode('text', { label: 'Important Dates',         textarea: 'Dates'       });
+            var Team          = graph.newNode('text', { label: 'Team',                    textarea: 'Team'        });
+            var Contact       = graph.newNode('text', { label: 'Contact',                 textarea: 'Contact'     });
+
+            graph.newEdge(GraphDevroom, 'next', FOSDEM,         { color: 'rgba(110, 41, 127, 0.87)', label: "is_part_of", directional: true });
+            graph.newEdge(GraphDevroom, 'next', CfP,            { color: 'rgba(110, 41, 127, 0.87)', directional: true });
+            //graph.newEdge(GraphDevroom, 'next', Submissions,    { color: 'rgba(110, 41, 127, 0.87)', label: "step 1", directional: true });
+            //graph.newEdge(GraphDevroom, 'next', Dates,          { color: 'rgba(110, 41, 127, 0.87)', label: "step 2", directional: true });
+            graph.newEdge(GraphDevroom, 'next', Team,           { color: 'rgba(110, 41, 127, 0.87)', label: "step 3", directional: true });
+            graph.newEdge(GraphDevroom, 'next', Contact,        { color: 'rgba(110, 41, 127, 0.87)', label: "step 4", directional: true });
+
+            graph.newEdge(CfP,          'next', Submissions,    { color: 'rgba(110, 41, 127, 0.87)', label: "convinced?",      directional: true });
+            graph.newEdge(Submissions,  'next', Dates,          { color: 'rgba(110, 41, 127, 0.87)', label: "until when?",     directional: true });
+            graph.newEdge(Dates,        'next', Team,           { color: 'rgba(110, 41, 127, 0.87)', label: "who are you?",    directional: true });
+            graph.newEdge(Team,         'next', Contact,        { color: 'rgba(110, 41, 127, 0.87)', label: "how to contact?", directional: true });
+
+        }
+
+    </script>
+
   </head>
 
   <body onResize="FixCanvas()">
 
-    <div id="site">
+    <div id="site" style="position: fixed">
 
-			<div id="vertex">
-				<img src="images/FOSDEM-vertex-transparent.png">
-			</div>
+            <div id="vertex">
+                <img src="images/FOSDEM-vertex-transparent.png">
+            </div>
 
-			<div id="logo">
-				FOSDEM<span class="lila high">'15</span> GraphDevroom
-			</div>
+            <div id="logo">
+                FOSDEM<span class="lila high">'15</span> GraphDevroom
+            </div>
 
-			<div id="navigation">
-				 Université libre de Bruxelles, Brussels, Belgium.
-			</div>
+            <div id="navigation">
+                 Université libre de Bruxelles, Brussels, Belgium.
+            </div>
 
-			<div id="datetime">
-				 31 January 2015
-			</div>
+            <div id="datetime">
+                 31 January 2015
+            </div>
 
-	</div>
+    </div>
 
-    <div id="graphframe"><canvas id="graphcanvas" /></div>
-	
-	<div id="links">
-		<a href="http://twitter.com/graphdevroom"        target="_blank" style="font-size:80%"><i class="fa fa-twitter    fa-2x"></i></a>
-		<a href="https://github.com/graphdevroom"        target="_blank" style="font-size:80%"><i class="fa fa-github     fa-2x"></i></a>
-		<a href="mailto:mail@graphdevroom.org"           target="_blank" style="font-size:72%"><i class="fa fa-envelope-o fa-2x"></i></a>
-		<a href="OpenPGP-Keys/mail@graphdevroom.org.key" target="_blank" style="font-size:72%"><i class="fa fa-lock       fa-2x"></i></a>
-	</div>
+    <div id="CfP" style="top: 100px; left: 100px; width: 40%; display: none" class="textarea">
+
+        <h1>Call for Participation</h1>
+
+        <p>We are happy to announce the 4th edition of the Graph Processing Devroom 
+        co-located with FOSDEM 2015 at the ULB Campus Solbosch in Brussels, 
+        Belgium. FOSDEM is an annually software developers meeting attended by 
+        over 5000 free and open source enthusiasts from all over the world. The 
+        devroom will take place on Saturday, 31. January 2015 with a welcome at 
+        9:45, and talks from 10AM till 18PM.</p>
+
+        <p>For the last 6 years graph processing systems are gaining an emerging 
+        impact for processing complex semi-structured interrelated and 
+        distributed data sets. Thanks to many high quality open source 
+        implementations and outstanding community support, this movement is 
+        still winning a lot of momentum. The past year had again been full of 
+        impressive developments: e.g. Neo4j 2.0 with improved property graphs, 
+        OrientDB 1.5, the Neo4j-centric GraphDatabases book, GraphHopper for OSM 
+        routing, a new graph traversal framework called Steffi.io (imGraph), the 
+        Bitsy database and  Pixy query language, Structr a CMS ontop of graphs 
+        and even the SAP Hana in-memory database solution joined the movement.</p>
+
+        <p>In previous devrooms a lot of great presentations and demos had been 
+        given and substantiated discussions took place. Therefore, also in 2015 
+        we will again give researchers, geeks and open source hackers the 
+        possibility of an awesome meetup for showing each other their recent 
+        work and improvements. This includes:</p>
+
+        <ul>
+          <li>Graph Query Languages and user-friendly APIs</li>
+          <li>(Distributed) Graph Processing Frameworks</li>
+          <li>Graph Benchmarks</li>
+          <li>Geographic Information Systems and Graphs (Routing et al.)</li>
+          <li>Semantic Graphs (RDF)</li>
+          <li>(Large-Scale) Graph Visualization</li>
+          <li>Graphs and the Internet-of-Things</li>
+          <li>Real-life application of graph processing including industry</li>
+          <li>experience</li>
+        </ul>
+
+        <p>This list is not closed, other related topics are always welcome.</p>
+
+    </div>
+
+    <div id="Submissions" style="top: 100px; left: 100px; width: 40%; display: none" class="textarea">
+
+        <h1>Submissions</h1>
+
+        <p>Convinced? Interested in giving a talk or presenting a demo? We are 
+        looking for high quality technical (non-marketing) submissions, ranging 
+        from principles to practice and interesting to attendees with widely 
+        different backgrounds. Talks should be 20 to 30 minutes, lightning talks 
+        10 to 15 minutes and consist of a presentation supported by slides 
+        and/or demos. Any degree of interactivity is highly welcome. We also 
+        welcome other activity proposals different from “traditional” project 
+        presentations and talks. All submissions should be based on free and 
+        open software solutions or free and open APIs.</p>
+
+        <p>To suggest a talk, go to the <a href="https://penta.fosdem.org/submission/FOSDEM15">FOSDEM submission system</a>
+        and follow the instructions ("Create Account” / “Create Event"). Please make sure to 
+        select the "GraphDevroom" track and include at least the following information:</p>
+
+        <ul>
+          <li>Your name, nick, contact information (public/only for orga) and a
+              short biography</li>
+          <li>The title and a short abstract describing your
+              presentation/demo/talk (max. 500 words)</li>
+          <li>Intended audience and goal of the talk (e.g., “Beginner”,
+              “Advanced”, "Analysts, helping them to discover and visualize
+              patterns" or "Developers, trying to optimize processing of highly
+              connected data sets")</li>
+          <li>The desired length of your time slot (typical 30 min. incl. 5
+              minutes for Q/A)</li>
+          <li>Links to background information on the given talk for the hungry
+              and impatient</li>
+          <li>Links to your previous talks, code snippets or repositories</li>
+        </ul>
+
+    </div>
+
+    <div id="Dates" style="top: 100px; left: 100px; width: 20%; display: none" class="textarea">
+
+        <h1>Important dates</h1>
+
+        <table>
+        <tr><td>Submission deadline:              </td><td>10. Dec 2014</td></tr>
+        <tr><td>Notification of accepted speakers:</td><td>13. Dec 2014</td></tr>
+        <tr><td>Preliminary Schedule:             </td><td>15. Dec 2014</td></tr>
+        <tr><td>Publication of the final schedule:</td><td>10. Dec 2014</td></tr>
+        <tr><td>Devroom day:                      </td><td>31. Jan 2015</td></tr>
+        </table>
+
+    </div>
+
+    <div id="Team" style="top: 100px; left: 100px; width: 40%; display: none" class="textarea">
+
+        <h1>The Orgteam</h1>
+
+        <ul>
+            <li>Achim Friedland, Foudner at GraphDefined GmbH</li>
+            <li>Lutz Lukas, symanto research GmbH & Co KG.</li>
+            <li>Martin Junghanns, University of Leipzig</li>
+            <li>Pere Urbon-Bayes, Fyber</li>
+            <li>Peter Karich, GraphHopper</li>
+        </ul>
+
+        <p>The crew can be reached via: fosdem2015 at graphdevroom.org</p>
+
+    </div>
+
+    <div id="Contact" style="top: 100px; left: 100px; width: 40%; display: none" class="textarea">
+
+        <h1>Stay in Contact</h1>
+
+        <p>In order to stay in contact and be updated with the latest news of the 
+        event, you can either go to Twitter and follow @GraphDevroom[3] or 
+        search for #graphdevroom, or goto Google and subscribe to our Google 
+        Group[4] or become a member of our Google+ community[5].</p>
+
+        <p>Impressions, recorded talks and slides from the last years are available 
+        at our website[2], at YouTube[6] within our Google+ community or at 
+        SlideShare[7].</p>
+
+        [1] https://fosdem.org/2015/
+        [2] http://graphdevroom.org
+        [3] https://twitter.com/graphdevroom
+        [4] https://groups.google.com/d/forum/graphdevroom
+        [5] https://plus.google.com/u/0/communities/114424455964265722048
+        [6] http://www.youtube.com/graphprocessing
+        [7] http://www.slideshare.net/graphdevroom
+
+    </div>
+
+    <div id="graphframe" style="position: fixed"><canvas id="graphcanvas" style="position: fixed" /></div>
+
+    <div id="links" style="position: fixed">
+        <a href="http://twitter.com/graphdevroom"        target="_blank" style="font-size:80%"><i class="fa fa-twitter    fa-2x"></i></a>
+        <a href="https://github.com/graphdevroom"        target="_blank" style="font-size:80%"><i class="fa fa-github     fa-2x"></i></a>
+        <a href="mailto:mail@graphdevroom.org"           target="_blank" style="font-size:72%"><i class="fa fa-envelope-o fa-2x"></i></a>
+        <a href="OpenPGP-Keys/mail@graphdevroom.org.key" target="_blank" style="font-size:72%"><i class="fa fa-lock       fa-2x"></i></a>
+    </div>
 
 
   </body>

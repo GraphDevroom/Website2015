@@ -29,6 +29,8 @@ jQuery.fn.springy = function(params) {
 
     var graph = this.graph = params.graph || new Springy.Graph();
 
+    //var nodeFont     = "16px Verdana, sans-serif"; //ahzf: default, if no label is given
+    //var edgeFont     = "8px Verdana, sans-serif";
     var stiffness    = params.stiffness    || 400.0;
     var repulsion    = params.repulsion    || 400.0;
     var damping      = params.damping      || 0.5;
@@ -87,19 +89,28 @@ jQuery.fn.springy = function(params) {
 
     jQuery(canvas).mousedown(function (e) {
 
-        var pos = jQuery(this).offset();
-        var p   = fromScreen({x: e.pageX - pos.left, y: e.pageY - pos.top});
-        selected = nearest = dragged = layout.nearest(p);
+        var pos  = jQuery(this).offset();
+        var p    = fromScreen({x: e.pageX - pos.left, y: e.pageY - pos.top});
+        nearest = dragged = layout.nearest(p);
 
-        if (selected.node !== null) {
+        //if (nearest !== null && nearest.distance <= nearest.node.width)
+        //{
 
-            dragged.point.m = 10000.0;
+            selected = nearest;
 
-            if (nodeSelected) {
-                nodeSelected(selected.node);
+            if (selected.node !== null) {
+
+                dragged.point.m = 10000.0;
+
+                if (nodeSelected) {
+                    nodeSelected(selected.node);
+                    if (selected.node.data.gotoURI !== undefined)
+                        dragged = null;
+                }
+
             }
 
-        }
+        //}
 
         renderer.start();
 
@@ -163,7 +174,7 @@ jQuery.fn.springy = function(params) {
             return 20;
         else if (this.VertexLabel == "tag")
             return 16;
-		else if (this.VertexLabel == "info")
+        else if (this.VertexLabel == "info")
             return 16;
         else
             return 20;
@@ -196,14 +207,14 @@ jQuery.fn.springy = function(params) {
         context.closePath();
 
     };
-	
-	this.clear = function(){
-		graph.nodeSet = {};
-		graph.nodes = [];
-		graph.edges = [];
-		graph.adjacency = {};
-		graph.notify();
-	}
+
+    this.clear = function(){
+        graph.nodeSet    = {};
+        graph.nodes      = [];
+        graph.edges      = [];
+        graph.adjacency  = {};
+        graph.notify();
+    }
 
     var renderer = this.renderer = new Springy.Renderer(layout,
 
@@ -239,7 +250,7 @@ jQuery.fn.springy = function(params) {
                 }
             }
 
-            var spacing = 6.0;
+            var spacing = 10.0;
 
             // Figure out how far off center the line should be drawn
             var offset = normal.multiply(-((total - 1) * spacing)/2.0 + (n * spacing));
@@ -247,8 +258,8 @@ jQuery.fn.springy = function(params) {
             var s1 = toScreen(p1).add(offset);
             var s2 = toScreen(p2).add(offset);
 
-            var boxWidth  = edge.target.getWidth (edge.data.font);
-            var boxHeight = edge.target.getHeight(edge.data.font);
+            var boxWidth  = edge.target.getWidth ();
+            var boxHeight = edge.target.getHeight();
 
             var intersection = intersect_line_box(s1, s2, {x: x2-boxWidth/2.0, y: y2-boxHeight/2.0}, boxWidth, boxHeight);
 
@@ -304,10 +315,15 @@ jQuery.fn.springy = function(params) {
                 text = edge.data.label
                 ctx.save();
                 ctx.textAlign    = "center";
-                ctx.textBaseline = "top";
+                ctx.textBaseline = "middle";
                 ctx.font         = edge.data.font;
-                ctx.fillStyle    = "#FAD961";
-                ctx.fillText(text, (x1+x2)/2, (y1+y2)/2);
+                ctx.fillStyle    = stroke;
+                var textPos      = (s2.x < s1.x) ? s1.add(s2).divide(2).add(normal.multiply(-8))
+                                                 : s1.add(s2).divide(2).add(normal.multiply(8));
+                ctx.translate(textPos.x, textPos.y);
+                ctx.rotate((s2.x < s1.x) ? Math.atan2(s1.y - s2.y, s1.x - s2.x)
+                                         : Math.atan2(s2.y - s1.y, s2.x - s1.x));
+                ctx.fillText(text, 0, 0);
                 ctx.restore();
             }
 
@@ -329,7 +345,7 @@ jQuery.fn.springy = function(params) {
                           boxHeight);
 
             // fill background
-            //if (selected !== null && nearest.node !== null && selected.node.id === node.id) {
+            //if (selected !== null && selected.node !== null && selected.node.id === node.id) {
             //    ctx.fillStyle = "#FFFFE0";
 
             //} else if (nearest !== null && nearest.node !== null && nearest.node.id === node.id) {
@@ -360,7 +376,7 @@ jQuery.fn.springy = function(params) {
                 cornerRadius        = 6;
                 yOffset             = 2;
             }
-			else if (node.VertexLabel == "info") {
+            else if (node.VertexLabel == "info") {
                 fillStyle           = fillStyle = "#FAD961";
                 strokeThickness     = 0;
                 cornerRadius        = 6;
@@ -385,7 +401,7 @@ jQuery.fn.springy = function(params) {
                 ctx.fillStyle = "rgba(156, 70, 177, 0.8)";
             else if (node.VertexLabel == "tag")
                 ctx.fillStyle = "#000000";
-			else if (node.VertexLabel == "info")
+            else if (node.VertexLabel == "info")
                 ctx.fillStyle = "#000000";
             else
                 ctx.fillStyle = "#000000";
@@ -405,6 +421,7 @@ jQuery.fn.springy = function(params) {
     );
 
     renderer.start();
+
 
     // helpers for figuring out where to draw arrows
     function intersect_line_line(p1, p2, p3, p4) {
@@ -445,6 +462,7 @@ jQuery.fn.springy = function(params) {
     }
 
     return this;
+
 }
 
 })();
