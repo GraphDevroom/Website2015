@@ -50,6 +50,9 @@
 
                                     if (node.VertexLabel == 'tag') {
 
+                                        if (node.data.gotoURI !== undefined)
+                                            window.open(node.data.gotoURI, '_blank');
+
                                         var elems = document.getElementsByClassName("schedule");
 
                                         for(var timeIndex = 0; timeIndex < elems.length; ++timeIndex) {
@@ -70,9 +73,6 @@
                                     {
                                         if (node.data.textarea !== undefined)
                                             ShowTextarea(node.data.textarea);
-
-                                        if (node.data.gotoURI !== undefined)
-                                            window.open(node.data.gotoURI, '_blank');
 
                                     }
 
@@ -109,20 +109,44 @@
 
             springy.clear();
 
-            var FOSDEM        = graph.newNode('text', { label: 'FOSDEM\'15', gotoURI: 'http://www.fosdem.org' });
-            var GraphDevroom  = graph.newNode('text', { label: 'GraphDevroom' });
-            var CfP           = graph.newNode('text', { label: 'Call for Participation',  textarea: 'CfP'         });
-            var Submissions   = graph.newNode('text', { label: 'Submit your idea',        textarea: 'Submissions' });
-            var Dates         = graph.newNode('text', { label: 'Important Dates',         textarea: 'Dates'       });
-            var Team          = graph.newNode('text', { label: 'Team',                    textarea: 'Team'        });
-            var Contact       = graph.newNode('text', { label: 'Contact',                 textarea: 'Contact'     });
+            var FOSDEM          = graph.newNode('text', { label: 'FOSDEM\'15' });
+            var FOSDEMWebsite   = graph.newNode('tag', { label: 'website', gotoURI: 'http://www.fosdem.org' });
+            var FOSDEMDevrooms  = graph.newNode('tag', { label: 'devrooms', gotoURI: 'https://fosdem.org/2015/news/2014-09-30-accepted-devrooms/' });
+            var FOSDEMSchedule  = graph.newNode('tag', { label: 'schedule', gotoURI: 'https://fosdem.org/2015/schedule/' });
+
+            var GraphDevroom    = graph.newNode('text', { label: 'GraphDevroom' });
+            var CfP             = graph.newNode('text', { label: 'Call for Participation',  textarea: 'CfP'         });
+            var Submissions     = graph.newNode('text', { label: 'Submit your idea',        textarea: 'Submissions' });
+            var Dates           = graph.newNode('text', { label: 'Important Dates',         textarea: 'Dates'       });
+            var Team            = graph.newNode('text', { label: 'Team',                    textarea: 'Team'        });
+            var Contact         = graph.newNode('text', { label: 'Contact',                 textarea: 'Contact'     });
+
+            var Twitter         = graph.newNode('tag', { label: 'twitter',                  gotoURI: 'https://twitter.com/graphdevroom' });
+            var GitHub          = graph.newNode('tag', { label: 'GitHub',                   gotoURI: 'https://twitter.com/graphdevroom' });
+            var EMail           = graph.newNode('tag', { label: 'E-Mail',                   gotoURI: 'https://twitter.com/graphdevroom' });
+            var Google          = graph.newNode('tag', { label: 'Google',                   gotoURI: 'https://groups.google.com/d/forum/graphdevroom' });
+            var GooglePlus      = graph.newNode('tag', { label: 'Google+',                  gotoURI: 'https://plus.google.com/u/0/communities/114424455964265722048' });
+            var YouTube         = graph.newNode('tag', { label: 'YouTube',                  gotoURI: 'http://www.youtube.com/graphprocessing' });
+            var SlideShare      = graph.newNode('tag', { label: 'SlideShare',               gotoURI: 'http://www.slideshare.net/graphdevroom' });
+
+            graph.newEdge(FOSDEM, 'goto', FOSDEMWebsite);
+            graph.newEdge(FOSDEM, 'goto', FOSDEMDevrooms);
+            graph.newEdge(FOSDEM, 'goto', FOSDEMSchedule);
 
             graph.newEdge(GraphDevroom, 'next', FOSDEM,         { color: 'rgba(110, 41, 127, 0.87)', label: "is_part_of", directional: true });
             graph.newEdge(GraphDevroom, 'next', CfP,            { color: 'rgba(110, 41, 127, 0.87)', directional: true });
             //graph.newEdge(GraphDevroom, 'next', Submissions,    { color: 'rgba(110, 41, 127, 0.87)', label: "step 1", directional: true });
             //graph.newEdge(GraphDevroom, 'next', Dates,          { color: 'rgba(110, 41, 127, 0.87)', label: "step 2", directional: true });
             graph.newEdge(GraphDevroom, 'next', Team,           { color: 'rgba(110, 41, 127, 0.87)', label: "step 3", directional: true });
-            graph.newEdge(GraphDevroom, 'next', Contact,        { color: 'rgba(110, 41, 127, 0.87)', label: "step 4", directional: true });
+            graph.newEdge(GraphDevroom, 'next', Contact, { color: 'rgba(110, 41, 127, 0.87)', label: "step 4", directional: true });
+
+            graph.newEdge(Contact, 'goto', Twitter);
+            graph.newEdge(Contact, 'goto', GitHub);
+            graph.newEdge(Contact, 'goto', EMail);
+            graph.newEdge(Contact, 'goto', Google);
+            graph.newEdge(Contact, 'goto', GooglePlus);
+            graph.newEdge(Contact, 'goto', YouTube);
+            graph.newEdge(Contact, 'goto', SlideShare);
 
             graph.newEdge(CfP,          'next', Submissions,    { color: 'rgba(110, 41, 127, 0.87)', label: "convinced?",      directional: true });
             graph.newEdge(Submissions,  'next', Dates,          { color: 'rgba(110, 41, 127, 0.87)', label: "until when?",     directional: true });
@@ -255,7 +279,7 @@
         <h1>The Orgteam</h1>
 
         <ul>
-            <li>Achim Friedland, Foudner at GraphDefined GmbH</li>
+            <li>Achim Friedland, Founder of GraphDefined GmbH</li>
             <li>Lutz Lukas, symanto research GmbH & Co KG.</li>
             <li>Martin Junghanns, University of Leipzig</li>
             <li>Pere Urbon-Bayes, Fyber</li>
@@ -278,14 +302,6 @@
         <p>Impressions, recorded talks and slides from the last years are available 
         at our website[2], at YouTube[6] within our Google+ community or at 
         SlideShare[7].</p>
-
-        [1] https://fosdem.org/2015/
-        [2] http://graphdevroom.org
-        [3] https://twitter.com/graphdevroom
-        [4] https://groups.google.com/d/forum/graphdevroom
-        [5] https://plus.google.com/u/0/communities/114424455964265722048
-        [6] http://www.youtube.com/graphprocessing
-        [7] http://www.slideshare.net/graphdevroom
 
     </div>
 

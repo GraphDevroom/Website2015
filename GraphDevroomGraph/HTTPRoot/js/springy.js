@@ -106,6 +106,13 @@
         //   this.data.length
         //   this.data.type
 
+        if (EdgeLabel == "goto")
+        {
+            this.data.label        = 'goto';
+            this.data.color        = 'rgba(110, 41, 127, 0.37)';
+            this.data.directional  = true;
+        }
+
     };
 
     Graph.prototype.addNode = function (node) {

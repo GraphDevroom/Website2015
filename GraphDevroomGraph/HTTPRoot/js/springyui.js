@@ -371,7 +371,7 @@ jQuery.fn.springy = function(params) {
                 strokeColor         = "rgba(112,  82, 112, 0.65)";
             }
             else if (node.VertexLabel == "tag") {
-                fillStyle           = fillStyle = "#FAD961";
+                fillStyle           = fillStyle = "rgba(156, 70, 177, 0.7)";
                 strokeThickness     = 0;
                 cornerRadius        = 6;
                 yOffset             = 2;
@@ -400,7 +400,7 @@ jQuery.fn.springy = function(params) {
             if (node.VertexLabel == "text")
                 ctx.fillStyle = "rgba(156, 70, 177, 0.8)";
             else if (node.VertexLabel == "tag")
-                ctx.fillStyle = "#000000";
+                ctx.fillStyle = "#F0F0F0";
             else if (node.VertexLabel == "info")
                 ctx.fillStyle = "#000000";
             else
