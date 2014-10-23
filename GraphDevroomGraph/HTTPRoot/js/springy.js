@@ -1,6 +1,6 @@
 /*
  * BalderGraphs.js
- * Copyright (c) 2010-2014 Achim 'ahzf' Friedland <achim@graphdevroom.org>
+ * Copyright (c) 2010-2014 Achim 'ahzf' Friedland <achim@graphdefined.org>
  * Based on: Springy v2.0.1
  */
 
@@ -37,37 +37,129 @@
     "use strict";
 
     // Establish the root object, `window` in the browser, or `global` on the server.
-    var root = this;
+    var root     = this;
 
     // The top-level namespace. All public Springy classes and modules will
     // be attached to this. Exported for both CommonJS and the browser.
-    var Springy;
-    if (typeof exports !== 'undefined') {
-        Springy = exports;
-    } else {
-        Springy = root.Springy = {};
-    }
+    var Springy  = (typeof exports !== 'undefined')
+                       ? Springy = exports
+                       : root.Springy = {};
 
-    var Graph = Springy.Graph = function () {
 
-        this.eventListeners = [];
+    // Graph management --------------------------------------------------------
 
-        // Nodes
-        this.nodes          = [];
-        this.nextNodeId     = 0;
-        this.nodeSet        = {};
+    var Graph    = Springy.Graph = function () {
+
+        this.eventListeners   = [];
+
+        // Vertices
+        this.Vertices         = [];
+        this.nextVertexId     = 0;
+        this.VertexSet        = {};
 
         // Edges
-        this.edges          = [];
-        this.nextEdgeId     = 0;
-        this.adjacency      = {};
+        this.edges            = [];
+        this.nextEdgeId       = 0;
+        this.adjacency        = {};
+
+        // MultiEdges
+        this.MultiEdges       = [];
+        this.nextMultiEdgeId  = 0;
+
+        // HyperEdges
+        this.HyperEdges       = [];
+        this.nextHyperEdgeId  = 0;
 
     };
 
-    var Node = Springy.Node = function (id, VertexLabel, data) {
+    // Add vertices and edges from a JSON object
+    Graph.prototype.loadJSON = function (json) {
+        /**
+        Springy's simple JSON format for graphs.
+        historically, Springy uses separate lists
+        of vertices and edges:
+
+            {
+                "vertices": [
+                    "center",
+                    "left",
+                    "right",
+                    "up",
+                    "satellite"
+                ],
+                "edges": [
+                    ["center", "left"],
+                    ["center", "right"],
+                    ["center", "up"]
+                ]
+            }
+
+        **/
+        // parse if a string is passed (EC5+ browsers)
+        if (typeof json == 'string' || json instanceof String) {
+            json = JSON.parse(json);
+        }
+
+        if ('vertices' in json || 'edges' in json) {
+            this.addVertices.apply(this, json['vertices']);
+            this.addEdges.apply(this, json['edges']);
+        }
+    }
+
+    /* Merge a list of vertices and edges into the current graph. eg.
+    var o = {
+        vertices: [
+            { id: 123, data: { type: 'user', userid: 123, displayname: 'aaa' } },
+            { id: 234, data: { type: 'user', userid: 234, displayname: 'bbb' } }
+        ],
+        edges: [
+            { from: 0, to: 1, type: 'submitted_design', directed: true, data: { weight: }}
+        ]
+    }
+    */
+    Graph.prototype.merge = function (data) {
+
+        var Vertices = [];
+
+        data.Vertices.forEach(function (n) {
+            Vertices.push(this.addVertex(new Vertex(n.id, n.data)));
+        }, this);
+
+        data.edges.forEach(function (e) {
+
+            var from = Vertices[e.from];
+            var to = Vertices[e.to];
+
+            var id = (e.directed) ? (id = e.type + "-" + from.id + "-" + to.id)
+                                     : (from.id < to.id) // normalise id for non-directed edges
+                                           ? e.type + "-" + from.id + "-" + to.id
+                                           : e.type + "-" + to.id + "-" + from.id;
+
+            var edge = this.addEdge(new Edge(id, from, e.label, to, e.data));
+            edge.data.type = e.type;// label?
+
+        }, this);
+
+    };
+
+    Graph.prototype.addGraphListener = function (obj) {
+        this.eventListeners.push(obj);
+    };
+
+    Graph.prototype.notify = function () {
+        this.eventListeners.forEach(function (obj) {
+            obj.graphChanged();
+        });
+    };
+
+
+
+    // Vertex management -------------------------------------------------------
+
+    var Vertex = Springy.Vertex = function (id, label, data) {
 
         this.id             = id;
-        this.VertexLabel    = VertexLabel;
+        this.VertexLabel    = label;
         this.data           = (data !== undefined) ? data : {};
 
         this.data.font      = function (VL) {
@@ -93,6 +185,85 @@
         //   this.data.label
 
     };
+
+    Graph.prototype.addVertex = function (vertex) {
+
+        if (!(vertex.id in this.VertexSet)) {
+            this.Vertices.push(vertex);
+        }
+
+        this.VertexSet[vertex.id] = vertex;
+
+        this.notify();
+
+        return vertex;
+
+    };
+
+    Graph.prototype.addVertices = function () {
+
+        // accepts variable number of arguments, where each argument
+        // is a string that becomes both node identifier and label
+        for (var i = 0; i < arguments.length; i++) {
+            var name = arguments[i];
+            this.addVertex(new Vertex(name, { label: name }));
+        }
+
+    };
+
+    Graph.prototype.newVertex = function (label, data) {
+        return this.addVertex(new Vertex(this.nextVertexId++, label, data));
+    };
+
+    // Remove a vertex and it's associated edges
+    Graph.prototype.removeVertex = function (vertex) {
+
+        if (vertex.id in this.VertexSet) {
+            delete this.VertexSet[vertex.id];
+        }
+
+        for (var i = this.Vertices.length - 1; i >= 0; i--) {
+            if (this.Vertices[i].id === vertex.id) {
+                this.Vertices.splice(i, 1);
+            }
+        }
+
+        this.detachVertex(vertex);
+
+    };
+
+    // Remove all edges associated with the given vertex
+    Graph.prototype.detachVertex = function (vertex) {
+
+        var tmpEdges = this.edges.slice();
+
+        tmpEdges.forEach(function (e) {
+
+            if (e.source.id === vertex.id ||
+                e.target.id === vertex.id)
+                this.removeEdge(e);
+
+        }, this);
+
+        this.notify();
+
+    };
+
+    Graph.prototype.filterVertices = function (fn) {
+
+        var tmpNodes = this.Vertices.slice();
+
+        tmpNodes.forEach(function (n) {
+            if (!fn(n)) {
+                this.removeVertex(n);
+            }
+        }, this);
+
+    };
+
+
+
+    // Edge management ---------------------------------------------------------
 
     var Edge = Springy.Edge = function (id, source, EdgeLabel, target, data) {
 
@@ -128,32 +299,6 @@
             this.data.color         = (this.data.color          !== undefined) ? this.data.color        : 'rgba(100, 100, 0, 0.8)';
             this.data.directional   = (this.data.directional    !== undefined) ? this.data.directional  : true;
             this.data.weight        = (this.data.weight         !== undefined) ? this.data.weight       : 1;
-        }
-
-    };
-
-    Graph.prototype.addNode = function (node) {
-
-        if (!(node.id in this.nodeSet)) {
-            this.nodes.push(node);
-        }
-
-        this.nodeSet[node.id] = node;
-
-        this.notify();
-
-        return node;
-
-    };
-
-    Graph.prototype.addNodes = function () {
-
-        // accepts variable number of arguments, where each argument
-        // is a string that becomes both node identifier and label
-        for (var i = 0; i < arguments.length; i++) {
-            var name = arguments[i];
-            var node = new Node(name, {label:name});
-            this.addNode(node);
         }
 
     };
@@ -198,112 +343,40 @@
         // is a triple [nodeid1, nodeid2, attributes]
         for (var i = 0; i < arguments.length; i++) {
 
-            var e = arguments[i];
+            var edgeDefinition = arguments[i];
 
-            var node1 = this.nodeSet[e[0]];
-            if (node1 == undefined) {
-                throw new TypeError("invalid node name: " + e[0]);
-            }
+            var vertex1 = this.VertexSet[edgeDefinition[0]];
+            if (vertex1 == undefined)
+                throw new TypeError("invalid vertex: " + edgeDefinition[0]);
 
-            var node2 = this.nodeSet[e[1]];
-            if (node2 == undefined) {
-                throw new TypeError("invalid node name: " + e[1]);
-            }
+            var vertex2 = this.VertexSet[edgeDefinition[1]];
+            if (vertex2 == undefined)
+                throw new TypeError("invalid vertex: " + edgeDefinition[1]);
 
-            var attr = e[2];
-
-            this.newEdge(node1, node2, attr);
+            this.newEdge(vertex1, vertex2, edgeDefinition[2]);
 
         }
 
     };
 
-    Graph.prototype.newNode = function (VertexLabel, data) {
-        return this.addNode(new Node(this.nextNodeId++, VertexLabel, data));
+    Graph.prototype.newEdge = function (source, label, target, data) {
+        return this.addEdge(new Edge(this.nextEdgeId++, source, label, target, data));
     };
 
-    Graph.prototype.newEdge = function (source, EdgeLabel, target, data) {
-        return this.addEdge(new Edge(this.nextEdgeId++, source, EdgeLabel, target, data));
-    };
+    // find all edges from vertex1 to vertex2
+    Graph.prototype.getEdges = function (vertex1, vertex2) {
 
-
-    // add nodes and edges from JSON object
-    Graph.prototype.loadJSON = function(json) {
-    /**
-    Springy's simple JSON format for graphs.
-
-    historically, Springy uses separate lists
-    of nodes and edges:
-
-        {
-            "nodes": [
-                "center",
-                "left",
-                "right",
-                "up",
-                "satellite"
-            ],
-            "edges": [
-                ["center", "left"],
-                ["center", "right"],
-                ["center", "up"]
-            ]
-        }
-
-    **/
-        // parse if a string is passed (EC5+ browsers)
-        if (typeof json == 'string' || json instanceof String) {
-            json = JSON.parse( json );
-        }
-
-        if ('nodes' in json || 'edges' in json) {
-            this.addNodes.apply(this, json['nodes']);
-            this.addEdges.apply(this, json['edges']);
-        }
-    }
-
-
-    // find the edges from node1 to node2
-    Graph.prototype.getEdges = function(node1, node2) {
-        if (node1.id in this.adjacency
-            && node2.id in this.adjacency[node1.id]) {
-            return this.adjacency[node1.id][node2.id];
-        }
+        if (vertex1.id in this.adjacency &&
+            vertex2.id in this.adjacency[vertex1.id])
+            return this.adjacency[vertex1.id][vertex2.id];
 
         return [];
-    };
-
-    // remove a node and it's associated edges from the graph
-    Graph.prototype.removeNode = function (node) {
-
-        if (node.id in this.nodeSet) {
-            delete this.nodeSet[node.id];
-        }
-
-        for (var i = this.nodes.length - 1; i >= 0; i--) {
-            if (this.nodes[i].id === node.id) {
-                this.nodes.splice(i, 1);
-            }
-        }
-
-        this.detachNode(node);
 
     };
 
-    // removes edges associated with a given node
-    Graph.prototype.detachNode = function(node) {
-        var tmpEdges = this.edges.slice();
-        tmpEdges.forEach(function(e) {
-            if (e.source.id === node.id || e.target.id === node.id) {
-                this.removeEdge(e);
-            }
-        }, this);
+    // remove an edge from the graph
+    Graph.prototype.removeEdge = function (edge) {
 
-        this.notify();
-    };
-
-    // remove a node and it's associated edges from the graph
-    Graph.prototype.removeEdge = function(edge) {
         for (var i = this.edges.length - 1; i >= 0; i--) {
             if (this.edges[i].id === edge.id) {
                 this.edges.splice(i, 1);
@@ -311,10 +384,12 @@
         }
 
         for (var x in this.adjacency) {
+
             for (var y in this.adjacency[x]) {
+
                 var edges = this.adjacency[x][y];
 
-                for (var j=edges.length - 1; j>=0; j--) {
+                for (var j = edges.length - 1; j >= 0; j--) {
                     if (this.adjacency[x][y][j].id === edge.id) {
                         this.adjacency[x][y].splice(j, 1);
                     }
@@ -324,80 +399,41 @@
                 if (this.adjacency[x][y].length == 0) {
                     delete this.adjacency[x][y];
                 }
+
             }
 
             // Clean up empty objects
             if (isEmpty(this.adjacency[x])) {
                 delete this.adjacency[x];
             }
+
         }
 
         this.notify();
+
     };
 
-    /* Merge a list of nodes and edges into the current graph. eg.
-    var o = {
-        nodes: [
-            {id: 123, data: {type: 'user', userid: 123, displayname: 'aaa'}},
-            {id: 234, data: {type: 'user', userid: 234, displayname: 'bbb'}}
-        ],
-        edges: [
-            {from: 0, to: 1, type: 'submitted_design', directed: true, data: {weight: }}
-        ]
-    }
-    */
-    Graph.prototype.merge = function(data) {
-        var nodes = [];
-        data.nodes.forEach(function(n) {
-            nodes.push(this.addNode(new Node(n.id, n.data)));
-        }, this);
+    Graph.prototype.filterEdges = function (fn) {
 
-        data.edges.forEach(function(e) {
-            var from = nodes[e.from];
-            var to = nodes[e.to];
-
-            var id = (e.directed)
-                ? (id = e.type + "-" + from.id + "-" + to.id)
-                : (from.id < to.id) // normalise id for non-directed edges
-                    ? e.type + "-" + from.id + "-" + to.id
-                    : e.type + "-" + to.id + "-" + from.id;
-
-            var edge = this.addEdge(new Edge(id, from, to, e.data));
-            edge.data.type = e.type;
-        }, this);
-    };
-
-    Graph.prototype.filterNodes = function(fn) {
-        var tmpNodes = this.nodes.slice();
-        tmpNodes.forEach(function(n) {
-            if (!fn(n)) {
-                this.removeNode(n);
-            }
-        }, this);
-    };
-
-    Graph.prototype.filterEdges = function(fn) {
         var tmpEdges = this.edges.slice();
-        tmpEdges.forEach(function(e) {
+
+        tmpEdges.forEach(function (e) {
             if (!fn(e)) {
                 this.removeEdge(e);
             }
         }, this);
+
     };
 
 
-    Graph.prototype.addGraphListener = function(obj) {
-        this.eventListeners.push(obj);
-    };
 
-    Graph.prototype.notify = function() {
-        this.eventListeners.forEach(function(obj){
-            obj.graphChanged();
-        });
-    };
 
     // -----------
+
+
+
     var Layout = Springy.Layout = {};
+
     Layout.ForceDirected = function(graph, stiffness, repulsion, damping) {
         this.graph = graph;
         this.stiffness = stiffness; // spring stiffness constant
@@ -456,7 +492,7 @@
     // callback should accept two arguments: Node, Point
     Layout.ForceDirected.prototype.eachNode = function(callback) {
         var t = this;
-        this.graph.nodes.forEach(function(n){
+        this.graph.Vertices.forEach(function(n){
             callback.call(t, n, t.point(n));
         });
     };
@@ -544,16 +580,20 @@
         return energy;
     };
 
-    var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }; // stolen from coffeescript, thanks jashkenas! ;-)
+    var __bind = function (fn, me) {
+        return function () {
+            return fn.apply(me, arguments);
+        };
+    }; // stolen from coffeescript, thanks jashkenas! ;-)
 
-    Springy.requestAnimationFrame = __bind(root.requestAnimationFrame ||
-        root.webkitRequestAnimationFrame ||
-        root.mozRequestAnimationFrame ||
-        root.oRequestAnimationFrame ||
-        root.msRequestAnimationFrame ||
-        (function(callback, element) {
-            root.setTimeout(callback, 10);
-        }), root);
+    Springy.requestAnimationFrame = __bind(root.requestAnimationFrame       ||
+                                           root.webkitRequestAnimationFrame ||
+                                           root.mozRequestAnimationFrame    ||
+                                           root.oRequestAnimationFrame      ||
+                                           root.msRequestAnimationFrame     ||
+                                           (function(callback, element) {
+                                               root.setTimeout(callback, 10);
+                                           }), root);
 
 
     // start simulation
@@ -599,7 +639,7 @@
         var min = { node: null, point: null, distance: null };
         var t   = this;
 
-        this.graph.nodes.forEach(function(n) {
+        this.graph.Vertices.forEach(function(n) {
             var point    = t.point(n);
             var distance = point.p.subtract(pos).magnitude();
 
@@ -645,6 +685,7 @@
     };
 
 
+
     // Vector
     var Vector = Springy.Vector = function(x, y) {
         this.x = x;
@@ -682,6 +723,8 @@
     Vector.prototype.normalise = function() {
         return this.divide(this.magnitude());
     };
+
+
 
     // Point
     Layout.ForceDirected.Point = function(position, mass) {

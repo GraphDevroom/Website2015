@@ -91,7 +91,7 @@ jQuery.fn.springy = function(params) {
 
         var pos  = jQuery(this).offset();
         var p    = fromScreen({x: e.pageX - pos.left, y: e.pageY - pos.top});
-        nearest = dragged = layout.nearest(p);
+        nearest  = dragged = layout.nearest(p);
 
         //if (nearest !== null && nearest.distance <= nearest.node.width)
         //{
@@ -133,9 +133,10 @@ jQuery.fn.springy = function(params) {
     jQuery(canvas).mousemove(function (e) {
 
         var pos = jQuery(this).offset();
-        var p   = fromScreen({x: e.pageX - pos.left, y: e.pageY - pos.top});
+        var p   = fromScreen({ x: e.pageX - pos.left, y: e.pageY - pos.top });
         nearest = layout.nearest(p);
 
+        // Drag/move around a selected vertex
         if (dragged !== null && dragged.node !== null) {
             dragged.point.p.x = p.x;
             dragged.point.p.y = p.y;
@@ -145,11 +146,11 @@ jQuery.fn.springy = function(params) {
 
     });
 
-    jQuery(window).bind('mouseup',function(e) {
+    jQuery(window).bind('mouseup', function(e) {
         dragged = null;
     });
 
-    Springy.Node.prototype.getWidth = function () {
+    Springy.Vertex.prototype.getWidth = function () {
 
         var text = (this.data.label !== undefined) ? this.data.label : this.id;
 
@@ -168,7 +169,7 @@ jQuery.fn.springy = function(params) {
 
     };
 
-    Springy.Node.prototype.getHeight = function () {
+    Springy.Vertex.prototype.getHeight = function () {
 
         if (this.VertexLabel == "text")
             return 20;
