@@ -137,3 +137,10 @@ body {
     right:                      12px;
 }
 
+.highlight {
+    margin:                     -4px;
+    padding:                    2px 8px 2px 8px;
+    background:                 rgb(237, 178, 240);
+    border-radius:              10px;
+}
+
