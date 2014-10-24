@@ -26,6 +26,7 @@
         var CurrentGraph       = 'none';
         var graph              = null;
         var springy            = null;
+        var map,mapbox         = null;
 
         function ShowTextarea(name) {
 
@@ -53,11 +54,14 @@
         }
 
         function MapClick() {
+
             var MapDiv = document.getElementById('map');
+
             if (MapDiv.style.zIndex = 1)
                 enableMap();
             else
                 disableMap();
+
         }
 
         function enableMap() {
@@ -74,12 +78,14 @@
             var UnderTheMapDiv = document.getElementById('underTheMap');
             UnderTheMapDiv.style.display = "block";
 
+            map.invalidateSize();
+
         }
 
         function disableMap() {
 
             var MapDiv = document.getElementById('map');
-            MapDiv.style.borderColor  = '#FFFFFF';
+            MapDiv.style.borderColor  = 'rgba(255, 255, 255, 1.00)';
             MapDiv.style.zIndex       = 1;
             MapDiv.style.width        = '35%';
             MapDiv.style.left         = '61%';
@@ -89,6 +95,8 @@
 
             var UnderTheMapDiv = document.getElementById('underTheMap');
             UnderTheMapDiv.style.display = "none";
+
+            map.invalidateSize();
 
         }
 
@@ -259,15 +267,15 @@
 
     <script>
 
-       var map = L.map('map').setView([50.8136544, 4.3820177], 15);
+       map    = L.map('map').setView([50.8136544, 4.3820177], 15);
 
-       var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-                                    id:          'examples.map-20v6611k',
-                                    maxZoom:     18,
-                                    attribution: '<a href="http://openstreetmap.org">OpenStreetMap</a> ' +
-                                                 '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                                                 '<a href="http://mapbox.com">Mapbox</a> Imagery'
-                                }).addTo(map);
+       mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+                                id:          'examples.map-20v6611k',
+                                maxZoom:     18,
+                                attribution: '<a href="http://openstreetmap.org">OpenStreetMap</a> ' +
+                                             '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                                             '<a href="http://mapbox.com">Mapbox</a> Imagery'
+                            }).addTo(map);
 
        // ---------------------------------------------------------------------------------------------------------------
 
