@@ -78,6 +78,9 @@
             var UnderTheMapDiv = document.getElementById('underTheMap');
             UnderTheMapDiv.style.display = "block";
 
+            var OpenData1 = document.getElementById('OpenData1');
+            OpenData1.style.display      = "block";
+
             map.invalidateSize();
 
         }
@@ -95,6 +98,9 @@
 
             var UnderTheMapDiv = document.getElementById('underTheMap');
             UnderTheMapDiv.style.display = "none";
+
+            var OpenData1 = document.getElementById('OpenData1');
+            OpenData1.style.display      = "none";
 
             map.invalidateSize();
 
@@ -465,6 +471,19 @@
         <div class="textareaclose">
             <a href="javascript:HideTextarea('Contact')">X</a>
         </div>
+
+    </div>
+
+    <div id="OpenData1">
+
+        <p>
+        Search, find, explore FOSDEM and the surrounding beautiful city of Brussels. The data is coming from:
+        </p>
+        <ul>
+            <li><a href="http://www.openstreetmap.org">OpenStreetMap</a></li>
+            <li><a href="http://opendata.brussels.be/page/home/">Open Data Brussels</a></li>
+            <li><a href="http://www.mapillary.com">Mapillary</a></li>
+        </ul>
 
     </div>
 
