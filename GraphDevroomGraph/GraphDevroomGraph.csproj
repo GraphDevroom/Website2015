@@ -113,6 +113,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="HTTPRoot\photos\photo0001.jpg" />
     <EmbeddedResource Include="HTTPRoot\images\bg.jpg" />
     <EmbeddedResource Include="HTTPRoot\images\FOSDEM-vertex-transparent.png" />
     <EmbeddedResource Include="HTTPRoot\images\sprite-c9f2503633e6e034f3c500aea7f3283920c2de1690b3ba60893666d6bf927a79.png" />
