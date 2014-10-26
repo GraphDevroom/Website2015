@@ -5,15 +5,15 @@
 
     <title>FOSDEM GraphDevroom 2015</title>
 
-    <meta name="keywords" content="GraphDevroom" />
+    <meta name="keywords"    content="GraphDevroom" />
     <meta name="description" content="FOSDEM GraphDevroom 2015" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no"/>
+    <meta name="viewport"    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/leaflet/leaflet.css">
     <link rel="stylesheet" type="text/css" href="/leaflet/L.Control.Locate.css">
-    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 
     <script type="text/javascript" src="jquery/jquery.min.js"></script>
     <script type="text/javascript" src="jquery/springy.js"></script>
@@ -247,22 +247,16 @@
 
     <div id="bg" style="width: 100%; height: 100%; position: fixed;">
 
-    <div id="site" style="position: fixed">
+    <div id="logo">
 
-      <div id="vertex">
+      <div id="fosdemlogo">
           <img src="images/FOSDEM-vertex-transparent.png">
       </div>
 
-      <div id="logo">
-          FOSDEM<span class="lila high">'15</span> GraphDevroom
-      </div>
-
-      <div id="navigation">
-           Université libre de Bruxelles, Brussels, Belgium.
-      </div>
-
-      <div id="datetime">
-           31 January 2015
+      <div id="text">
+          <span id="title">FOSDEM<span class="lila high">'15</span> GraphDevroom</span><br />
+          <span id="where">Université libre de Bruxelles, Brussels, Belgium</span><br />
+          <span id="when">31 January 2015</span>
       </div>
 
     </div>
@@ -287,37 +281,32 @@
 
        L.control.locate({
 
-           position:              'topleft',     // Set the location of the control
-           setView:               false,         // Automatically sets the map view to the user's location
-           metric:                true,          // Use metric or imperial units
-           locateOptions:         {},            // Define location options e.g enableHighAccuracy: true
-
-           drawCircle:           true,           // Controls whether a circle is drawn that shows the uncertainty about the location
-           circleStyle: {                        // Change the style of the circle around the user's location
-               color:            "#ff7800",
-           },
-           markerStyle:          {},
-
-           follow:               true,           // Follow the location if `watch` and `setView` are set to true in locateOptions
-           stopFollowingOnDrag:  true,           // Stop following when the map is dragged if `follow` is set to true
-           followCircleStyle:    {},             // Set difference for the style of the circle around the user's location while following
-           followMarkerStyle:    {},
-
-           onLocationError:                      // Define an error callback function
-               function (err) {
-                   alert(err.message)
-               },
-
-           onLocationOutsideMapBounds:           // Called when outside map boundaries
-               function (context) {
-                   alert(context.options.strings.outsideMapBoundsMsg);
-               },
-
-           strings: {
-               title: "Show me where I am",                                  // Title of the locat control
-               popup: "You are within {distance} {unit} from this point",    // Text to appear if user clicks on circle
-               outsideMapBoundsMsg: "You seem located outside the boundaries of the map"   // Default message for onLocationOutsideMapBounds
-           }
+            position:                   'topleft',  // set the location of the control
+            drawCircle:                 true,  // controls whether a circle is drawn that shows the uncertainty about the location
+            follow:                     false,  // follow the user's location
+            setView:                    true, // automatically sets the map view to the user's location, enabled if `follow` is true
+            keepCurrentZoomLevel:       false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom)
+            remainActive:               false, // if true locate control remains active on click even if the user's location is in view.
+            markerClass:                L.circleMarker, // L.circleMarker or L.marker
+            circleStyle:                {},  // change the style of the circle around the user's location
+            markerStyle:                {},
+            followCircleStyle:          {},  // set difference for the style of the circle around the user's location while following
+            followMarkerStyle:          {},
+            icon:                       'fa fa-map-marker',  // class for icon, fa-location-arrow or fa-map-marker
+            iconLoading:                'fa fa-spinner fa-spin',  // class for loading icon
+            circlePadding:              [0, 0], // padding around accuracy circle, value is passed to setBounds
+            metric:                     true,  // use metric or imperial units
+            onLocationError:            function(err) {alert(err.message)},  // define an error callback function
+            onLocationOutsideMapBounds: function(context) { // called when outside map boundaries
+                alert(context.options.strings.outsideMapBoundsMsg);
+            },
+            showPopup:                  true, // display a popup when the user click on the inner marker
+            strings: {
+                title: "Show me where I am",  // title of the locate control
+                popup: "You are within {distance} {unit} from this point",  // text to appear if user clicks on circle
+                outsideMapBoundsMsg: "You seem located outside the boundaries of the map" // default message for onLocationOutsideMapBounds
+            },
+            locateOptions:              {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10
 
        }).addTo(map);
 
@@ -376,7 +365,7 @@
         <p>This list is not closed, other related topics are always welcome.</p>
 
         <div class="textareaclose">
-            <a href="javascript:HideTextarea('CfP')">X</a>
+            <a href="javascript:HideTextarea('CfP')"><i class="fa fa-times"></i></a>
         </div>
 
     </div>
@@ -416,7 +405,7 @@
         </ul>
 
         <div class="textareaclose">
-            <a href="javascript:HideTextarea('Submissions')">X</a>
+            <a href="javascript:HideTextarea('Submissions')"><i class="fa fa-times"></i></a>
         </div>
 
     </div>
@@ -434,7 +423,7 @@
         </table>
         
         <div class="textareaclose">
-            <a href="javascript:HideTextarea('Dates')">X</a>
+            <a href="javascript:HideTextarea('Dates')"><i class="fa fa-times"></i></a>
         </div>
 
     </div>
@@ -454,7 +443,7 @@
         <p>The crew can be reached via: fosdem2015 at graphdevroom.org</p>
 
         <div class="textareaclose">
-            <a href="javascript:HideTextarea('Team')">X</a>
+            <a href="javascript:HideTextarea('Team')"><i class="fa fa-times"></i></a>
         </div>
 
     </div>
@@ -473,7 +462,7 @@
         SlideShare[7].</p>
 
         <div class="textareaclose">
-            <a href="javascript:HideTextarea('Contact')">X</a>
+            <a href="javascript:HideTextarea('Contact')"><i class="fa fa-times"></i></a>
         </div>
 
     </div>
@@ -495,8 +484,8 @@
 
 
 
-    <div id="links" style="position: fixed">
-        <a href="http://twitter.com/graphdevroom"        target="_blank" style="font-size:80%"><i class="fa fa-twitter    fa-2x"></i></a>
+    <div id="links">
+        <a href="http://twit23ter.com/graphdevroom"        target="_blank" style="font-size:80%"><i class="fa fa-twitter    fa-2x"></i></a>
         <a href="https://github.com/graphdevroom"        target="_blank" style="font-size:80%"><i class="fa fa-github     fa-2x"></i></a>
         <a href="mailto:mail@graphdevroom.org"           target="_blank" style="font-size:72%"><i class="fa fa-envelope-o fa-2x"></i></a>
         <a href="OpenPGP-Keys/mail@graphdevroom.org.key" target="_blank" style="font-size:72%"><i class="fa fa-lock       fa-2x"></i></a>

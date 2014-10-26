@@ -133,6 +133,12 @@
     <EmbeddedResource Include="HTTPRoot\leaflet\leaflet.markercluster-src.js" />
     <EmbeddedResource Include="HTTPRoot\leaflet\MarkerCluster.css" />
     <EmbeddedResource Include="HTTPRoot\leaflet\MarkerCluster.Default.css" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\images\layers-2x.png" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\images\marker-icon-2x.png" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\images\locate.svg" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\images\locate_touch.png" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\images\spinner.gif" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\L.Control.Locate.ie.css" />
     <Content Include="HTTPRoot\link.txt" />
     <EmbeddedResource Include="HTTPRoot\style.css" />
   </ItemGroup>

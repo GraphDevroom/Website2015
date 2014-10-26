@@ -13,57 +13,64 @@ body {
     font-size:                  68%;
 }
 
-#site {
-    position:                   absolute;
-    top:                        calc(50% - 50px);
-    left:                       calc(50% - 250px);
-    width:                      500px;
-    height:                     100px;
+#logo {
+    position:                   fixed;
+    top:                        calc(50% - 2.6vw);
+    left:                       calc(50% - 16vw);
+    width:                      32vw;
+    height:                     5.2vw;
+    /*background-color:           rgba(255, 0, 255, 0.05);*/
 }
 
-#vertex {
+#fosdemlogo {
     position:                   absolute;
     top:                        0px;
     left:                       0px;
 }
 
-#logo {
-    position:                   absolute;
-    top:                        19px;
-    left:                       110px;
-    font-weight:                bold;
-    display:                    inline-block;
-    color:                      #555555;
-    font-style:                 italic;
-    font-size:                  140%;
+#fosdemlogo img {
+    width:                      5.2vw;
 }
 
-#navigation {
+#text {
     position:                   absolute;
-    top:                        49px;
-    left:                       110px;
+    top:                        0.8vw;
+    left:                       6vw;
+    display:                    inline-block;
+    font-family:                'Open Sans', sans-serif;
+}
+
+#title {
+    display:                    inline-block;
+    color:                      #555555;
+    font-weight:                bold;
+    font-style:                 italic;
+    font-size:                  1.3vw;
+    line-height:                1.6vw;
+}
+
+#where {
     display:                    inline-block;
     color:                      #7A7A7A;
-    font-size:                  75%;
+    font-size:                  0.7vw;
+    line-height:                0.7vw;
     text-transform:             uppercase;
 }
 
-#datetime {
-    position:                   absolute;
-    top:                        65px;
-    left:                       110px;
+#when {
     display:                    inline-block;
     color:                      #7A7A7A;
-    font-family:                'Open Sans', sans-serif;
-    font-size:                  75%;
+    font-size:                  0.7vw;
+    line-height:                0.7vw;
 }
 
 
 #links {
-    position:                   absolute;
+    position:                   fixed;
     bottom:                     15px;
     right:                      15px;
     display:                    inline-block;
+    z-index:                    10;
 }
 
 #links a:link {
@@ -80,6 +87,10 @@ body {
 #links a:hover {
     text-decoration:            none;
     color:                      #ad3092;
+    text-shadow:                -2px -2px 4px rgba(255, 255, 255, 0.95),
+                                 2px -2px 4px rgba(255, 255, 255, 0.95),
+                                -2px  2px 4px rgba(255, 255, 255, 0.95),
+                                 2px  2px 4px rgba(255, 255, 255, 0.95);
 }
 
 #links a:active {
@@ -127,12 +138,21 @@ body {
     border-radius:              4px 4px 4px 4px;
     box-shadow:                 4px 4px 4px rgba(100, 100, 100, 0.7);
     padding:                    20px 20px 20px 30px;
+    overflow:                   auto;
 }
 
 .textareaclose {
     position:                   absolute;
     top:                        10px;
     right:                      12px;
+}
+
+.textareaclose a {
+    color:                      #000000;
+}
+
+.textareaclose a:hover {
+    color:                      #ad3092;
 }
 
 .highlight {
@@ -149,19 +169,20 @@ body {
     height:                     calc(30% - 1px);
     width:                      35%;
     left:                       61%;
-    border:                     14px solid #FFFFFF;
-    border-radius:            5px;
+    border:                     solid #FFFFFF;
+    border-width:               0.85vmin;
+    border-radius:              5px;
     box-shadow:                 2px 2px rgba(100, 100, 100, 0.7);
     transform:                  rotate(-3deg);
 }
 
 #underTheMap {
-    position: fixed;
-    z-index: 9;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.7);
-    display: none;
+    position:                   fixed;
+    z-index:                    9;
+    width:                      100%;
+    height:                     100%;
+    background-color:           rgba(255, 255, 255, 0.7);
+    display:                    none;
 }
 
 #OpenData1 {
@@ -185,7 +206,8 @@ body {
     height:                     calc(30% - 1px);
     width:                      30%;
     left:                       65%;
-    border:                     14px solid #FFFFFF;
+    border:                     solid #FFFFFF;
+    border-width:               0.85vmin;
     border-radius:              5px;
     box-shadow:                 2px 2px rgba(100, 100, 100, 0.7);
     transform:                  rotate(-1deg);
@@ -196,4 +218,56 @@ body {
     width:                      100%;
     height:                     100%;
     opacity:                    0.3;
+}
+
+.leaflet-container .leaflet-control-attribution, .leaflet-container .leaflet-control-scale {
+    font-size:                  0.5vmin;
+}
+
+.leaflet-touch .leaflet-bar a {
+    width:                      4vmin;
+    height:                     4vmin;
+    line-height:                4vmin;
+}
+
+.leaflet-touch .leaflet-control-zoom-in {
+    font-size:                  3vmin;
+}
+
+.leaflet-touch .leaflet-control-zoom-out {
+    font-size:                  3vmin;
+}
+
+.leaflet-control-locate a {
+    font-size:                  3vmin;
+}
+
+@media only screen and (orientation: portrait) {
+
+/* Workarounds as IE does not support vmax! */
+
+    #logo {
+        font-size:                  1.8vh;
+    }
+    
+    #navigation {
+        font-size:                  0.9vh;
+    }
+    
+    #datetime {
+        font-size:                  0.9vh;
+    }
+
+    /*#map {
+        border-width:               0.75vh;
+    }
+
+    #photos {
+        border-width:               0.75vh;
+    }
+
+    .leaflet-container .leaflet-control-attribution, .leaflet-container .leaflet-control-scale {
+        font-size:                  0.5vh;
+    }*/
+
 }
