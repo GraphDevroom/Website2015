@@ -93,41 +93,51 @@ jQuery.fn.springy = function(params) {
         var p    = fromScreen({x: e.pageX - pos.left, y: e.pageY - pos.top});
         nearest  = dragged = layout.nearest(p);
 
+        // Hide the graph layer for a moment and check which
+        // element on which layer might be clicked
+        canvas.parentNode.hidden = true;
 
-        //canvas.parentNode.hidden = true;
-        //var starter = document.elementFromPoint(e.clientX, e.clientY);
-        //if (starter !== null && starter.id != "bg")
+        var LayerBelow = document.elementFromPoint(e.clientX, e.clientY);
+        if (LayerBelow !== null && LayerBelow.id != "graphbackground")
+        {
+
+            dragged = null;
+            nearest = null;
+
+            if (LayerBelow.id !== undefined)
+                console.log('Click on layer: ' + LayerBelow.id);
+            else
+                console.log('Click on layer below');
+
+            LayerBelow.click();
+
+        }
+
+        canvas.parentNode.hidden = false;
+
+        //if (nearest !== null && nearest.distance <= nearest.node.width)
         //{
-        //    dragged = null;
-        //    nearest = null;
-        //    console.log('Click on layer: ' + starter.id);
-        //    starter.click();
-        //}
-        //canvas.parentNode.hidden = false;
 
-        ////if (nearest !== null && nearest.distance <= nearest.node.width)
-        ////{
+        if (LayerBelow.id == "graphbackground")
+        {
 
-        //if (starter.id == "bg")
-        //{
+          selected = nearest;
 
-            selected = nearest;
+          if (selected.node !== null) {
 
-            if (selected.node !== null) {
+              dragged.point.m = 10000.0;
 
-                dragged.point.m = 10000.0;
+              if (nodeSelected) {
+                  nodeSelected(selected.node);
+                  if (selected.node.data.gotoURI !== undefined)
+                      dragged = null;
+              }
 
-                if (nodeSelected) {
-                    nodeSelected(selected.node);
-                    if (selected.node.data.gotoURI !== undefined)
-                        dragged = null;
-                }
+          }
 
-            }
+        }
 
         //}
-
-        ////}
 
         renderer.start();
 
@@ -214,11 +224,22 @@ jQuery.fn.springy = function(params) {
         context.quadraticCurveTo(x, y, x + r, y);
 
         context.fillStyle = fillstyle;
+
+        context.shadowBlur      = 3;
+        context.shadowColor     = '#555555';
+        context.shadowOffsetX   = 2;
+        context.shadowOffsetY   = 2;
+
         context.fill();
+
+        context.shadowBlur      = 0;
+        context.shadowColor     = '#555555';
+        context.shadowOffsetX   = 0;
+        context.shadowOffsetY   = 0;
 
         if (lineWidth > 0) {
             context.strokeStyle = strokestyle;
-            context.lineWidth = lineWidth;
+            context.lineWidth   = lineWidth;
             context.stroke();
         }
 
@@ -338,7 +359,7 @@ jQuery.fn.springy = function(params) {
 
             ctx.save();
 
-            var boxWidth  = node.getWidth ();
+            var boxWidth  = node.getWidth();
             var boxHeight = node.getHeight();
 
             // clear background
@@ -347,15 +368,6 @@ jQuery.fn.springy = function(params) {
                           boxWidth,
                           boxHeight);
 
-            // fill background
-            //if (selected !== null && selected.node !== null && selected.node.id === node.id) {
-            //    ctx.fillStyle = "#FFFFE0";
-
-            //} else if (nearest !== null && nearest.node !== null && nearest.node.id === node.id) {
-            //    ctx.fillStyle = "#EEEEEE";
-
-            //} else
-            //    ctx.fillStyle = "#FFFFFF";
 
             // lineWidth/strokeColor
             var additionalWidth     = 0;
@@ -367,13 +379,13 @@ jQuery.fn.springy = function(params) {
 
             if (node.VertexLabel == "text") {
                 additionalWidth     = 8;
-                fillStyle           = "rgba(243, 243, 243, 0.93)";
+                fillStyle           = "rgba(243, 243, 243, 0.9)";
                 cornerRadius        = 12;
                 strokeThickness     = 1;
                 strokeColor         = "rgba(112,  82, 112, 0.65)";
             }
             else if (node.VertexLabel == "tag") {
-                fillStyle           = fillStyle = "rgba(156, 70, 177, 0.7)";
+                fillStyle           = fillStyle = "rgba(156, 70, 177, 0.9)";
                 strokeThickness     = 0;
                 cornerRadius        = 6;
                 yOffset             = 2;
@@ -385,10 +397,15 @@ jQuery.fn.springy = function(params) {
                 yOffset             = 2;
             }
             else if (node.VertexLabel == "history") {
-                fillStyle           = fillStyle = "rgba(200, 200, 0, 0.6)";
+                fillStyle           = fillStyle = "rgba(200, 200, 0, 0.8)";
                 strokeThickness     = 0;
                 cornerRadius        = 6;
                 yOffset             = 2;
+            }
+
+            if (nearest !== null && nearest.node !== null && nearest.node.id === node.id) {
+                fillStyle           = "#FFFFEE";
+                strokeThickness     = 3;
             }
 
             roundRect(ctx,
@@ -415,6 +432,10 @@ jQuery.fn.springy = function(params) {
                 ctx.fillStyle = "rgba(100, 100, 0, 0.8)";
             else
                 ctx.fillStyle = "#000000";
+
+            if (nearest !== null && nearest.node !== null && nearest.node.id === node.id) {
+                ctx.fillStyle       = "#000000";
+            }
 
             ctx.font         = node.data.font(node.VertexLabel);
 
