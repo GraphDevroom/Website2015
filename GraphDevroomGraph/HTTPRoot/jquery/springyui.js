@@ -93,6 +93,26 @@ jQuery.fn.springy = function(params) {
         var p    = fromScreen({x: e.pageX - pos.left, y: e.pageY - pos.top});
         nearest  = dragged = layout.nearest(p);
 
+
+
+        var x = e.pageX - pos.left;
+        var y = e.pageY - pos.top;
+        //var boxWidth  = nearest.node.getWidth();
+        //var boxHeight = nearest.node.getHeight();
+
+        if (x > nearest.node.getWidth())
+        {
+        
+        }
+
+        //ctx.clearRect(e.pageX - pos.left - boxWidth  / 2,
+        //              e.pageY - pos.top  - boxHeight / 2,
+        //              boxWidth,
+        //              boxHeight);
+
+
+
+
         // Hide the graph layer for a moment and check which
         // element on which layer might be clicked
         canvas.parentNode.hidden = true;
@@ -109,7 +129,9 @@ jQuery.fn.springy = function(params) {
             else
                 console.log('Click on layer below');
 
-            LayerBelow.click();
+            // Not everything can be handled this way!
+            if (LayerBelow.click !== undefined)
+                LayerBelow.click();
 
         }
 
@@ -363,8 +385,8 @@ jQuery.fn.springy = function(params) {
             var boxHeight = node.getHeight();
 
             // clear background
-            ctx.clearRect(s.x - boxWidth / 2,
-                          s.y - 10,
+            ctx.clearRect(s.x - boxWidth  / 2,
+                          s.y - boxHeight / 2,
                           boxWidth,
                           boxHeight);
 
