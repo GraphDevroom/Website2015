@@ -120,6 +120,13 @@ body {
     color:                      #7A7A7A;
 }
 
+#graphbackground {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 8;
+    overflow: auto;
+}
 
 #graphframe {
     position:                   fixed;
