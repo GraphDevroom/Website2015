@@ -139,6 +139,9 @@ body {
 
 .textarea {
     position:                   relative;
+    top:                        5%;
+    left:                       3%;
+    width:                      48%;
     z-index:                    5;
     background-color:           rgba(255, 255, 255, 0.85);
     border:                     1px solid rgba(77,77,77, 0.6);
@@ -146,6 +149,11 @@ body {
     box-shadow:                 4px 4px 4px rgba(100, 100, 100, 0.7);
     padding:                    20px 20px 20px 30px;
     overflow:                   auto;
+}
+
+.textarea h1 {
+    font-size:                  80%;
+    color:                      rgba(110, 41, 127, 1.0);
 }
 
 .textareaclose {
@@ -163,10 +171,11 @@ body {
 }
 
 .highlight {
-    margin:                     -4px;
-    padding:                    2px 8px 2px 8px;
-    background:                 rgb(237, 178, 240);
-    border-radius:              10px;
+    margin:                     -2px;
+    padding:                    1px 4px 1px 4px;
+    background:                 rgba(110, 41, 127, 0.3);
+    border-radius:              6px;
+    line-height:                130%;
 }
 
 #map {
