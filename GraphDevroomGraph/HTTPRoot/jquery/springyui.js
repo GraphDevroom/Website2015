@@ -269,6 +269,51 @@ jQuery.fn.springy = function(params) {
 
     };
 
+    var DrawEllipse = function DrawEllipse(context, x, y, w, h, fillstyle, lineWidth, strokestyle) {
+
+        context.save();
+
+        context.beginPath();
+
+        // translate context
+        //  context.translate(canvas.width / 2, canvas.height / 2);
+
+        // scale context horizontally
+        context.scale(1, h/w);
+
+        // draw circle which will be stretched into an oval
+        context.arc(          x,
+                    (w/h) *   y,
+                            w/2,
+                    0, 2 * Math.PI);
+
+        // restore to original state
+        context.restore();
+
+        context.fillStyle      = fillstyle;
+
+        context.shadowBlur     = 3;
+        context.shadowColor    = '#555555';
+        context.shadowOffsetX  = 2;
+        context.shadowOffsetY  = 2;
+
+        context.fill();
+
+        context.shadowBlur     = 0;
+        context.shadowColor    = '#555555';
+        context.shadowOffsetX  = 0;
+        context.shadowOffsetY  = 0;
+
+        if (lineWidth > 0) {
+            context.strokeStyle  = strokestyle;
+            context.lineWidth    = lineWidth;
+            context.stroke();
+        }
+
+        context.closePath();
+
+    };
+
     this.clear = function(){
         graph.nodeSet    = {};
         graph.nodes      = [];
@@ -385,10 +430,10 @@ jQuery.fn.springy = function(params) {
             var boxHeight = node.getHeight();
 
             // clear background
-            ctx.clearRect(s.x - boxWidth  / 2,
-                          s.y - boxHeight / 2,
-                          boxWidth,
-                          boxHeight);
+            //ctx.clearRect(s.x - boxWidth  / 2,
+            //              s.y - boxHeight / 2,
+            //              boxWidth,
+            //              boxHeight);
 
 
             // lineWidth/strokeColor
@@ -430,15 +475,34 @@ jQuery.fn.springy = function(params) {
                 strokeThickness     = 3;
             }
 
-            roundRect(ctx,
-                      s.x - boxWidth  / 2 - additionalWidth / 2,
-                      s.y - boxHeight / 2 - yOffset,
-                      boxWidth + additionalWidth,
-                      boxHeight,
-                      cornerRadius,
-                      fillStyle,
-                      strokeThickness,
-                      strokeColor);
+            if (node.VertexLabel == "text")
+                DrawEllipse(ctx,
+                            s.x, s.y,
+                            1.2 * boxWidth,
+                            2.0 * boxHeight,
+                            fillStyle,
+                            strokeThickness,
+                            strokeColor);
+
+            else if (node.VertexLabel == "history")
+                DrawEllipse(ctx,
+                            s.x, s.y,
+                            1.0 * boxWidth,
+                            1.0 * boxWidth,
+                            fillStyle,
+                            strokeThickness,
+                            strokeColor);
+
+            else
+                roundRect(ctx,
+                          s.x - boxWidth  / 2 - additionalWidth / 2,
+                          s.y - boxHeight / 2 - yOffset,
+                          boxWidth + additionalWidth,
+                          boxHeight,
+                          cornerRadius,
+                          fillStyle,
+                          strokeThickness,
+                          strokeColor);
 
             ctx.textAlign    = "left";
             ctx.textBaseline = "middle";
