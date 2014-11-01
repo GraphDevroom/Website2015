@@ -23,6 +23,10 @@
 
     <script>
 
+        // Source: https://gist.github.com/DavidBruant/1016007
+        NodeList.      prototype.forEach = Array.prototype.forEach;
+        HTMLCollection.prototype.forEach = Array.prototype.forEach;
+
         var CurrentGraph       = 'none';
         var graph              = null;
         var springy            = null;
@@ -30,10 +34,9 @@
 
         function ShowTextarea(name) {
 
-            var elems = document.getElementsByClassName("textarea"); 
-
-            for(var timeIndex = 0; timeIndex < elems.length; ++timeIndex)
-                elems[timeIndex].style.display = "none";
+            document.querySelectorAll('.textarea').forEach(function (textarea) {
+                textarea.style.display = "none";
+            });
 
             var ShowDiv = document.getElementById(name);
 
@@ -66,12 +69,16 @@
 
         function enableMap() {
 
+            document.querySelectorAll('.textarea').forEach(function (textarea) {
+                textarea.style.display = "none";
+            });
+
             var MapDiv = document.getElementById('map');
             MapDiv.style.borderColor  = 'rgba(110, 41, 127, 0.37)';
             MapDiv.style.zIndex       = 10;
-            MapDiv.style.width        = '55%';
-            MapDiv.style.left         = '41%';
-            MapDiv.style.height       = 'calc(50% - 1px)';
+            MapDiv.style.width        = '65%';
+            MapDiv.style.left         = '31%';
+            MapDiv.style.height       = 'calc(60% - 1px)';
             MapDiv.style.transform    = 'rotate(-1.5deg)';
             MapDiv.style.boxShadow    = '4px 4px 4px rgba(100, 100, 100, 0.7)';
 
@@ -259,7 +266,7 @@
 
     </div>
 
-    <div id="graphbackground">
+    <!-- <div id="graphbackground"> -->
 
     <div id="underTheMap" onclick="javascript:disableMap()"></div>
 
@@ -608,9 +615,10 @@
         Search, find, explore FOSDEM and the surrounding beautiful city of Brussels. The data is coming from:
         </p>
         <ul>
-            <li><a href="http://www.openstreetmap.org">OpenStreetMap</a></li>
-            <li><a href="http://opendata.brussels.be/page/home/">Open Data Brussels</a></li>
-            <li><a href="http://www.mapillary.com">Mapillary</a></li>
+            <li><a target="_new" href="http://www.openstreetmap.org">OpenStreetMap</a></li>
+            <li><a target="_new" href="http://opendata.brussels.be/page/home/">Open Data Brussels</a></li>
+            <li><a target="_new" href="http://www.graphhopper.com">GraphHopper</a></li>
+            <li><a target="_new" href="http://www.mapillary.com">Mapillary</a></li>
         </ul>
 
     </div>
