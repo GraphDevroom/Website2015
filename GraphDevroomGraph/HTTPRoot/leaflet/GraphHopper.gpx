@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="Graphhopper" version="1.1" >
+
+  <metadata>
+    <link href="http://graphhopper.com">
+	  <text>GraphHopper GPX</text>
+	</link>
+	<time>2014-10-31T22:57:38+00:00</time>
+  </metadata>
+  
+  <trk>
+    <name>GraphHopper Track</name>
+	<trkseg>
+      <trkpt lat="50.822353" lon="4.38944"><time>2014-10-31T22:57:38+00:00</time><ele>85.0</ele></trkpt>
+      <trkpt lat="50.822052" lon="4.388844"><time>2014-10-31T22:58:16+00:00</time><ele>86.0</ele></trkpt>
+      <trkpt lat="50.821968" lon="4.388665"><time>2014-10-31T22:58:28+00:00</time><ele>86.0</ele></trkpt>
+      <trkpt lat="50.821166" lon="4.389591"><time>2014-10-31T22:59:47+00:00</time><ele>88.0</ele></trkpt>
+      <trkpt lat="50.820183" lon="4.390653"><time>2014-10-31T23:01:22+00:00</time><ele>91.0</ele></trkpt>
+      <trkpt lat="50.819084" lon="4.391802"><time>2014-10-31T23:03:08+00:00</time><ele>94.0</ele></trkpt>
+      <trkpt lat="50.818537" lon="4.392237"><time>2014-10-31T23:03:57+00:00</time><ele>94.0</ele></trkpt>
+      <trkpt lat="50.818062" lon="4.392527"><time>2014-10-31T23:04:38+00:00</time><ele>97.0</ele></trkpt>
+      <trkpt lat="50.817755" lon="4.392557"><time>2014-10-31T23:05:02+00:00</time><ele>97.0</ele></trkpt>
+      <trkpt lat="50.817352" lon="4.392503"><time>2014-10-31T23:05:35+00:00</time><ele>99.0</ele></trkpt>
+      <trkpt lat="50.81718" lon="4.392431"><time>2014-10-31T23:05:49+00:00</time><ele>99.0</ele></trkpt>
+      <trkpt lat="50.81718" lon="4.392431"><time>2014-10-31T23:05:49+00:00</time><ele>99.0</ele></trkpt>
+      <trkpt lat="50.817091" lon="4.392394"><time>2014-10-31T23:05:56+00:00</time><ele>99.0</ele></trkpt>
+      <trkpt lat="50.816541" lon="4.392032"><time>2014-10-31T23:06:44+00:00</time><ele>100.0</ele></trkpt>
+      <trkpt lat="50.816369" lon="4.391641"><time>2014-10-31T23:07:08+00:00</time><ele>99.0</ele></trkpt>
+      <trkpt lat="50.815779" lon="4.390103"><time>2014-10-31T23:08:39+00:00</time><ele>98.0</ele></trkpt>
+      <trkpt lat="50.815835" lon="4.390008"><time>2014-10-31T23:08:46+00:00</time><ele>99.0</ele></trkpt>
+      <trkpt lat="50.815853" lon="4.389902"><time>2014-10-31T23:08:52+00:00</time><ele>100.0</ele></trkpt>
+      <trkpt lat="50.815844" lon="4.389807"><time>2014-10-31T23:08:56+00:00</time><ele>100.0</ele></trkpt>
+      <trkpt lat="50.815793" lon="4.389698"><time>2014-10-31T23:09:03+00:00</time><ele>100.0</ele></trkpt>
+      <trkpt lat="50.81573" lon="4.389653"><time>2014-10-31T23:09:09+00:00</time><ele>100.0</ele></trkpt>
+      <trkpt lat="50.815669" lon="4.389652"><time>2014-10-31T23:09:14+00:00</time><ele>100.0</ele></trkpt>
+      <trkpt lat="50.815621" lon="4.38968"><time>2014-10-31T23:09:18+00:00</time><ele>100.0</ele></trkpt>
+      <trkpt lat="50.815223" lon="4.388611"><time>2014-10-31T23:10:21+00:00</time><ele>102.0</ele></trkpt>
+      <trkpt lat="50.814994" lon="4.388038"><time>2014-10-31T23:10:55+00:00</time><ele>103.0</ele></trkpt>
+      <trkpt lat="50.814966" lon="4.387948"><time>2014-10-31T23:11:00+00:00</time><ele>103.0</ele></trkpt>
+      <trkpt lat="50.814982" lon="4.387888"><time>2014-10-31T23:11:03+00:00</time><ele>103.0</ele></trkpt>
+      <trkpt lat="50.814972" lon="4.387821"><time>2014-10-31T23:11:07+00:00</time><ele>103.0</ele></trkpt>
+      <trkpt lat="50.81494" lon="4.387792"><time>2014-10-31T23:11:10+00:00</time><ele>103.0</ele></trkpt>
+      <trkpt lat="50.814897" lon="4.387801"><time>2014-10-31T23:11:13+00:00</time><ele>103.0</ele></trkpt>
+      <trkpt lat="50.814838" lon="4.38766"><time>2014-10-31T23:11:22+00:00</time><ele>103.0</ele></trkpt>
+      <trkpt lat="50.814601" lon="4.38694"><time>2014-10-31T23:12:03+00:00</time><ele>104.0</ele></trkpt>
+      <trkpt lat="50.814234" lon="4.385711"><time>2014-10-31T23:13:12+00:00</time><ele>106.0</ele></trkpt>
+      <trkpt lat="50.814252" lon="4.385699"><time>2014-10-31T23:13:13+00:00</time><ele>106.0</ele></trkpt>
+      <trkpt lat="50.81427" lon="4.385609"><time>2014-10-31T23:13:18+00:00</time><ele>106.0</ele></trkpt>
+      <trkpt lat="50.814252" lon="4.385553"><time>2014-10-31T23:13:21+00:00</time><ele>106.0</ele></trkpt>
+      <trkpt lat="50.814206" lon="4.385522"><time>2014-10-31T23:13:25+00:00</time><ele>106.0</ele></trkpt>
+      <trkpt lat="50.814176" lon="4.385539"><time>2014-10-31T23:13:28+00:00</time><ele>106.0</ele></trkpt>
+      <trkpt lat="50.813819" lon="4.384354"><time>2014-10-31T23:14:34+00:00</time><ele>104.0</ele></trkpt>
+      <trkpt lat="50.813795" lon="4.384241"><time>2014-10-31T23:14:40+00:00</time><ele>104.0</ele></trkpt>
+      <trkpt lat="50.813791" lon="4.384225"><time>2014-10-31T23:14:41+00:00</time><ele>104.0</ele></trkpt>
+      <trkpt lat="50.812929" lon="4.38136"><time>2014-10-31T23:17:22+00:00</time><ele>98.0</ele></trkpt>
+      <trkpt lat="50.812915" lon="4.381277"><time>2014-10-31T23:17:26+00:00</time><ele>98.0</ele></trkpt>
+      <trkpt lat="50.81268" lon="4.380551"><time>2014-10-31T23:18:08+00:00</time><ele>96.0</ele></trkpt>
+      <trkpt lat="50.812605" lon="4.380319"><time>2014-10-31T23:18:21+00:00</time><ele>96.0</ele></trkpt>
+	</trkseg>
+  </trk>
+  
+  
+  <rte>
+  
+    <rtept lat="50.822353" lon="4.38944">
+	  <desc>continue onto Boulevard Général Jacques - Generaal Jacqueslaan, R21</desc>
+	  <extensions>
+	    <distance>69.368</distance>
+		<time>49944</time>
+		<direction>SW</direction>
+		<azimuth>243</azimuth>
+	  </extensions>
+	</rtept>
+	
+	<rtept lat="50.821968" lon="4.388665">
+	  <desc>turn sharp left onto Avenue de la Couronne - Kroonlaan</desc>
+	  <extensions>
+	    <distance>612.943</distance>
+		<time>441317</time><direction>SE</direction><azimuth>131</azimuth></extensions></rtept><rtept lat="50.81718" lon="4.392431"><extensions><distance>0.0</distance><time>0</time><direction>N</direction><azimuth>0</azimuth></extensions></rtept><rtept lat="50.81718" lon="4.392431"><desc>continue onto Avenue de la Couronne - Kroonlaan</desc><extensions><distance>290.114</distance><time>208879</time><direction>SW</direction><azimuth>203</azimuth></extensions></rtept><rtept lat="50.815621" lon="4.38968"><desc>turn right onto Avenue de l"Université - Hogeschoollaan</desc><extensions><distance>449.294</distance><time>323488</time><direction>W</direction><azimuth>250</azimuth></extensions></rtept><rtept lat="50.813791" lon="4.384225"><desc>continue onto Avenue Paul Héger - Paul Hégerlaan</desc><extensions><distance>304.772</distance><time>219431</time><direction>W</direction><azimuth>253</azimuth></extensions></rtept><rtept lat="50.812605" lon="4.380319"><extensions><distance>0.0</distance><time>0</time><direction></direction><azimuth></azimuth></extensions>
+    </rtept>
+	
+  </rte>
+  
+</gpx>

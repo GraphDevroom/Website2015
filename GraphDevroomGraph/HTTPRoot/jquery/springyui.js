@@ -87,11 +87,80 @@ jQuery.fn.springy = function(params) {
     var nearest  = null;
     var dragged  = null;
 
+    var recursiveClick = function (element) {
+        if (element.click !== undefined)
+            element.click();
+        else recursiveClick(element.parentNode);
+    }
+
     jQuery(canvas).mousedown(function (e) {
 
-        var pos  = jQuery(this).offset();
-        var p    = fromScreen({x: e.pageX - pos.left, y: e.pageY - pos.top});
-        nearest  = dragged = layout.nearest(p);
+        var pos    = jQuery(this).offset();
+
+        var data   = canvas.getContext('2d').getImageData(e.pageX - pos.left, e.pageY - pos.top, 1, 1).data;
+        var result = data[0] + data[1] + data[2] + data[3];
+        if (result == 0)
+        {
+
+            // Hide the graph layer for a moment and check which
+            // element on which layer might be clicked
+            canvas.parentNode.hidden = true;
+
+            var LayerBelow = document.elementFromPoint(e.clientX, e.clientY);
+            if (LayerBelow !== null && LayerBelow.id != "graphbackground") {
+
+                dragged = null;
+                nearest = null;
+
+                recursiveClick(LayerBelow);
+
+            }
+
+            canvas.parentNode.hidden = false;
+
+
+            //if (LayerBelow.id == "graphbackground") {
+
+            //    var p = fromScreen({ x: e.pageX - pos.left, y: e.pageY - pos.top });
+            //    selected = nearest = dragged = layout.nearest(p);
+
+            //    if (selected.node !== null) {
+
+            //        dragged.point.m = 10000.0;
+
+            //        if (nodeSelected) {
+            //            nodeSelected(selected.node);
+            //            if (selected.node.data.gotoURI !== undefined)
+            //                dragged = null;
+            //        }
+
+            //    }
+
+            //}
+
+        }
+
+        else
+        {
+
+            var p = fromScreen({ x: e.pageX - pos.left, y: e.pageY - pos.top });
+            selected = nearest = dragged = layout.nearest(p);
+
+            if (selected.node !== null) {
+
+                dragged.point.m = 10000.0;
+
+                if (nodeSelected) {
+                    nodeSelected(selected.node);
+                    if (selected.node.data.gotoURI !== undefined)
+                        dragged = null;
+                }
+
+            }
+
+        }
+
+
 
 
 
@@ -100,66 +169,11 @@ jQuery.fn.springy = function(params) {
         //var boxWidth  = nearest.node.getWidth();
         //var boxHeight = nearest.node.getHeight();
 
-        if (x > nearest.node.getWidth())
-        {
-        
-        }
 
         //ctx.clearRect(e.pageX - pos.left - boxWidth  / 2,
         //              e.pageY - pos.top  - boxHeight / 2,
         //              boxWidth,
         //              boxHeight);
-
-
-
-
-        // Hide the graph layer for a moment and check which
-        // element on which layer might be clicked
-        canvas.parentNode.hidden = true;
-
-        var LayerBelow = document.elementFromPoint(e.clientX, e.clientY);
-        if (LayerBelow !== null && LayerBelow.id != "graphbackground")
-        {
-
-            dragged = null;
-            nearest = null;
-
-            if (LayerBelow.id !== undefined)
-                console.log('Click on layer: ' + LayerBelow.id);
-            else
-                console.log('Click on layer below');
-
-            // Not everything can be handled this way!
-            if (LayerBelow.click !== undefined)
-                LayerBelow.click();
-
-        }
-
-        canvas.parentNode.hidden = false;
-
-        //if (nearest !== null && nearest.distance <= nearest.node.width)
-        //{
-
-        if (LayerBelow.id == "graphbackground")
-        {
-
-          selected = nearest;
-
-          if (selected.node !== null) {
-
-              dragged.point.m = 10000.0;
-
-              if (nodeSelected) {
-                  nodeSelected(selected.node);
-                  if (selected.node.data.gotoURI !== undefined)
-                      dragged = null;
-              }
-
-          }
-
-        }
-
-        //}
 
         renderer.start();
 

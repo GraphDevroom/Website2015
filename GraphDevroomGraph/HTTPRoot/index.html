@@ -263,9 +263,27 @@
 
     <div id="underTheMap" onclick="javascript:disableMap()"></div>
 
-    <div id="map" onclick="javacript:MapClick()"></div>
+    <div id="map" onclick="javascript:MapClick()"></div>
 
     <script>
+
+       var InfoBox       = null;
+       var InfoFeature   = null;
+       var GeoJSONLayer  = {};
+
+       // ---------------------------------------------------------------------------------------------------------------
+
+       function highlightFeature(e) {
+           InfoFeature = e.target.feature;
+           InfoBox.update(e.target.feature);
+       }
+
+       function resetHighlight(e) {
+           InfoFeature = null;
+           InfoBox.update();
+       }
+
+       // ---------------------------------------------------------------------------------------------------------------
 
        map    = L.map('map').setView([50.8136544, 4.3820177], 15);
 
@@ -311,11 +329,116 @@
        }).addTo(map);
 
 
-       L.marker([50.8136544, 4.3820177]).addTo(map)
-           .bindPopup("FOSDEM'15");//.openPopup();
+     //  L.marker([50.8136544, 4.3820177]).addTo(map)
+     //      .bindPopup("FOSDEM'15");//.openPopup();
 
        L.marker([50.8485198, 4.3538106]).addTo(map)
            .bindPopup("Delirium Café");//.openPopup();
+
+       // ---------------------------------------------------------------------------------------------------------------
+
+       InfoBox = L.control({ position: 'bottomleft' });
+
+       InfoBox.onAdd = function (map) {
+           this._div = L.DomUtil.create('div', 'info');
+           this.update();
+           return this._div;
+       };
+
+       // Method used to update the control based on the given feature
+       InfoBox.update = function (feature) {
+
+           this._div.innerHTML =
+
+               (feature ? '<b>' + feature.properties.building + '</b>'
+                        : 'Hover over a feature to get more information');
+
+       };
+
+       InfoBox.addTo(map);
+
+       // ---------------------------------------------------------------------------------------------------------------
+
+
+       function VoronoiStyle(feature) {
+
+           if (feature.properties.IsVoronoi)
+
+               return {
+                 //  fillColor:   GetVoronoiColor(AggregatorFuncion(feature.properties)),
+                   weight:      1,
+                   opacity:     1,
+                   color:       'grey',
+                   dashArray:   '3',
+                   fillOpacity: 0.6
+               };
+
+           else return {
+               weight:      0.5,
+               opacity:     0.6,
+               color:       '#2880ca', //'#ad3092',
+               fillOpacity: 0.7
+           };
+
+       }
+
+       GeoJSONLayer = L.geoJson().addTo(map);
+       GeoJSONLayer.id       = "GeoJSON";
+       GeoJSONLayer.options  = {
+
+           style: VoronoiStyle,
+
+           onEachFeature: function (feature, layer) {
+               layer.on({
+                   mouseover: highlightFeature,
+                   mouseout:  resetHighlight,
+                   click:     highlightFeature,
+                   //dblclick:  function T(e) { if (e.target.feature.properties.voltage) { zoomToFeature(e); } }
+               });
+           },
+
+           // Transform a GeoJSON point into some leaflet shape
+           //pointToLayer: function (feature, latlng) {
+           //    return L.featureGroup([
+           //        L.circle(latlng, 23, {
+           //            startAngle: 0,
+           //            stopAngle: 120,
+           //            fillColor: GetVoronoiColor(feature.properties.U1),
+           //        }),
+           //        L.circle(latlng, 23, {
+           //            startAngle: 120,
+           //            stopAngle: 240,
+           //            fillColor: GetVoronoiColor(feature.properties.U2),
+           //        }),
+           //        L.circle(latlng, 23, {
+           //            startAngle: 240,
+           //            stopAngle: 360,
+           //            fillColor: GetVoronoiColor(feature.properties.U3),
+           //        })]);
+
+           //}
+
+       };
+
+       $.getJSON('/leaflet/FOSDEM.geojson', function (data) {
+
+           data.features.forEach(function (feature, index, array) {
+               GeoJSONLayer.addData(feature).addTo(map);
+           });
+
+           map.fitBounds(GeoJSONLayer.getBounds());
+
+       });
+
+       //GeoJSONLayer.on({
+       //    click: alert("You clicked the map")//zoomToFeature
+       //});
+
+       //function onMapClick(e) {
+       //    alert("You clicked the map at " + e.latlng);
+       //}
+
+       //map.on('click', onMapClick);
 
     </script>
 

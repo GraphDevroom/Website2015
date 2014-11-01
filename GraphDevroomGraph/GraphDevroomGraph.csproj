@@ -51,6 +51,7 @@
     <Compile Include="GraphLabels\GDMultiEdgeLabel.cs" />
     <Compile Include="GraphLabels\GDVertexLabel.cs" />
     <Compile Include="GraphDevroomHTTPAPI.cs" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\FOSDEM.geojson" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Semantics.cs" />
   </ItemGroup>
@@ -141,6 +142,9 @@
     <EmbeddedResource Include="HTTPRoot\leaflet\L.Control.Locate.ie.css" />
     <Content Include="HTTPRoot\link.txt" />
     <EmbeddedResource Include="HTTPRoot\style.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="HTTPRoot\leaflet\FOSDEM_Transportation.geojson" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
