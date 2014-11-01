@@ -221,7 +221,7 @@ body {
     transform:                  rotate(-3deg);
 }
 
-#underTheMap {
+#MapBackground {
     position:                   fixed;
     z-index:                    9;
     width:                      100%;

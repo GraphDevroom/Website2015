@@ -28,15 +28,13 @@
         HTMLCollection.prototype.forEach = Array.prototype.forEach;
 
         var CurrentGraph       = 'none';
-        var graph              = null;
         var springy            = null;
         var map,mapbox         = null;
 
+        // Show the given text area
         function ShowTextarea(name) {
 
-            document.querySelectorAll('.textarea').forEach(function (textarea) {
-                textarea.style.display = "none";
-            });
+            HideTextareas('.textarea');
 
             var ShowDiv = document.getElementById(name);
 
@@ -45,6 +43,7 @@
 
         }
 
+        // Hide a single text area
         function HideTextarea(name) {
 
             var ShowDiv = document.getElementById(name);
@@ -54,22 +53,29 @@
 
         }
 
-        function MapClick() {
+        // Hide all matching text areas
+        function HideTextareas(name) {
 
-            var MapDiv = document.getElementById('map');
-
-            if (MapDiv.style.zIndex = 1)
-                enableMap();
-            else
-                disableMap();
+            document.querySelectorAll(name).forEach(function (textarea) {
+                textarea.style.display = "none";
+            });
 
         }
 
-        function enableMap() {
+        // A click on the map
+        function ClickOnMap() {
 
-            document.querySelectorAll('.textarea').forEach(function (textarea) {
-                textarea.style.display = "none";
-            });
+            if (document.getElementById('map').style.zIndex = 1)
+                ShowMap();
+            else
+                HideMap();
+
+        }
+
+        // Show and enlarge the leaflet map
+        function ShowMap() {
+
+            HideTextareas('.textarea');
 
             var MapDiv = document.getElementById('map');
             MapDiv.style.borderColor  = 'rgba(110, 41, 127, 0.37)';
@@ -80,17 +86,15 @@
             MapDiv.style.transform    = 'rotate(-1.5deg)';
             MapDiv.style.boxShadow    = '4px 4px 4px rgba(100, 100, 100, 0.7)';
 
-            var UnderTheMapDiv = document.getElementById('underTheMap');
-            UnderTheMapDiv.style.display = "block";
-
-            var OpenData1 = document.getElementById('OpenData1');
-            OpenData1.style.display      = "block";
+            document.getElementById('MapBackground').style.display  = "block";
+            document.getElementById('OpenData1').    style.display  = "block";
 
             map.invalidateSize();
 
         }
 
-        function disableMap() {
+        // Shrink and hide the leaflet map
+        function HideMap() {
 
             var MapDiv = document.getElementById('map');
             MapDiv.style.borderColor  = 'rgba(255, 255, 255, 1.00)';
@@ -101,87 +105,287 @@
             MapDiv.style.transform    = 'rotate(-3deg)';
             MapDiv.style.boxShadow    = '2px 2px 2px rgba(100, 100, 100, 0.7)';
 
-            var UnderTheMapDiv = document.getElementById('underTheMap');
-            UnderTheMapDiv.style.display = "none";
-
-            var OpenData1 = document.getElementById('OpenData1');
-            OpenData1.style.display      = "none";
+            document.getElementById('MapBackground').style.display  = "none";
+            document.getElementById('OpenData1').    style.display  = "none";
 
             map.invalidateSize();
 
         }
 
-
-        //jQuery(function(){
-        $(document).ready(function(){
-
-            graph      = new Springy.Graph();
-
-            springy    = window.springy = jQuery('#graphcanvas').springy({
-                graph:            graph,
-                nodeSelected:     function(node) {
-
-                                    if (node.VertexLabel == 'tag') {
-
-                                        if (node.data.gotoURI !== undefined)
-                                            window.open(node.data.gotoURI, '_blank');
-
-                                        if (node.data.javascript !== undefined) {
-                                            window[node.data.javascript]();
-                                        }
-
-                                        var elems = document.getElementsByClassName("schedule");
-
-                                        for(var timeIndex = 0; timeIndex < elems.length; ++timeIndex) {
-                                            elems[timeIndex].style.display = "none";
-                                        }
-
-                                        elems = document.getElementsByClassName(node.data.label);
-
-                                        for(var timeIndex = 0; timeIndex < elems.length; ++timeIndex) {
-                                            elems[timeIndex].style.display = "";
-                                        }
-
-                                        FixCanvas();
-
-                                    }
-
-                                    else if (node.VertexLabel == 'text')
-                                    {
-                                        if (node.data.textarea !== undefined)
-                                            ShowTextarea(node.data.textarea);
-
-                                    }
-
-                                    console.log('Node selected: ' + JSON.stringify(node.data));
-
-                                }
-
-            });
-
-            ShowHomeGraph();
-
-        });
-
-        function FixCanvas() {
+        // Fix for graph layout errors
+        function FixGraphLayout() {
 
             var gf = document.getElementById('graphframe');
             var gc = document.getElementById('graphcanvas');
 
-            if (gc != null)
-            {
+            if (gc != null) {
                 gc.height = gf.clientHeight;
                 gc.width  = gf.clientWidth;
             }
 
         }
 
+
+        // Get query hash and parameters
+        var QueryHash        = window.location.hash.substr(1);
+        var QueryParameters  = {};
+
+        window.location.search.substr(1).split('&').forEach(function (p) {
+
+            if (p != "") {
+
+                var param = p.split('=', 2);
+                var key = param[0].replace(/[^a-zA-Z0-9_]/g, "").toLowerCase();
+
+                if (QueryParameters[key] == undefined)
+                    QueryParameters[key] = new Array();
+
+                if (p.length == 1)
+                    QueryParameters[key].push("");
+                else
+                    QueryParameters[key].push(decodeURIComponent(param[1].replace(/\+/g, " ")));
+
+            }
+
+        });
+
+        var graph            = new Springy.Graph();
+
+
+
+        // onLoad...
+        $(document).ready(function() {
+
+            var springy = window.springy = jQuery('#graphcanvas').springy({
+                graph: graph,
+                nodeSelected: function (node) {
+
+                    if (node.VertexLabel == 'tag') {
+
+                        if (node.data.gotoURI !== undefined)
+                            window.open(node.data.gotoURI, '_blank');
+
+                        if (node.data.javascript !== undefined) {
+                            window[node.data.javascript]();
+                        }
+
+                        var elems = document.getElementsByClassName("schedule");
+
+                        for (var timeIndex = 0; timeIndex < elems.length; ++timeIndex) {
+                            elems[timeIndex].style.display = "none";
+                        }
+
+                        elems = document.getElementsByClassName(node.data.label);
+
+                        for (var timeIndex = 0; timeIndex < elems.length; ++timeIndex) {
+                            elems[timeIndex].style.display = "";
+                        }
+
+                        FixGraphLayout();
+
+                    }
+
+                    else if (node.VertexLabel == 'text') {
+                        if (node.data.textarea !== undefined)
+                            ShowTextarea(node.data.textarea);
+
+                    }
+
+                    console.log('Node selected: ' + JSON.stringify(node.data));
+
+                }
+
+            });
+
+            ShowHomeGraph();
+
+            var InfoBox      = null;
+            var InfoFeature  = null;
+            var GeoJSONLayer = {};
+
+            // ---------------------------------------------------------------------------------------------------------------
+
+            function highlightFeature(e) {
+                InfoFeature = e.target.feature;
+                InfoBox.update(e.target.feature);
+            }
+
+            function resetHighlight(e) {
+                InfoFeature = null;
+                InfoBox.update();
+            }
+
+            // ---------------------------------------------------------------------------------------------------------------
+
+            map = L.map('map').setView([50.8136544, 4.3820177], 15);
+
+            mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+                id: 'examples.map-20v6611k',
+                maxZoom: 18,
+                attribution: '<a href="http://openstreetmap.org">OpenStreetMap</a> ' +
+                             '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                             '<a href="http://mapbox.com">Mapbox</a> Imagery'
+            }).addTo(map);
+
+            // ---------------------------------------------------------------------------------------------------------------
+
+            L.control.locate({
+
+                position: 'topleft',  // set the location of the control
+                drawCircle: true,  // controls whether a circle is drawn that shows the uncertainty about the location
+                follow: false,  // follow the user's location
+                setView: true, // automatically sets the map view to the user's location, enabled if `follow` is true
+                keepCurrentZoomLevel: false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom)
+                remainActive: false, // if true locate control remains active on click even if the user's location is in view.
+                markerClass: L.circleMarker, // L.circleMarker or L.marker
+                circleStyle: {},  // change the style of the circle around the user's location
+                markerStyle: {},
+                followCircleStyle: {},  // set difference for the style of the circle around the user's location while following
+                followMarkerStyle: {},
+                icon: 'fa fa-map-marker',  // class for icon, fa-location-arrow or fa-map-marker
+                iconLoading: 'fa fa-spinner fa-spin',  // class for loading icon
+                circlePadding: [0, 0], // padding around accuracy circle, value is passed to setBounds
+                metric: true,  // use metric or imperial units
+                onLocationError: function (err) { alert(err.message) },  // define an error callback function
+                onLocationOutsideMapBounds: function (context) { // called when outside map boundaries
+                    alert(context.options.strings.outsideMapBoundsMsg);
+                },
+                showPopup: true, // display a popup when the user click on the inner marker
+                strings: {
+                    title: "Show me where I am",  // title of the locate control
+                    popup: "You are within {distance} {unit} from this point",  // text to appear if user clicks on circle
+                    outsideMapBoundsMsg: "You seem located outside the boundaries of the map" // default message for onLocationOutsideMapBounds
+                },
+                locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10
+
+            }).addTo(map);
+
+
+            //  L.marker([50.8136544, 4.3820177]).addTo(map)
+            //      .bindPopup("FOSDEM'15");//.openPopup();
+
+            L.marker([50.8485198, 4.3538106]).addTo(map)
+                .bindPopup("Delirium Café");//.openPopup();
+
+            // ---------------------------------------------------------------------------------------------------------------
+
+            InfoBox = L.control({ position: 'bottomleft' });
+
+            InfoBox.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+
+            // Method used to update the control based on the given feature
+            InfoBox.update = function (feature) {
+
+                this._div.innerHTML =
+
+                    (feature ? '<b>' + feature.properties.building + '</b>'
+                             : 'Hover over a feature to get more information');
+
+            };
+
+            InfoBox.addTo(map);
+
+            // ---------------------------------------------------------------------------------------------------------------
+
+
+            function VoronoiStyle(feature) {
+
+                if (feature.properties.IsVoronoi)
+
+                    return {
+                        //  fillColor:   GetVoronoiColor(AggregatorFuncion(feature.properties)),
+                        weight: 1,
+                        opacity: 1,
+                        color: 'grey',
+                        dashArray: '3',
+                        fillOpacity: 0.6
+                    };
+
+                else return {
+                    weight: 0.5,
+                    opacity: 0.6,
+                    color: '#2880ca', //'#ad3092',
+                    fillOpacity: 0.7
+                };
+
+            }
+
+            GeoJSONLayer = L.geoJson().addTo(map);
+            GeoJSONLayer.id = "GeoJSON";
+            GeoJSONLayer.options = {
+
+                style: VoronoiStyle,
+
+                onEachFeature: function (feature, layer) {
+                    layer.on({
+                        mouseover: highlightFeature,
+                        mouseout:  resetHighlight,
+                        click:     highlightFeature,
+                        //dblclick:  function T(e) { if (e.target.feature.properties.voltage) { zoomToFeature(e); } }
+                    });
+                },
+
+                // Transform a GeoJSON point into some leaflet shape
+                //pointToLayer: function (feature, latlng) {
+                //    return L.featureGroup([
+                //        L.circle(latlng, 23, {
+                //            startAngle: 0,
+                //            stopAngle: 120,
+                //            fillColor: GetVoronoiColor(feature.properties.U1),
+                //        }),
+                //        L.circle(latlng, 23, {
+                //            startAngle: 120,
+                //            stopAngle: 240,
+                //            fillColor: GetVoronoiColor(feature.properties.U2),
+                //        }),
+                //        L.circle(latlng, 23, {
+                //            startAngle: 240,
+                //            stopAngle: 360,
+                //            fillColor: GetVoronoiColor(feature.properties.U3),
+                //        })]);
+
+                //}
+
+            };
+
+            $.getJSON('/leaflet/FOSDEM.geojson', function (data) {
+
+                data.features.forEach(function (feature, index, array) {
+                    GeoJSONLayer.addData(feature).addTo(map);
+                });
+
+                map.fitBounds(GeoJSONLayer.getBounds());
+
+            });
+
+            //GeoJSONLayer.on({
+            //    click: alert("You clicked the map")//zoomToFeature
+            //});
+
+            //function onClickOnMap(e) {
+            //    alert("You clicked the map at " + e.latlng);
+            //}
+
+            //map.on('click', onClickOnMap);
+
+
+            if (QueryHash == "CfP")
+                ShowTextarea("CfP");
+
+        });
+
+
+
         function ShowHomeGraph() {
 
             if (CurrentGraph == 'HomeGraph')
                 return;
 
-            FixCanvas();
+            FixGraphLayout();
             CurrentGraph = 'HomeGraph';
 
             springy.clear();
@@ -202,7 +406,7 @@
             var Dates               = graph.newVertex('text', { label: 'Important Dates',         textarea:   'Dates'       });
             var Team                = graph.newVertex('text', { label: 'Team',                    textarea:   'Team'        });
             var Contact             = graph.newVertex('text', { label: 'Contact',                 textarea:   'Contact'     });
-            var OpenGeoData         = graph.newVertex('tag',  { label: 'Open GeoData',            javascript: 'enableMap'   });
+            var OpenGeoData         = graph.newVertex('tag',  { label: 'Open GeoData',            javascript: 'ShowMap'   });
 
             graph.newEdge(GraphDevroom, 'next', FOSDEM,      { label: "is part of" });
             graph.newEdge(GraphDevroom, 'next', CfP,         { label: "CfP",              weight: 2.5 });
@@ -248,7 +452,7 @@
 
   </head>
 
-  <body onResize="FixCanvas()">
+  <body onResize="FixGraphLayout()">
 
     <div id="logo">
 
@@ -264,188 +468,9 @@
 
     </div>
 
-    <!-- <div id="graphbackground"> -->
+    <div id="MapBackground" onclick="javascript:HideMap()"></div>
 
-    <div id="underTheMap" onclick="javascript:disableMap()"></div>
-
-    <div id="map" onclick="javascript:MapClick()"></div>
-
-    <script>
-
-       var InfoBox       = null;
-       var InfoFeature   = null;
-       var GeoJSONLayer  = {};
-
-       // ---------------------------------------------------------------------------------------------------------------
-
-       function highlightFeature(e) {
-           InfoFeature = e.target.feature;
-           InfoBox.update(e.target.feature);
-       }
-
-       function resetHighlight(e) {
-           InfoFeature = null;
-           InfoBox.update();
-       }
-
-       // ---------------------------------------------------------------------------------------------------------------
-
-       map    = L.map('map').setView([50.8136544, 4.3820177], 15);
-
-       mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-                                id:          'examples.map-20v6611k',
-                                maxZoom:     18,
-                                attribution: '<a href="http://openstreetmap.org">OpenStreetMap</a> ' +
-                                             '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                                             '<a href="http://mapbox.com">Mapbox</a> Imagery'
-                            }).addTo(map);
-
-       // ---------------------------------------------------------------------------------------------------------------
-
-       L.control.locate({
-
-            position:                   'topleft',  // set the location of the control
-            drawCircle:                 true,  // controls whether a circle is drawn that shows the uncertainty about the location
-            follow:                     false,  // follow the user's location
-            setView:                    true, // automatically sets the map view to the user's location, enabled if `follow` is true
-            keepCurrentZoomLevel:       false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom)
-            remainActive:               false, // if true locate control remains active on click even if the user's location is in view.
-            markerClass:                L.circleMarker, // L.circleMarker or L.marker
-            circleStyle:                {},  // change the style of the circle around the user's location
-            markerStyle:                {},
-            followCircleStyle:          {},  // set difference for the style of the circle around the user's location while following
-            followMarkerStyle:          {},
-            icon:                       'fa fa-map-marker',  // class for icon, fa-location-arrow or fa-map-marker
-            iconLoading:                'fa fa-spinner fa-spin',  // class for loading icon
-            circlePadding:              [0, 0], // padding around accuracy circle, value is passed to setBounds
-            metric:                     true,  // use metric or imperial units
-            onLocationError:            function(err) {alert(err.message)},  // define an error callback function
-            onLocationOutsideMapBounds: function(context) { // called when outside map boundaries
-                alert(context.options.strings.outsideMapBoundsMsg);
-            },
-            showPopup:                  true, // display a popup when the user click on the inner marker
-            strings: {
-                title: "Show me where I am",  // title of the locate control
-                popup: "You are within {distance} {unit} from this point",  // text to appear if user clicks on circle
-                outsideMapBoundsMsg: "You seem located outside the boundaries of the map" // default message for onLocationOutsideMapBounds
-            },
-            locateOptions:              {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10
-
-       }).addTo(map);
-
-
-     //  L.marker([50.8136544, 4.3820177]).addTo(map)
-     //      .bindPopup("FOSDEM'15");//.openPopup();
-
-       L.marker([50.8485198, 4.3538106]).addTo(map)
-           .bindPopup("Delirium Café");//.openPopup();
-
-       // ---------------------------------------------------------------------------------------------------------------
-
-       InfoBox = L.control({ position: 'bottomleft' });
-
-       InfoBox.onAdd = function (map) {
-           this._div = L.DomUtil.create('div', 'info');
-           this.update();
-           return this._div;
-       };
-
-       // Method used to update the control based on the given feature
-       InfoBox.update = function (feature) {
-
-           this._div.innerHTML =
-
-               (feature ? '<b>' + feature.properties.building + '</b>'
-                        : 'Hover over a feature to get more information');
-
-       };
-
-       InfoBox.addTo(map);
-
-       // ---------------------------------------------------------------------------------------------------------------
-
-
-       function VoronoiStyle(feature) {
-
-           if (feature.properties.IsVoronoi)
-
-               return {
-                 //  fillColor:   GetVoronoiColor(AggregatorFuncion(feature.properties)),
-                   weight:      1,
-                   opacity:     1,
-                   color:       'grey',
-                   dashArray:   '3',
-                   fillOpacity: 0.6
-               };
-
-           else return {
-               weight:      0.5,
-               opacity:     0.6,
-               color:       '#2880ca', //'#ad3092',
-               fillOpacity: 0.7
-           };
-
-       }
-
-       GeoJSONLayer = L.geoJson().addTo(map);
-       GeoJSONLayer.id       = "GeoJSON";
-       GeoJSONLayer.options  = {
-
-           style: VoronoiStyle,
-
-           onEachFeature: function (feature, layer) {
-               layer.on({
-                   mouseover: highlightFeature,
-                   mouseout:  resetHighlight,
-                   click:     highlightFeature,
-                   //dblclick:  function T(e) { if (e.target.feature.properties.voltage) { zoomToFeature(e); } }
-               });
-           },
-
-           // Transform a GeoJSON point into some leaflet shape
-           //pointToLayer: function (feature, latlng) {
-           //    return L.featureGroup([
-           //        L.circle(latlng, 23, {
-           //            startAngle: 0,
-           //            stopAngle: 120,
-           //            fillColor: GetVoronoiColor(feature.properties.U1),
-           //        }),
-           //        L.circle(latlng, 23, {
-           //            startAngle: 120,
-           //            stopAngle: 240,
-           //            fillColor: GetVoronoiColor(feature.properties.U2),
-           //        }),
-           //        L.circle(latlng, 23, {
-           //            startAngle: 240,
-           //            stopAngle: 360,
-           //            fillColor: GetVoronoiColor(feature.properties.U3),
-           //        })]);
-
-           //}
-
-       };
-
-       $.getJSON('/leaflet/FOSDEM.geojson', function (data) {
-
-           data.features.forEach(function (feature, index, array) {
-               GeoJSONLayer.addData(feature).addTo(map);
-           });
-
-           map.fitBounds(GeoJSONLayer.getBounds());
-
-       });
-
-       //GeoJSONLayer.on({
-       //    click: alert("You clicked the map")//zoomToFeature
-       //});
-
-       //function onMapClick(e) {
-       //    alert("You clicked the map at " + e.latlng);
-       //}
-
-       //map.on('click', onMapClick);
-
-    </script>
+    <div id="map" onclick="javascript:ClickOnMap()"></div>
 
     <div id="photos">
         <img src="/photos/photo0001.jpg" />
@@ -630,36 +655,6 @@
         <a href="mailto:mail@graphdevroom.org"           target="_blank" style="font-size:72%"><i class="fa fa-envelope-o fa-2x"></i></a>
         <a href="OpenPGP-Keys/mail@graphdevroom.org.key" target="_blank" style="font-size:72%"><i class="fa fa-lock       fa-2x"></i></a>
     </div>
-
-    <script>
-
-        var QueryHash       = window.location.hash.substr(1);
-        var QueryParameters = {};
-
-        window.location.search.substr(1).split('&').forEach(function (p) {
-
-            if (p != "")
-            {
-
-                var param = p.split('=', 2);
-                var key   = param[0].replace(/[^a-zA-Z0-9_]/g, "").toLowerCase();
-
-                if (QueryParameters[key] == undefined)
-                    QueryParameters[key] = new Array();
-
-                if (p.length == 1)
-                    QueryParameters[key].push("");
-                else
-                    QueryParameters[key].push(decodeURIComponent(param[1].replace(/\+/g, " ")));
-
-            }
-
-        });
-
-        if (QueryHash == "CfP")
-            ShowTextarea("CfP");
-
-    </script>
 
   </body>
   
