@@ -150,7 +150,8 @@ body {
     box-shadow:                 4px 4px 4px rgba(100, 100, 100, 0.7);
     /*padding:                    2vh 2vw 2vh 5vw;*/
     padding:                    20px 20px 40px 30px;
-    line-height:                130%;
+    line-height:                135%;
+    font-size:                  96%;
     overflow:                   auto;
     /*font-size: 2vh;*/
 }

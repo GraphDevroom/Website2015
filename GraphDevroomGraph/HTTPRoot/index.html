@@ -378,8 +378,6 @@
 
         });
 
-
-
         function ShowHomeGraph() {
 
             if (CurrentGraph == 'HomeGraph')
@@ -415,13 +413,14 @@
             graph.newEdge(GraphDevroom, 'goto', OpenGeoData, { label: "explore",          color: "rgba(110, 41, 127, 0.87)" });
 
 
-            var Twitter             = graph.newVertex('tag', { label: 'twitter',    gotoURI: 'https://twitter.com/graphdevroom' });
-            var GitHub              = graph.newVertex('tag', { label: 'GitHub',     gotoURI: 'https://github.com/graphdevroom' });
-            var EMail               = graph.newVertex('tag', { label: 'E-Mail',     gotoURI: 'mailto:crew@graphdevroom.org' });
-            var Google              = graph.newVertex('tag', { label: 'Google',     gotoURI: 'https://groups.google.com/d/forum/graphdevroom' });
-            var GooglePlus          = graph.newVertex('tag', { label: 'Google+',    gotoURI: 'https://plus.google.com/u/0/communities/114424455964265722048' });
-            var YouTube             = graph.newVertex('tag', { label: 'YouTube',    gotoURI: 'http://www.youtube.com/graphprocessing' });
-            var SlideShare          = graph.newVertex('tag', { label: 'SlideShare', gotoURI: 'http://www.slideshare.net/graphdevroom' });
+            var Twitter             = graph.newVertex('tag', { label: 'Twitter',      gotoURI: 'https://twitter.com/graphdevroom' });
+            var GitHub              = graph.newVertex('tag', { label: 'GitHub',       gotoURI: 'https://github.com/graphdevroom' });
+            var EMail               = graph.newVertex('tag', { label: 'E-Mail',       gotoURI: 'mailto:fosdem2015@graphdevroom.org' });
+            var Google              = graph.newVertex('tag', { label: 'GoogleGroups', gotoURI: 'https://groups.google.com/d/forum/graphdevroom' });
+            var GooglePlus          = graph.newVertex('tag', { label: 'Google+',      gotoURI: 'https://plus.google.com/u/0/communities/114424455964265722048' });
+            var YouTube             = graph.newVertex('tag', { label: 'YouTube',      gotoURI: 'http://www.youtube.com/graphprocessing' });
+            var SlideShare          = graph.newVertex('tag', { label: 'SlideShare',   gotoURI: 'http://www.slideshare.net/graphdevroom' });
+            var Etherpad            = graph.newVertex('tag', { label: 'Etherpad',     gotoURI: 'https://etherpad.wikimedia.org/p/GraphDevroom' });
 
             graph.newEdge(Contact, 'goto', Twitter);
             graph.newEdge(Contact, 'goto', GitHub);
@@ -430,6 +429,7 @@
             graph.newEdge(Contact, 'goto', GooglePlus);
             graph.newEdge(Contact, 'goto', YouTube);
             graph.newEdge(Contact, 'goto', SlideShare);
+            graph.newEdge(Contact, 'goto', Etherpad);
 
             graph.newEdge(CfP,          'next', Submissions,    { color: 'rgba(110, 41, 127, 0.87)', label: "convinced?",           directional: true });
             graph.newEdge(CfP,          'next', Dates,          { color: 'rgba(110, 41, 127, 0.87)', label: "until when?",          directional: true });
@@ -462,7 +462,7 @@
 
       <div id="text">
           <span id="title">FOSDEM<span class="lila high">'15</span> GraphDevroom</span><br />
-          <span id="where">Université libre de Bruxelles, Brussels, Belgium</span><br />
+          <span id="where">Université Libre de Bruxelles, Brussels, Belgium</span><br />
           <span id="when">31 January 2015</span>
       </div>
 
@@ -481,7 +481,7 @@
         <h1>Call for Participation</h1>
 
         <p>We are happy to announce the <span class="highlight">4th edition of the Graph Devroom</span> 
-        co-located with <a href="https://fosdem.org/2014">FOSDEM 2015</a> at the <span class="highlight">ULB Campus Solbosch in Brussels, Belgium</span>.
+        co-located with <a href="https://fosdem.org/2014">FOSDEM 2015</a> at the Université Libre de Bruxelles (Campus Solbosch) in Belgium.
         FOSDEM is an annually software developers meeting attended by 
         over 5000 free and open source enthusiasts from all over the world. The 
         devroom will take place on <span class="highlight">Saturday, 31. January 2015</span> with a welcome at 
@@ -493,11 +493,12 @@
         implementations and outstanding community support, this movement is 
         still winning a lot of momentum. The past year had again been full of 
         impressive developments: e.g. Neo4j 2.1 with improved Cypher query processing, 
-        <a href="http://www.orientechnologies.com/docs/last/">OrientDB 2.0</a>, <a href="http://ldbcouncil.org/benchmarks">first versions for the LDBC benchmark suites</a>,
+        <a href="http://www.orientechnologies.com/docs/last/">OrientDB 2.0</a>, 
+        <a href="http://ldbcouncil.org/benchmarks">first versions for the LDBC benchmark suites</a>,
         <a href="http://www.stardog.com">Stardog 2.2</a>,
+        <a href="http://www.structr.com">Structr 1.0</a>,
         GraphHopper for OSM routing, a new graph traversal framework called Steffi.io (imGraph), the 
-        Bitsy database and  Pixy query language, Structr a CMS ontop of graphs 
-        and even the SAP Hana in-memory database solution joined the movement.</p>
+        Bitsy database and Pixy query language, and even SAP, Intel and Oracle joined the movement.</p>
 
         <p>In previous devrooms a lot of great presentations and demos had been 
         given and substantiated discussions took place. Therefore, also in 2015 
@@ -506,9 +507,9 @@
         work and improvements. This includes:</p>
 
         <ul>
-          <li>Graph Query Languages and user-friendly APIs</li>
+          <li>Graph Query Languages (like e.g. Gremlin, Cypher or SPARQL) and user-friendly APIs</li>
           <li>(Distributed) Graph Processing Frameworks</li>
-          <li>Graph Benchmarks</li>
+          <li>Graph and RDF Benchmarks</li>
           <li>Geographic Information Systems and Graphs (Routing et al.)</li>
           <li>Semantic Graphs (RDF)</li>
           <li>(Large-Scale) Graph Visualization</li>
@@ -533,22 +534,34 @@
         <h1>Submit your idea</h1>
 
         <p>Convinced? Interested in giving a talk or presenting a demo? We are 
-        looking for high quality technical (non-marketing) submissions, ranging 
-        from principles to practice and interesting to attendees with widely 
+        <span class="highlight">looking for high quality technical (non-marketing) submissions</span>,
+        ranging from principles to practice and interesting to attendees with widely 
         different backgrounds. Talks should be 20 to 30 minutes, lightning talks 
         5 to 10 minutes and consist of a presentation supported by slides, videos 
         and/or demos. Any degree of interactivity is highly welcome. We also 
         welcome other activity proposals different from “traditional” project 
-        presentations and talks. All submissions should be based on free and 
-        open software solutions or free and open APIs.</p>
+        presentations and talks. <span class="highlight">All submissions should be
+        based on free and open software solutions or free and open APIs.</span>
+        <span class="highlight">All accepted presentations will be recorded.</span></p>
 
-        <p>To suggest a talk, go to the <a href="https://penta.fosdem.org/submission/FOSDEM15">FOSDEM submission system</a>
-        and follow the instructions ("Create Account” / “Create Event"). Please make sure to 
-        select the "GraphDevroom" track and include at least the following information:</p>
+        <p>To submit a talk, please go to the <a href="https://penta.fosdem.org/submission/FOSDEM15">FOSDEM submission system</a>
+        and follow the instructions. If you previously spoke at FOSDEM, chances
+        are high that you already have an account! If you forgot your password,
+        do just reset it. If not, follow the instructions to create an account.
+        If you encounter any problems with the Pentabarf submission system,
+        please contact us and we will help you.</p>
+
+        <p>When you are logged in, please click on the "create event" item in the
+        menu to load the submission form. Then click on the "Show All" tab in the
+        top right corner of the browser window. (All the way to the right on a
+        large screen!)</p>
+
+        <p>Please include at least the following information:</p>
 
         <ul>
           <li>Your name, nick, contact information (public/only for orga) and a
               short biography</li>
+          <li><span class="highlight">Select "Graph Processing Devroom"</span> as the track.</li>
           <li>The title and a short abstract describing your
               presentation/demo/talk (max. 500 words)</li>
           <li>Intended audience and goal of the talk (e.g., “Beginner”,
@@ -556,11 +569,15 @@
               patterns" or "Developers, trying to optimize processing of highly
               connected data sets")</li>
           <li>The desired length of your time slot (typical 30 min. incl. 5
-              minutes for Q/A)</li>
+              minutes for Q/A, or 5-10 minutes for lightning talks)</li>
           <li>Links to background information on the given talk for the hungry
               and impatient</li>
           <li>Links to your previous talks, code snippets or repositories</li>
         </ul>
+
+        <p>To avoid any kind of misunderstandings and lost submissions please send also a
+        short e-mail to <a href="mailto:fosdem2015@graphdevroom.org">fosdem2015@graphdevroom.org</a>
+        and wait for our confirmation.</p>
 
         <div class="textareaclose">
             <a href="javascript:HideTextarea('Submissions')"><i class="fa fa-times"></i></a>
@@ -606,7 +623,9 @@
             <li>Peter Karich, GraphHopper</li>
         </ul>
 
-        <p>The crew can be reached via: fosdem2015 at graphdevroom.org</p>
+        <p>The crew can be reached via: <a href="mailto:fosdem2015@graphdevroom.org">fosdem2015@graphdevroom.org</a></p>
+
+        <p>Ideas, suggestions and helping hands are always welcome. Just use the <a href="https://etherpad.wikimedia.org/p/GraphDevroom" target="_blank">Etherpad</a> to get in contact.</p>
 
         <div class="textareaclose">
             <a href="javascript:HideTextarea('Team')"><i class="fa fa-times"></i></a>
@@ -639,10 +658,10 @@
         Search, find, explore FOSDEM and the surrounding beautiful city of Brussels. The data is coming from:
         </p>
         <ul>
-            <li><a target="_new" href="http://www.openstreetmap.org">OpenStreetMap</a></li>
-            <li><a target="_new" href="http://opendata.brussels.be/page/home/">Open Data Brussels</a></li>
-            <li><a target="_new" href="http://www.graphhopper.com">GraphHopper</a></li>
-            <li><a target="_new" href="http://www.mapillary.com">Mapillary</a></li>
+            <li><a target="_blank" href="http://www.openstreetmap.org">OpenStreetMap</a></li>
+            <li><a target="_blank" href="http://opendata.brussels.be/page/home/">Open Data Brussels</a></li>
+            <li><a target="_blank" href="http://www.graphhopper.com">GraphHopper</a></li>
+            <li><a target="_blank" href="http://www.mapillary.com">Mapillary</a></li>
         </ul>
 
     </div>
