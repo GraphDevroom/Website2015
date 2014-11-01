@@ -42,8 +42,6 @@
 
             if (ShowDiv != null)
                 ShowDiv.style.display = "block";
-//            else
-//                document.getElementById('home').style.display = "block";
 
         }
 
@@ -471,6 +469,7 @@
         still winning a lot of momentum. The past year had again been full of 
         impressive developments: e.g. Neo4j 2.1 with improved Cypher query processing, 
         <a href="http://www.orientechnologies.com/docs/last/">OrientDB 2.0</a>, <a href="http://ldbcouncil.org/benchmarks">first versions for the LDBC benchmark suites</a>,
+        <a href="http://www.stardog.com">Stardog 2.2</a>,
         GraphHopper for OSM routing, a new graph traversal framework called Steffi.io (imGraph), the 
         Bitsy database and  Pixy query language, Structr a CMS ontop of graphs 
         and even the SAP Hana in-memory database solution joined the movement.</p>
@@ -632,7 +631,35 @@
         <a href="OpenPGP-Keys/mail@graphdevroom.org.key" target="_blank" style="font-size:72%"><i class="fa fa-lock       fa-2x"></i></a>
     </div>
 
-    </div>
+    <script>
+
+        var QueryHash       = window.location.hash.substr(1);
+        var QueryParameters = {};
+
+        window.location.search.substr(1).split('&').forEach(function (p) {
+
+            if (p != "")
+            {
+
+                var param = p.split('=', 2);
+                var key   = param[0].replace(/[^a-zA-Z0-9_]/g, "").toLowerCase();
+
+                if (QueryParameters[key] == undefined)
+                    QueryParameters[key] = new Array();
+
+                if (p.length == 1)
+                    QueryParameters[key].push("");
+                else
+                    QueryParameters[key].push(decodeURIComponent(param[1].replace(/\+/g, " ")));
+
+            }
+
+        });
+
+        if (QueryHash == "CfP")
+            ShowTextarea("CfP");
+
+    </script>
 
   </body>
   

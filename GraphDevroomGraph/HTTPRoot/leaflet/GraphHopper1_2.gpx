@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?><gpx xmlns="http://www.topografix.com/GPX/1/1" creator="Graphhopper" version="1.1" ><metadata><link href="http://graphhopper.com"><text>GraphHopper GPX</text></link><time>2014-11-01T12:38:07+00:00</time></metadata><trk><name>GraphHopper Track</name><trkseg>
+<trkpt lat="50.822353" lon="4.38944"><time>2014-11-01T12:38:07+00:00</time><ele>85.0</ele></trkpt>
+<trkpt lat="50.822052" lon="4.388844"><time>2014-11-01T12:38:46+00:00</time><ele>86.0</ele></trkpt>
+<trkpt lat="50.821968" lon="4.388665"><time>2014-11-01T12:38:57+00:00</time><ele>86.0</ele></trkpt>
+<trkpt lat="50.821166" lon="4.389591"><time>2014-11-01T12:40:16+00:00</time><ele>88.0</ele></trkpt>
+<trkpt lat="50.820635" lon="4.388896"><time>2014-11-01T12:41:12+00:00</time><ele>91.0</ele></trkpt>
+<trkpt lat="50.81956" lon="4.386635"><time>2014-11-01T12:43:35+00:00</time><ele>94.0</ele></trkpt>
+<trkpt lat="50.819517" lon="4.386549"><time>2014-11-01T12:43:40+00:00</time><ele>94.0</ele></trkpt>
+<trkpt lat="50.818351" lon="4.384482"><time>2014-11-01T12:46:01+00:00</time><ele>92.0</ele></trkpt>
+<trkpt lat="50.816982" lon="4.381444"><time>2014-11-01T12:49:09+00:00</time><ele>94.0</ele></trkpt>
+<trkpt lat="50.816973" lon="4.381433"><time>2014-11-01T12:49:10+00:00</time><ele>94.0</ele></trkpt>
+<trkpt lat="50.816149" lon="4.382738"><time>2014-11-01T12:50:44+00:00</time><ele>103.0</ele></trkpt>
+<trkpt lat="50.815923" lon="4.383062"><time>2014-11-01T12:51:08+00:00</time><ele>103.0</ele></trkpt>
+<trkpt lat="50.815858" lon="4.383135"><time>2014-11-01T12:51:15+00:00</time><ele>103.0</ele></trkpt>
+<trkpt lat="50.815721" lon="4.382639"><time>2014-11-01T12:51:42+00:00</time><ele>105.0</ele></trkpt>
+<trkpt lat="50.81563" lon="4.382445"><time>2014-11-01T12:51:55+00:00</time><ele>102.0</ele></trkpt>
+<trkpt lat="50.814969" lon="4.381285"><time>2014-11-01T12:53:14+00:00</time><ele>101.0</ele></trkpt>
+<trkpt lat="50.81491" lon="4.38134"><time>2014-11-01T12:53:19+00:00</time><ele>101.0</ele></trkpt>
+<trkpt lat="50.814869" lon="4.381335"><time>2014-11-01T12:53:23+00:00</time><ele>101.0</ele></trkpt>
+<trkpt lat="50.814453" lon="4.381629"><time>2014-11-01T12:53:59+00:00</time><ele>101.0</ele></trkpt>
+<trkpt lat="50.814321" lon="4.381189"><time>2014-11-01T12:54:24+00:00</time><ele>101.0</ele></trkpt>
+<trkpt lat="50.813761" lon="4.381598"><time>2014-11-01T12:55:13+00:00</time><ele>99.0</ele></trkpt>
+<trkpt lat="50.813609" lon="4.38173"><time>2014-11-01T12:55:27+00:00</time><ele>101.0</ele></trkpt>
+<trkpt lat="50.813349" lon="4.380884"><time>2014-11-01T12:56:15+00:00</time><ele>99.0</ele></trkpt>
+<trkpt lat="50.812893" lon="4.381215"><time>2014-11-01T12:56:55+00:00</time><ele>98.0</ele></trkpt>
+<trkpt lat="50.81268" lon="4.380551"><time>2014-11-01T12:57:33+00:00</time><ele>96.0</ele></trkpt>
+<trkpt lat="50.812605" lon="4.380319"><time>2014-11-01T12:57:46+00:00</time><ele>96.0</ele></trkpt></trkseg></trk><rte><rtept lat="50.822353" lon="4.38944"><desc>continue onto Boulevard Général Jacques - Generaal Jacqueslaan, R21</desc><extensions><distance>69.368</distance><time>49944</time><direction>SW</direction><azimuth>243</azimuth></extensions></rtept><rtept lat="50.821968" lon="4.388665"><desc>turn sharp left onto Avenue de la Couronne - Kroonlaan</desc><extensions><distance>110.362</distance><time>79460</time><direction>SE</direction><azimuth>131</azimuth></extensions></rtept><rtept lat="50.821166" lon="4.389591"><desc>turn right onto Rue du Printemps - Lentestraat</desc><extensions><distance>283.151</distance><time>203867</time><direction>SW</direction><azimuth>233</azimuth></extensions></rtept><rtept lat="50.819517" lon="4.386549"><desc>continue onto Rue Élise - Elizastraat</desc><extensions><distance>458.546</distance><time>330152</time><direction>SW</direction><azimuth>240</azimuth></extensions></rtept><rtept lat="50.816973" lon="4.381433"><desc>turn sharp left onto Avenue Adolphe Buyl - Adolphe Buyllaan</desc><extensions><distance>172.875</distance><time>124468</time><direction>SE</direction><azimuth>122</azimuth></extensions></rtept><rtept lat="50.815858" lon="4.383135"><extensions><distance>472.149</distance><time>339941</time><direction>W</direction><azimuth>255</azimuth></extensions></rtept><rtept lat="50.812893" lon="4.381215"><desc>turn sharp right onto Avenue Paul Héger - Paul Hégerlaan</desc><extensions><distance>70.648</distance><time>50866</time><direction>W</direction><azimuth>252</azimuth></extensions></rtept><rtept lat="50.812605" lon="4.380319"><extensions><distance>0.0</distance><time>0</time><direction></direction><azimuth></azimuth></extensions></rtept></rte></gpx>
