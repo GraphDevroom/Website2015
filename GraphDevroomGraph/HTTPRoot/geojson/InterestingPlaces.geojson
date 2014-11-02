@@ -1,0 +1,20 @@
+﻿{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Delirium Café",
+        "info": "Friday Beer Event",
+        "link": "https://archive.fosdem.org/2014/practical/beerevent/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+           4.3538106,
+          50.8485198
+        ]
+      }
+    }
+  ]
+}

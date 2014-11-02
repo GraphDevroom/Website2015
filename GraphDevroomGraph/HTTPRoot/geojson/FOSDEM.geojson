@@ -4,7 +4,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "H"
+        "name": "H"
       },
       "geometry": {
         "type": "Polygon",
@@ -22,7 +22,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "AW"
+        "name": "AW"
       },
       "geometry": {
         "type": "Polygon",
@@ -40,7 +40,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "U"
+        "name": "U"
       },
       "geometry": {
         "type": "Polygon",
@@ -62,7 +62,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "K"
+        "name": "K"
       },
       "geometry": {
         "type": "Polygon",
@@ -80,7 +80,7 @@
     {
       "type": "Feature",
       "properties": {
-        "building": "J"
+        "name": "J"
       },
       "geometry": {
         "type": "Polygon",

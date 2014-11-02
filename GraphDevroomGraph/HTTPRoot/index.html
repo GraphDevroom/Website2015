@@ -203,19 +203,7 @@
             var InfoFeature  = null;
             var GeoJSONLayer = {};
 
-            // ---------------------------------------------------------------------------------------------------------------
-
-            function highlightFeature(e) {
-                InfoFeature = e.target.feature;
-                InfoBox.update(e.target.feature);
-            }
-
-            function resetHighlight(e) {
-                InfoFeature = null;
-                InfoBox.update();
-            }
-
-            // ---------------------------------------------------------------------------------------------------------------
+            //- Create the leaflet map ----------------------------------------------------------------------------------------
 
             map = L.map('map').setView([50.8136544, 4.3820177], 15);
 
@@ -227,47 +215,42 @@
                              '<a href="http://mapbox.com">Mapbox</a> Imagery'
             }).addTo(map);
 
-            // ---------------------------------------------------------------------------------------------------------------
+
+            //- Button to get the users location ------------------------------------------------------------------------------
 
             L.control.locate({
 
-                position: 'topleft',  // set the location of the control
-                drawCircle: true,  // controls whether a circle is drawn that shows the uncertainty about the location
-                follow: false,  // follow the user's location
-                setView: true, // automatically sets the map view to the user's location, enabled if `follow` is true
-                keepCurrentZoomLevel: false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom)
-                remainActive: false, // if true locate control remains active on click even if the user's location is in view.
-                markerClass: L.circleMarker, // L.circleMarker or L.marker
-                circleStyle: {},  // change the style of the circle around the user's location
-                markerStyle: {},
-                followCircleStyle: {},  // set difference for the style of the circle around the user's location while following
-                followMarkerStyle: {},
-                icon: 'fa fa-map-marker',  // class for icon, fa-location-arrow or fa-map-marker
-                iconLoading: 'fa fa-spinner fa-spin',  // class for loading icon
-                circlePadding: [0, 0], // padding around accuracy circle, value is passed to setBounds
-                metric: true,  // use metric or imperial units
-                onLocationError: function (err) { alert(err.message) },  // define an error callback function
+                position:                   'topleft',
+                drawCircle:                 true,                       // controls whether a circle is drawn that shows the uncertainty about the location
+                follow:                     false,                      // follow the user's location
+                setView:                    true,                       // automatically sets the map view to the user's location, enabled if `follow` is true
+                keepCurrentZoomLevel:       false,                      // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom)
+                remainActive:               false,                      // if true locate control remains active on click even if the user's location is in view.
+                markerClass:                L.circleMarker,             // L.circleMarker or L.marker
+                circleStyle:                {},                         // change the style of the circle around the user's location
+                markerStyle:                {},
+                followCircleStyle:          {},                         // set difference for the style of the circle around the user's location while following
+                followMarkerStyle:          {},
+                icon:                       'fa fa-map-marker',         // class for icon, fa-location-arrow or fa-map-marker
+                iconLoading:                'fa fa-spinner fa-spin',    // class for loading icon
+                circlePadding:              [0, 0],                     // padding around accuracy circle, value is passed to setBounds
+                metric:                     true,                       // use metric or imperial units
+                onLocationError:            function (err) { alert(err.message) },  // define an error callback function
                 onLocationOutsideMapBounds: function (context) { // called when outside map boundaries
                     alert(context.options.strings.outsideMapBoundsMsg);
                 },
                 showPopup: true, // display a popup when the user click on the inner marker
                 strings: {
-                    title: "Show me where I am",  // title of the locate control
-                    popup: "You are within {distance} {unit} from this point",  // text to appear if user clicks on circle
-                    outsideMapBoundsMsg: "You seem located outside the boundaries of the map" // default message for onLocationOutsideMapBounds
+                    title:                  "Show me where I am",  // title of the locate control
+                    popup:                  "You are within {distance} {unit} from this point",  // text to appear if user clicks on circle
+                    outsideMapBoundsMsg:    "You seem located outside the boundaries of the map" // default message for onLocationOutsideMapBounds
                 },
-                locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10
+                locateOptions:              {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10
 
             }).addTo(map);
 
 
-            //  L.marker([50.8136544, 4.3820177]).addTo(map)
-            //      .bindPopup("FOSDEM'15");//.openPopup();
-
-            L.marker([50.8485198, 4.3538106]).addTo(map)
-                .bindPopup("Delirium Café");//.openPopup();
-
-            // ---------------------------------------------------------------------------------------------------------------
+            //- Add a small info box for details on map features --------------------------------------------------------------
 
             InfoBox = L.control({ position: 'bottomleft' });
 
@@ -280,51 +263,86 @@
             // Method used to update the control based on the given feature
             InfoBox.update = function (feature) {
 
+                InfoFeature = feature;
+
                 this._div.innerHTML =
 
-                    (feature ? '<b>' + feature.properties.building + '</b>'
+                    (feature ? '<b>' + feature.properties.name + '</b>' +
+                               ((feature.properties.link != undefined) ? '<br /><a href=\"' + feature.properties.link + '\" target=\"_blank\">' : '') +
+                               ((feature.properties.info != undefined) ? feature.properties.info : '') +
+                               ((feature.properties.link != undefined) ? '</a>' : '')
                              : 'Hover over a feature to get more information');
 
             };
 
             InfoBox.addTo(map);
 
-            // ---------------------------------------------------------------------------------------------------------------
 
+            //- Create a GeoJSON layer ---------------------------------------------------------------------------------------
 
-            function VoronoiStyle(feature) {
+            function highlightFeature(e) {
+
+                InfoBox.update(e.target.feature);
+
+                var MapObject = e.target;
+
+                // e.g. not for point features...
+                if (MapObject.setStyle !== undefined)
+                {
+
+                    MapObject.setStyle({
+                        weight:      2,
+                        color:       '#DDCC33',
+                        dashArray:   '',
+                        fillOpacity: 0.7
+                    });
+
+                    if (!L.Browser.ie && !L.Browser.opera) {
+                        MapObject.bringToFront();
+                    }
+
+                }
+
+            }
+
+            function resetHighlight(e) {
+                //InfoBox.update();
+                GeoJSONLayer.resetStyle(e.target);
+            }
+
+            function GeoJSONStyle(feature) {
 
                 if (feature.properties.IsVoronoi)
 
                     return {
-                        //  fillColor:   GetVoronoiColor(AggregatorFuncion(feature.properties)),
-                        weight: 1,
-                        opacity: 1,
-                        color: 'grey',
-                        dashArray: '3',
-                        fillOpacity: 0.6
+                        //fillColor:    GetVoronoiColor(AggregatorFuncion(feature.properties)),
+                        weight:       1,
+                        opacity:      1,
+                        color:        'grey',
+                        dashArray:    '3',
+                        fillOpacity:  0.6
                     };
 
                 else return {
-                    weight: 0.5,
-                    opacity: 0.6,
-                    color: '#2880ca', //'#ad3092',
-                    fillOpacity: 0.7
+                    weight:       0.5,
+                    opacity:      0.6,
+                    color:        '#2880ca', //'#ad3092',
+                    fillOpacity:  0.7
                 };
 
             }
 
-            GeoJSONLayer = L.geoJson().addTo(map);
-            GeoJSONLayer.id = "GeoJSON";
-            GeoJSONLayer.options = {
+            GeoJSONLayer          = L.geoJson().addTo(map);
+            GeoJSONLayer.id       = "GeoJSON";
+            GeoJSONLayer.options  = {
 
-                style: VoronoiStyle,
+                style: GeoJSONStyle,
 
                 onEachFeature: function (feature, layer) {
                     layer.on({
                         mouseover: highlightFeature,
                         mouseout:  resetHighlight,
-                        click:     highlightFeature,
+                        //click:     highlightFeature,
                         //dblclick:  function T(e) { if (e.target.feature.properties.voltage) { zoomToFeature(e); } }
                     });
                 },
@@ -334,31 +352,51 @@
                 //    return L.featureGroup([
                 //        L.circle(latlng, 23, {
                 //            startAngle: 0,
-                //            stopAngle: 120,
-                //            fillColor: GetVoronoiColor(feature.properties.U1),
+                //            stopAngle:  120,
+                //            fillColor:  GetVoronoiColor(feature.properties.U1),
                 //        }),
                 //        L.circle(latlng, 23, {
                 //            startAngle: 120,
-                //            stopAngle: 240,
-                //            fillColor: GetVoronoiColor(feature.properties.U2),
+                //            stopAngle:  240,
+                //            fillColor:  GetVoronoiColor(feature.properties.U2),
                 //        }),
                 //        L.circle(latlng, 23, {
                 //            startAngle: 240,
-                //            stopAngle: 360,
-                //            fillColor: GetVoronoiColor(feature.properties.U3),
+                //            stopAngle:  360,
+                //            fillColor:  GetVoronoiColor(feature.properties.U3),
                 //        })]);
 
                 //}
 
             };
 
-            $.getJSON('/leaflet/FOSDEM.geojson', function (data) {
+
+            //- Add the FOSDEM building and zoom to them ---------------------------------------------------------------------
+
+            $.getJSON('/geojson/FOSDEM.geojson', function (data) {
 
                 data.features.forEach(function (feature, index, array) {
                     GeoJSONLayer.addData(feature).addTo(map);
                 });
 
                 map.fitBounds(GeoJSONLayer.getBounds());
+
+            });
+
+            $.getJSON('/geojson/InterestingPlaces.geojson', function (data) {
+
+                data.features.forEach(function (feature, index, array) {
+
+                    GeoJSONLayer.addData(feature).
+                                 //bindPopup(
+                                 //   '<b>' + feature.properties.name + '</b>' +
+                                 //         ((feature.properties.link != undefined) ? '<br /><a href=\"' + feature.properties.link + '\" target=\"_blank\">' : '') +
+                                 //         ((feature.properties.info != undefined) ? feature.properties.info : '') +
+                                 //         ((feature.properties.link != undefined) ? '</a>' : '')
+                                 //).
+                                 addTo(map);
+
+                });
 
             });
 
@@ -372,6 +410,8 @@
 
             //map.on('click', onClickOnMap);
 
+
+            //- http://www.graphdevroom.org/#CfP will show the CfP layer -----------------------------------------------------
 
             if (QueryHash == "CfP")
                 ShowTextarea("CfP");
