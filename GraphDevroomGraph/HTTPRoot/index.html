@@ -31,6 +31,11 @@
         var springy            = null;
         var map,mapbox         = null;
 
+        // Zoom the map to the given feature
+        function zoomToFeature(e) {
+            map.fitBounds(e.target.getBounds());
+        }
+
         // Show the given text area
         function ShowTextarea(name) {
 
@@ -202,6 +207,7 @@
             var InfoBox      = null;
             var InfoFeature  = null;
             var GeoJSONLayer = {};
+            var GeoJSONLayer2 = {};
 
             //- Create the leaflet map ----------------------------------------------------------------------------------------
 
@@ -306,7 +312,7 @@
             }
 
             function resetHighlight(e) {
-                //InfoBox.update();
+                InfoBox.update();
                 GeoJSONLayer.resetStyle(e.target);
             }
 
@@ -342,8 +348,24 @@
                     layer.on({
                         mouseover: highlightFeature,
                         mouseout:  resetHighlight,
+                        dblclick:  zoomToFeature
+                    });
+                },
+
+            };
+
+            GeoJSONLayer2          = L.geoJson().addTo(map);
+            GeoJSONLayer2.id       = "InterestingPlaces_GeoJSON";
+            GeoJSONLayer2.options  = {
+
+                style: GeoJSONStyle,
+
+                onEachFeature: function (feature, layer) {
+                    layer.on({
+                        mouseover: highlightFeature,
+                        mouseout: resetHighlight,
                         //click:     highlightFeature,
-                        //dblclick:  function T(e) { if (e.target.feature.properties.voltage) { zoomToFeature(e); } }
+                        //dblclick:  zoomToFeature
                     });
                 },
 
@@ -387,29 +409,25 @@
 
                 data.features.forEach(function (feature, index, array) {
 
-                    GeoJSONLayer.addData(feature).
-                                 //bindPopup(
-                                 //   '<b>' + feature.properties.name + '</b>' +
-                                 //         ((feature.properties.link != undefined) ? '<br /><a href=\"' + feature.properties.link + '\" target=\"_blank\">' : '') +
-                                 //         ((feature.properties.info != undefined) ? feature.properties.info : '') +
-                                 //         ((feature.properties.link != undefined) ? '</a>' : '')
-                                 //).
-                                 addTo(map);
+                    GeoJSONLayer2.addData(feature).
+                                  // Note: Will bind to all features on that layer!
+                                  bindPopup(
+                                     '<b>' + feature.properties.name + '</b>' +
+                                           ((feature.properties.link != undefined) ? '<br /><a href=\"' + feature.properties.link + '\" target=\"_blank\">' : '') +
+                                           ((feature.properties.info != undefined) ? feature.properties.info : '') +
+                                           ((feature.properties.link != undefined) ? '</a>' : '')
+                                  ).
+                                  addTo(map);
 
                 });
 
             });
-
-            //GeoJSONLayer.on({
-            //    click: alert("You clicked the map")//zoomToFeature
-            //});
 
             //function onClickOnMap(e) {
             //    alert("You clicked the map at " + e.latlng);
             //}
 
             //map.on('click', onClickOnMap);
-
 
             //- http://www.graphdevroom.org/#CfP will show the CfP layer -----------------------------------------------------
 
