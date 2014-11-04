@@ -115,6 +115,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="HTTPRoot\robots.txt" />
     <EmbeddedResource Include="HTTPRoot\photos\photo0001.jpg" />
     <EmbeddedResource Include="HTTPRoot\images\bg.jpg" />
     <EmbeddedResource Include="HTTPRoot\images\FOSDEM-vertex-transparent.png" />
@@ -141,8 +142,11 @@
     <EmbeddedResource Include="HTTPRoot\leaflet\images\spinner.gif" />
     <EmbeddedResource Include="HTTPRoot\leaflet\L.Control.Locate.ie.css" />
     <EmbeddedResource Include="HTTPRoot\jquery\jquery-2.1.1.min.js" />
+    <EmbeddedResource Include="HTTPRoot\css\font-awesome-4.2.0.min.css" />
+    <EmbeddedResource Include="HTTPRoot\css\style.css" />
+    <EmbeddedResource Include="HTTPRoot\humans.txt" />
+    <EmbeddedResource Include="HTTPRoot\leaflet\Semicircle.js" />
     <Content Include="HTTPRoot\link.txt" />
-    <EmbeddedResource Include="HTTPRoot\style.css" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="HTTPRoot\geojson\Transportation.geojson" />
