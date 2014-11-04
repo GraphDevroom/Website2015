@@ -120,7 +120,6 @@
     <EmbeddedResource Include="HTTPRoot\images\FOSDEM-vertex-transparent.png" />
     <EmbeddedResource Include="HTTPRoot\images\sprite-c9f2503633e6e034f3c500aea7f3283920c2de1690b3ba60893666d6bf927a79.png" />
     <EmbeddedResource Include="HTTPRoot\index.html" />
-    <EmbeddedResource Include="HTTPRoot\jquery\jquery.min.js" />
     <EmbeddedResource Include="HTTPRoot\jquery\springy.js" />
     <EmbeddedResource Include="HTTPRoot\jquery\springyui.js" />
     <EmbeddedResource Include="HTTPRoot\leaflet\images\layers.png" />
@@ -141,6 +140,7 @@
     <EmbeddedResource Include="HTTPRoot\leaflet\images\locate_touch.png" />
     <EmbeddedResource Include="HTTPRoot\leaflet\images\spinner.gif" />
     <EmbeddedResource Include="HTTPRoot\leaflet\L.Control.Locate.ie.css" />
+    <EmbeddedResource Include="HTTPRoot\jquery\jquery-2.1.1.min.js" />
     <Content Include="HTTPRoot\link.txt" />
     <EmbeddedResource Include="HTTPRoot\style.css" />
   </ItemGroup>
