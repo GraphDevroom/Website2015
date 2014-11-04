@@ -707,9 +707,9 @@ namespace org.GraphDevroom.GraphDevroom2015
 
             _GraphDevroomHTTPServer.AccessLog += (HTTPServer, ServerTimestamp, Request, Response) => {
 
-                Console.WriteLine((Request.X_Forwarded_For != null)
+                Console.WriteLine((Request.X_Forwarded_For == null
                                      ? Request.X_Forwarded_For + "(" +  Request.RemoteSocket + ") - "
-                                     : Request.RemoteSocket + " - " +
+                                     : Request.RemoteSocket + " - ") +
                                   Request.HTTPMethod   + " " +
                                   Request.URI          + " " +
                                   Response.HTTPStatusCode + " " +
