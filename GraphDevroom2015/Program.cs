@@ -685,9 +685,9 @@ namespace org.GraphDevroom.GraphDevroom2015
                                                    NumberOfBackupFiles:   10U,
                                                    SaveEveryMSec:         10000);
 
-            SnapShot.OnSavePointLoading += (FileName)                  => Console.WriteLine("Loading last save point from '" + FileName + "'...");
-            SnapShot.OnSavePointLoaded  += (FileName, V, E, ME, HE, T) => Console.WriteLine(V + " vertices and " + E + " edges loaded from file '" + FileName + " in " + T + "ms...");
-            SnapShot.OnSavePointStored  += (FileName, V, E, ME, HE, T) => Console.WriteLine(V + " vertices and " + E + " edges stored into file '" + FileName + " in " + T + "ms!");
+            //SnapShot.OnSavePointLoading += (FileName)                  => Console.WriteLine("Loading last save point from '" + FileName + "'...");
+            //SnapShot.OnSavePointLoaded  += (FileName, V, E, ME, HE, T) => Console.WriteLine(V + " vertices and " + E + " edges loaded from file '" + FileName + " in " + T + "ms...");
+            //SnapShot.OnSavePointStored  += (FileName, V, E, ME, HE, T) => Console.WriteLine(V + " vertices and " + E + " edges stored into file '" + FileName + " in " + T + "ms!");
 
             SnapShot.TryLoad();
 
@@ -708,28 +708,32 @@ namespace org.GraphDevroom.GraphDevroom2015
             _GraphDevroomHTTPServer.AccessLog += (HTTPServer, ServerTimestamp, Request, Response) => {
 
                 Console.WriteLine((Request.X_Forwarded_For != null)
-                                      ? Request.X_Forwarded_For + "(" +  Request.RemoteSocket + ") - "
-                                      : Request.RemoteSocket + " - " +
+                                     ? Request.X_Forwarded_For + "(" +  Request.RemoteSocket + ") - "
+                                     : Request.RemoteSocket + " - " +
                                   Request.HTTPMethod   + " " +
-                                  Request.URI          + " (" +
-                                  ((Request.ContentType == null) ? "" : Request.ContentType.MediaType) + " > " +
-                                  Request.BestMatchingAcceptType.MediaType + ") => " +
+                                  Request.URI          + " " +
                                   Response.HTTPStatusCode + " " +
                                   Response.ContentLength + " bytes");
 
             };
 
-            //_GraphDevroomHTTPServer.ErrorLog += (time, request, response, error, exception) => {
+            _GraphDevroomHTTPServer.ErrorLog += (HTTPServer, ServerTimestamp, Request, Response, Error, LastException) => {
 
-            //    var _error            = (error     == null) ? "" : error;
-            //    var _exceptionMessage = (exception == null) ? "" : Environment.NewLine + exception.Message;
+                var _error            = (Error         == null) ? "" : Error;
+                var _exceptionMessage = (LastException == null) ? "" : Environment.NewLine + LastException.Message;
 
-            //    Console.WriteLine(request.RemoteHost + ":" +
-            //                      request.RemotePort + " - " +
-            //                      request.HTTPMethod + " " +
-            //                      request.UrlPath    + " => " + _error + _exceptionMessage);
+                Console.Write((Request.X_Forwarded_For != null)
+                                 ? Request.X_Forwarded_For + "(" + Request.RemoteSocket + ") - "
+                                 : Request.RemoteSocket + " - " +
+                              Request.HTTPMethod + " " +
+                              Request.URI        + " => ");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("[" + Response.HTTPStatusCode + "] ");
+                Console.ResetColor();
+                Console.WriteLine((_error.           IsNotNullOrEmpty() ? _error  + "/"     : "" ) +
+                                  (_exceptionMessage.IsNotNullOrEmpty() ? _exceptionMessage : ""));
 
-            //};
+            };
 
             #endregion
 
