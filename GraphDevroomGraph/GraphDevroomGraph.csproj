@@ -121,8 +121,6 @@
     <EmbeddedResource Include="HTTPRoot\images\FOSDEM-vertex-transparent.png" />
     <EmbeddedResource Include="HTTPRoot\images\sprite-c9f2503633e6e034f3c500aea7f3283920c2de1690b3ba60893666d6bf927a79.png" />
     <EmbeddedResource Include="HTTPRoot\index.html" />
-    <EmbeddedResource Include="HTTPRoot\jquery\springy.js" />
-    <EmbeddedResource Include="HTTPRoot\jquery\springyui.js" />
     <EmbeddedResource Include="HTTPRoot\leaflet\images\layers.png" />
     <EmbeddedResource Include="HTTPRoot\leaflet\images\locate.png" />
     <EmbeddedResource Include="HTTPRoot\leaflet\images\marker-icon.png" />
@@ -148,6 +146,12 @@
     <EmbeddedResource Include="HTTPRoot\leaflet\Semicircle.js" />
     <EmbeddedResource Include="HTTPRoot\css\font-awesome-4.2.0.css" />
     <EmbeddedResource Include="HTTPRoot\fonts\fontawesome-webfont.svg" />
+    <EmbeddedResource Include="HTTPRoot\js\default.js" />
+    <EmbeddedResource Include="HTTPRoot\js\ServerSentEvents.js" />
+    <EmbeddedResource Include="HTTPRoot\js\vanaheimr.balder.js" />
+    <EmbeddedResource Include="HTTPRoot\js\vanaheimr.loki.js" />
+    <EmbeddedResource Include="HTTPRoot\jquery\date.format.js" />
+    <EmbeddedResource Include="HTTPRoot\jquery\jquery.flot.js" />
     <Content Include="HTTPRoot\link.txt" />
   </ItemGroup>
   <ItemGroup>
