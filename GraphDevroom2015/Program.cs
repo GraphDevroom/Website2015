@@ -21,6 +21,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -31,7 +32,6 @@ using org.GraphDefined.Vanaheimr.Duron;
 using org.GraphDefined.Vanaheimr.Walkyr.BalderSON;
 
 using org.GraphDevroom.Graph;
-using System.Threading;
 
 #endregion
 
@@ -44,7 +44,7 @@ namespace org.GraphDevroom.GraphDevroom2015
         static void Main(String[] Arguments)
         {
 
-            #region Create empty GraphDevroom graph
+            #region Create an empty graph
 
             var graph = GraphDevroomGraphFactory.Create(1, "FOSDEM GraphDevroom Graph");
 
