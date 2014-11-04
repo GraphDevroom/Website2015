@@ -168,6 +168,27 @@ namespace org.GraphDevroom.Graph
 
             #endregion
 
+            #region /raw
+
+            this.AddMethodCallback(HTTPMethod.GET,
+                                   "/raw",
+                                   HTTPContentType.HTML_UTF8,
+                                   HTTPRequest => {
+
+                                       return new HTTPResponseBuilder()
+                                       {
+                                           HTTPStatusCode  = HTTPStatusCode.OK,
+                                           ContentType     = HTTPContentType.TEXT_UTF8,
+                                           Content         = HTTPRequest.RawHTTPHeader.ToString().ToUTF8Bytes(),
+                                           CacheControl    = "private",
+                                           //Expires         = "Mon, 25 Jun 2015 21:31:12 GMT",
+                                           Connection      = "close"
+                                       };
+
+                                   });
+
+            #endregion
+
             #region ~/{Year}/{Event}/schedule
 
             #region GET         ~/{Year}/{Event}/schedule

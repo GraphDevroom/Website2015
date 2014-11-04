@@ -705,18 +705,19 @@ namespace org.GraphDevroom.GraphDevroom2015
 
             //};
 
-            //_GraphDevroomHTTPServer.AccessLog += (time, request, response) => {
+            _GraphDevroomHTTPServer.AccessLog += (HTTPServer, ServerTimestamp, Request, Response) => {
 
-            //    Console.WriteLine(request.RemoteHost + ":" +
-            //                      request.RemotePort + " - " +
-            //                      request.HTTPMethod + " " +
-            //                      request.UrlPath    + " (" +
-            //                      ((request.ContentType == null) ? "" : request.ContentType.MediaType) + " > " +
-            //                      request.BestMatchingAcceptType.MediaType + ") => " +
-            //                      response.HTTPStatusCode + " " +
-            //                      response.ContentLength + " bytes");
+                Console.WriteLine((Request.X_Forwarded_For != null)
+                                      ? Request.X_Forwarded_For + "(" +  Request.RemoteSocket + ") - "
+                                      : Request.RemoteSocket + " - " +
+                                  Request.HTTPMethod   + " " +
+                                  Request.URI          + " (" +
+                                  ((Request.ContentType == null) ? "" : Request.ContentType.MediaType) + " > " +
+                                  Request.BestMatchingAcceptType.MediaType + ") => " +
+                                  Response.HTTPStatusCode + " " +
+                                  Response.ContentLength + " bytes");
 
-            //};
+            };
 
             //_GraphDevroomHTTPServer.ErrorLog += (time, request, response, error, exception) => {
 
