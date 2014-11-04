@@ -146,6 +146,8 @@
     <EmbeddedResource Include="HTTPRoot\css\style.css" />
     <EmbeddedResource Include="HTTPRoot\humans.txt" />
     <EmbeddedResource Include="HTTPRoot\leaflet\Semicircle.js" />
+    <EmbeddedResource Include="HTTPRoot\css\font-awesome-4.2.0.css" />
+    <EmbeddedResource Include="HTTPRoot\fonts\fontawesome-webfont.svg" />
     <Content Include="HTTPRoot\link.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +155,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="HTTPRoot\fonts\fontawesome-webfont.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="HTTPRoot\fonts\fontawesome-webfont.eot" />
+    <EmbeddedResource Include="HTTPRoot\fonts\fontawesome-webfont.ttf" />
+    <EmbeddedResource Include="HTTPRoot\fonts\FontAwesome.otf" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
