@@ -1,6 +1,6 @@
 ﻿
 body {
-    background:                 url('images/bg.jpg');
+    background:                 url('/images/bg.jpg');
     color:                      #333;
     font-family:                'Open Sans', sans-serif;
 }
