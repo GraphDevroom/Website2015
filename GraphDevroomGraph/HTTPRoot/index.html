@@ -32,10 +32,7 @@
         var springy            = null;
         var map,mapbox         = null;
 
-        // Zoom the map to the given feature
-        function zoomToFeature(e) {
-            map.fitBounds(e.target.getBounds());
-        }
+
 
         // Show the given text area
         function ShowTextarea(name) {
@@ -118,15 +115,20 @@
 
         }
 
-        // Fix for graph layout errors
+        // Fix for graph layout errors whenever the size of the canvas changed!
         function FixGraphLayout() {
 
             var gf = document.getElementById('graphframe');
             var gc = document.getElementById('graphcanvas');
 
-            if (gc != null) {
-                gc.height = gf.clientHeight;
-                gc.width  = gf.clientWidth;
+            if (gf != null && gc != null) {
+
+                if (gc.height != gf.clientHeight)
+                    gc.height  = gf.clientHeight;
+
+                if (gc.width  != gf.clientWidth)
+                    gc.width   = gf.clientWidth;
+
             }
 
         }
@@ -286,6 +288,11 @@
 
 
             //- Create a GeoJSON layer ---------------------------------------------------------------------------------------
+
+            // Zoom the map to the given feature
+            function zoomToFeature(e) {
+                map.fitBounds(e.target.getBounds());
+            }
 
             function highlightFeature(e) {
 

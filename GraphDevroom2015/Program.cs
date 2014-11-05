@@ -707,7 +707,8 @@ namespace org.GraphDevroom.GraphDevroom2015
 
             _GraphDevroomHTTPServer.AccessLog += (HTTPServer, ServerTimestamp, Request, Response) => {
 
-                Console.WriteLine((Request.X_Forwarded_For != null
+                Console.WriteLine("[" + ServerTimestamp.ToString() + "] " +
+                                  (Request.X_Forwarded_For != null
                                      ? Request.X_Forwarded_For + "(" +  Request.RemoteSocket + ") - "
                                      : Request.RemoteSocket + " - ") +
                                   Request.HTTPMethod   + " " +
@@ -722,9 +723,10 @@ namespace org.GraphDevroom.GraphDevroom2015
                 var _error            = (Error         == null) ? "" : Error;
                 var _exceptionMessage = (LastException == null) ? "" : Environment.NewLine + LastException.Message;
 
-                Console.Write((Request.X_Forwarded_For != null)
-                                 ? Request.X_Forwarded_For + "(" + Request.RemoteSocket + ") - "
-                                 : Request.RemoteSocket + " - " +
+                Console.Write("[" + ServerTimestamp.ToString() + "] " +
+                              (Request.X_Forwarded_For != null
+                                  ? Request.X_Forwarded_For + "(" + Request.RemoteSocket + ") - "
+                                  : Request.RemoteSocket + " - ") +
                               Request.HTTPMethod + " " +
                               Request.URI        + " => ");
                 Console.ForegroundColor = ConsoleColor.Red;
