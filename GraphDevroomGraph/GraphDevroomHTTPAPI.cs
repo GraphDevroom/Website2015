@@ -207,7 +207,7 @@ namespace org.GraphDevroom.Graph
 
                                        UInt16 Year;
 
-                                       if (HTTPRequest.ParsedQueryParameters.Length < 1)
+                                       if (HTTPRequest.ParsedURIParameters.Length < 1)
                                        {
 
                                            Log.Timestamp("Bad request: Missing year query parameter!");
@@ -222,7 +222,7 @@ namespace org.GraphDevroom.Graph
 
                                        }
 
-                                       if (!UInt16.TryParse(HTTPRequest.ParsedQueryParameters[0], out Year))
+                                       if (!UInt16.TryParse(HTTPRequest.ParsedURIParameters[0], out Year))
                                        {
 
                                            Log.Timestamp("Bad request: Invalid year query parameter!");
@@ -231,7 +231,7 @@ namespace org.GraphDevroom.Graph
                                                HTTPStatusCode  = HTTPStatusCode.BadRequest,
                                                ContentType     = HTTPContentType.JSON_UTF8,
                                                Content         = new JObject(new JProperty("@context",    "http://emi3group.org/contexts/BadRequest.jsonld"),
-                                                                             new JProperty("Value",       HTTPRequest.ParsedQueryParameters[0]),
+                                                                             new JProperty("Value",       HTTPRequest.ParsedURIParameters[0]),
                                                                              new JProperty("Description", "Invalid year query parameter!")).
                                                                              ToString().ToUTF8Bytes()
                                            };

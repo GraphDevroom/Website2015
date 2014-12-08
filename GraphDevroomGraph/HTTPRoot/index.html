@@ -135,7 +135,7 @@
 
 
         // Get query hash and parameters
-        var QueryHash        = window.location.hash.substr(1);
+        var QueryHash        = window.location.hash.substr(1).replace(/[^a-zA-Z0-9]/gi, '');
         var QueryParameters  = {};
 
         window.location.search.substr(1).split('&').forEach(function (p) {
@@ -661,7 +661,7 @@
         <h1>Important dates</h1>
 
         <table style="width: 100%">
-          <tr><td>Submission deadline              </td><td style="white-space: nowrap">07. Dec 2014</td></tr>
+          <tr><td>Submission deadline              </td><td style="white-space: nowrap"><s>07</s>14. Dec 2014</td></tr>
           <tr><td>Notification of accepted speakers</td><td style="white-space: nowrap">10. Dec 2014</td></tr>
           <tr><td>Preliminary Schedule             </td><td style="white-space: nowrap">10. Dec 2014</td></tr>
           <tr><td>Publication of the final schedule</td><td style="white-space: nowrap">10. Jan 2015</td></tr>
