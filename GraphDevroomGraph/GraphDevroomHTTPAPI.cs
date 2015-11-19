@@ -162,9 +162,15 @@ namespace org.GraphDevroom.Graph
 
             #region / (HTTPRoot)
 
-            this.RegisterResourcesFolder(URIPrefix + "/",
-                                         _HTTPRoot,
-                                         DefaultFilename: "index.html");
+            //this.RegisterResourcesFolder(URIPrefix + "/",
+            //                             _HTTPRoot,
+            //                             DefaultFilename: "index.html");
+
+            // Redirect to GitHub
+            this.Redirect(HTTPMethod.GET,
+                          "/",
+                          HTTPContentType.HTML_UTF8,
+                          "graphdevroom.github.io");
 
             #endregion
 
