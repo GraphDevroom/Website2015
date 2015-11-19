@@ -166,11 +166,8 @@ namespace org.GraphDevroom.Graph
             //                             _HTTPRoot,
             //                             DefaultFilename: "index.html");
 
-            // Redirect to GitHub
-            this.Redirect(HTTPMethod.GET,
-                          "/",
-                          HTTPContentType.HTML_UTF8,
-                          "graphdevroom.github.io");
+            // Redirect to GitHub pages
+            this.RegisterMovedTemporarilyHandler("/", "graphdevroom.github.io");
 
             #endregion
 
