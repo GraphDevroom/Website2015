@@ -73,6 +73,10 @@
       <Project>{f6fa73f9-14b4-4033-aafe-9bfa66bd98f5}</Project>
       <Name>Bifrost</Name>
     </ProjectReference>
+    <ProjectReference Include="..\libs\BouncyCastle\crypto\crypto.csproj">
+      <Project>{38872a5f-e87e-4fad-b109-8eb7b2e6a4a0}</Project>
+      <Name>crypto</Name>
+    </ProjectReference>
     <ProjectReference Include="..\libs\Duron\Duron\Duron.csproj">
       <Project>{f25a7d44-7784-4eb2-819a-5d3305021ce0}</Project>
       <Name>Duron</Name>

@@ -138,21 +138,21 @@ namespace org.GraphDevroom.Graph
                                    Boolean                                                                  Autostart                         = false)
 
             : base((IPPort != null) ? IPPort : IPPort.Parse(8080),
+                   "",
                    DefaultServerName,
-                   CallingAssemblies,
 
-                   ServerThreadName,
-                   ServerThreadPriority,
-                   ServerThreadIsBackground,
-
-                   ConnectionIdBuilder,
-                   ConnectionThreadsNameBuilder,
-                   ConnectionThreadsPriorityBuilder,
-                   ConnectionThreadsAreBackground,
-
-                   ConnectionTimeout,
-                   MaxClientConnections,
-                   false)
+                   //ServerThreadName,
+                   //ServerThreadPriority,
+                   //ServerThreadIsBackground,
+                   //
+                   //ConnectionIdBuilder,
+                   //ConnectionThreadsNameBuilder,
+                   //ConnectionThreadsPriorityBuilder,
+                   //ConnectionThreadsAreBackground,
+                   //
+                   //ConnectionTimeout,
+                   //MaxClientConnections,
+                   Autostart: false)
 
         {
 
