@@ -81,15 +81,11 @@
       <Project>{f25a7d44-7784-4eb2-819a-5d3305021ce0}</Project>
       <Name>Duron</Name>
     </ProjectReference>
-    <ProjectReference Include="..\libs\Eunomia\Eunomia\Eunomia.csproj">
-      <Project>{1df1a588-33b1-4168-9487-604fe5680681}</Project>
-      <Name>Eunomia</Name>
-    </ProjectReference>
     <ProjectReference Include="..\libs\Hermod\Hermod\Hermod.csproj">
       <Project>{477efd16-3627-4473-957d-44ca9a9dfb79}</Project>
       <Name>Hermod</Name>
     </ProjectReference>
-    <ProjectReference Include="..\libs\Illias\Illias.NET4.5\Illias.NET4.5.csproj">
+    <ProjectReference Include="..\libs\Illias\Illias\Illias.csproj">
       <Project>{23d37453-2d4e-4bd8-b40f-3e731fee7712}</Project>
       <Name>Illias.NET4.5</Name>
     </ProjectReference>
@@ -101,7 +97,7 @@
       <Project>{9b109b9c-4b72-4bdb-b531-627d7e93011e}</Project>
       <Name>Jurassic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\libs\Styx\Styx.NET4.5\Styx.NET4.5.csproj">
+    <ProjectReference Include="..\libs\Styx\Styx\Styx.csproj">
       <Project>{af76ecc0-2ca5-4cff-9e1e-ff5478c4b6e4}</Project>
       <Name>Styx.NET4.5</Name>
     </ProjectReference>
